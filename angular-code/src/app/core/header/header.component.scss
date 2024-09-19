@@ -1,0 +1,21 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1366cd;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Mniejszy cień */
+
+  .app-logo {
+    margin-right: 10px;
+    height: 70px;
+    background-color: #1366cd;
+  }
+
+  .app-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+  }
+}

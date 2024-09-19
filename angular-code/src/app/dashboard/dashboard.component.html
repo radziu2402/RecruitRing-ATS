@@ -1,0 +1,16 @@
+<header class="dashboard-header">
+  <nav>
+    <ul>
+      <li><a routerLink="jobs">Oferty pracy</a></li>
+      <li><a routerLink="recruitment">Rekrutacje</a></li>
+      <li><a routerLink="candidates">Kandydaci</a></li>
+    </ul>
+  </nav>
+  <button class="logout-button" (click)="logout()">
+    <fa-icon [icon]="faSignOutAlt"></fa-icon> Wyloguj się
+  </button>
+</header>
+
+<div class="dashboard-content">
+  <router-outlet></router-outlet>
+</div>

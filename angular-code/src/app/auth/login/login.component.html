@@ -1,0 +1,53 @@
+<div class="login-container">
+  <h1>Zaloguj się</h1>
+  <div class="divider"></div>
+  <form (ngSubmit)="submit()" #loginForm="ngForm" novalidate>
+    <div class="mb-4">
+      <label for="loginName" class="form-label">Login</label>
+      <input
+        id="loginName"
+        name="login"
+        type="text"
+        class="form-control"
+        [(ngModel)]="login"
+        required
+        aria-describedby="loginHelp"
+        autocomplete="username"
+      />
+      <div *ngIf="loginForm.submitted && loginForm.controls['login'].invalid" class="text-danger">
+        Login jest wymagany
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="loginPassword" class="form-label">Hasło</label>
+      <div class="input-group">
+        <input
+          type="password"
+          id="loginPassword"
+          name="password"
+          class="form-control"
+          [(ngModel)]="password"
+          [type]="passwordVisible ? 'text' : 'password'"
+          required
+          aria-describedby="passwordHelp"
+          autocomplete="current-password"
+        />
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          id="toggle-password"
+          (click)="togglePasswordVisibility()"
+          aria-label="Pokaż/Ukryj hasło"
+        >
+          <fa-icon [icon]="passwordVisible ? faEyeSlash : faEye"></fa-icon>
+        </button>
+      </div>
+      <div *ngIf="loginForm.submitted && loginForm.controls['password'].invalid" class="text-danger">
+        Hasło jest wymagane
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Zaloguj się</button>
+  </form>
+</div>

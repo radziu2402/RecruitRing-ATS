@@ -1,0 +1,6 @@
+<header class="app-header">
+  <button (click)="navigateOnClick($event)" (keydown.enter)="navigateOnClick($event)" style="background: none; border: none; padding: 0; cursor: pointer;">
+    <img [src]="logoSrc" class="app-logo" alt="logo" />
+  </button>
+  <h1 class="app-title">{{ pageTitle }}</h1>
+</header>

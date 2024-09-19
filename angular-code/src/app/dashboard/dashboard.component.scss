@@ -1,0 +1,79 @@
+.dashboard-header {
+  background-color: #d3d6db;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #333;
+  border-bottom: 0.5px solid #b0b3b8;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+  nav {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+
+    ul {
+      display: flex;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        margin-right: 15px;
+
+        a {
+          color: #333;
+          text-decoration: none;
+          font-weight: bold;
+          padding: 8px 12px;
+          border-radius: 4px;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: #c4c7cc;
+          }
+        }
+      }
+
+      li:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .logout-button {
+    color: #333; /* Ciemniejszy kolor tekstu */
+    background-color: transparent; /* Przezroczyste tło */
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+    padding: 8px 16px;
+    border: 2px solid #333; /* Delikatniejsza, ciemnoszara ramka */
+    border-radius: 8px; /* Większe zaokrąglenie rogów */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+
+    fa-icon {
+      margin-right: 8px; /* Odstęp między ikoną a tekstem */
+      font-size: 18px; /* Rozmiar ikony */
+    }
+
+    &:hover {
+      background-color: #f0f0f0; /* Subtelne tło na hover */
+      border-color: #555; /* Ciemniejsza ramka na hover */
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(51, 51, 51, 0.2); /* Subtelny cień na focus */
+    }
+  }
+
+}
+
+.dashboard-content {
+  padding: 20px;
+}
