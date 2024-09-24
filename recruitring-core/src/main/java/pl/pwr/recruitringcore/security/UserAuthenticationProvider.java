@@ -5,7 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import pl.pwr.recruitringcore.model.User;
+import pl.pwr.recruitringcore.model.entities.User;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;

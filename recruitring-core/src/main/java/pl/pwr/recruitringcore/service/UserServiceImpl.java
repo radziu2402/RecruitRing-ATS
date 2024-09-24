@@ -4,16 +4,13 @@ import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import pl.pwr.recruitringcore.dto.JwtResultDto;
-import pl.pwr.recruitringcore.dto.LoginDTO;
-import pl.pwr.recruitringcore.dto.ProfileDataDto;
-import pl.pwr.recruitringcore.dto.UserDto;
+import pl.pwr.recruitringcore.dto.*;
 import pl.pwr.recruitringcore.exceptions.UnknownUserException;
+import pl.pwr.recruitringcore.exceptions.UserAlreadyExistsException;
 import pl.pwr.recruitringcore.factory.UserDataProducerFactory;
 import pl.pwr.recruitringcore.mappers.UserMapper;
+import pl.pwr.recruitringcore.model.entities.User;
 import pl.pwr.recruitringcore.model.enums.Role;
-import pl.pwr.recruitringcore.model.User;
 import pl.pwr.recruitringcore.producer.UserDataProducer;
 import pl.pwr.recruitringcore.repo.UserRepository;
 import pl.pwr.recruitringcore.security.UserAuthenticationProvider;
@@ -36,6 +33,29 @@ public class UserServiceImpl implements UserService {
         this.userDataProducerFactory = userDataProducerFactory;
     }
 
+    @Override
+    public UserDto register(RegisterDTO registerDto) {
+        if (userRepository.existsByLogin(registerDto.getLogin())) {
+            throw new UserAlreadyExistsException("User with this login already exists", HttpStatus.CONFLICT);
+        }
+
+        if (userRepository.existsByEmail(registerDto.getEmail())) {
+            throw new UserAlreadyExistsException("User with this email already exists", HttpStatus.CONFLICT);
+        }
+
+        User newUser = User.builder()
+                .login(registerDto.getLogin())
+                .email(registerDto.getEmail())
+                .role(registerDto.getRole())
+                .password(passwordEncoder.encode(registerDto.getPassword()))
+                .build();
+
+        userRepository.save(newUser);
+
+        return userMapper.toUserDto(newUser);
+    }
+
+    @Override
     public JwtResultDto login(LoginDTO credentialsDto) {
         User user = userRepository.findByLogin(credentialsDto.getLogin())
                 .orElseThrow(() -> new UnknownUserException("No user found", HttpStatus.BAD_REQUEST));
@@ -51,6 +71,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto findUserByLogin(String login) {
         User user = userRepository.findByLogin(login)
+                .orElseThrow(() -> new UnknownUserException("Unknown user", HttpStatus.BAD_REQUEST));
+        return userMapper.toUserDto(user);
+    }
+
+    @Override
+    public UserDto findUserById(Integer id) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new UnknownUserException("Unknown user", HttpStatus.BAD_REQUEST));
         return userMapper.toUserDto(user);
     }

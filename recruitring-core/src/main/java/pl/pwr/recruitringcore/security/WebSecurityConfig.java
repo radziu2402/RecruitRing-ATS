@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import pl.pwr.recruitringcore.model.enums.Role;
 
 @Configuration
 @EnableWebSecurity
@@ -27,6 +28,7 @@ public class WebSecurityConfig {
                 .addFilterBefore(jwtAuthFilter, BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/register").hasAuthority(Role.ADMINISTRATOR.toString())
                         .anyRequest().authenticated());
         return http.build();
     }

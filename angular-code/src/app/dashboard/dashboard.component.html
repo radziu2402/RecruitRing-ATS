@@ -4,11 +4,20 @@
       <li><a routerLink="jobs">Oferty pracy</a></li>
       <li><a routerLink="recruitment">Rekrutacje</a></li>
       <li><a routerLink="candidates">Kandydaci</a></li>
+      <li><a routerLink="calendar">Kalendarz</a></li>
+      <li><a routerLink="notifications">Powiadomienia</a></li>
+      <li><a routerLink="reports">Raporty</a></li>
+      <li *ngIf="isAdmin"><a routerLink="admin">Admin</a></li>
     </ul>
   </nav>
-  <button class="logout-button" (click)="logout()">
-    <fa-icon [icon]="faSignOutAlt"></fa-icon> Wyloguj się
-  </button>
+  <div class="profile-actions">
+    <button class="profile-button" (click)="navigateToProfile()">
+      <fa-icon [icon]="faUser"></fa-icon> Mój profil
+    </button>
+    <button class="logout-button" (click)="logout()">
+      <fa-icon [icon]="faSignOutAlt"></fa-icon> Wyloguj się
+    </button>
+  </div>
 </header>
 
 <div class="dashboard-content">

@@ -38,6 +38,15 @@ export class AuthService {
       );
   }
 
+  getAuthToken(): string | null {
+    return localStorage.getItem('jwt_token');
+  }
+
+  getRole(): string | null {
+    const tokenPayload = this.getTokenPayload();
+    return tokenPayload ? tokenPayload.role : null; // Pobieramy rolę z tokenu
+  }
+
   private hasToken(): boolean {
     return this.isLoggedIn();
   }

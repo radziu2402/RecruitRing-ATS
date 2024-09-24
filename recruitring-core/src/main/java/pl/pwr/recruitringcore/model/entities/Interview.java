@@ -1,4 +1,4 @@
-package pl.pwr.recruitringcore.model;
+package pl.pwr.recruitringcore.model.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

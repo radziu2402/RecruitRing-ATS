@@ -42,38 +42,35 @@
     }
   }
 
-  .logout-button {
-    color: #333; /* Ciemniejszy kolor tekstu */
-    background-color: transparent; /* Przezroczyste tło */
-    text-decoration: none;
-    font-weight: bold;
-    font-family: 'Roboto', sans-serif;
-    padding: 8px 16px;
-    border: 2px solid #333; /* Delikatniejsza, ciemnoszara ramka */
-    border-radius: 8px; /* Większe zaokrąglenie rogów */
-    cursor: pointer;
+  .profile-actions {
     display: flex;
     align-items: center;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .profile-button, .logout-button {
+    color: #333;
+    background-color: transparent;
+    font-weight: bold;
+    padding: 8px 16px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
     fa-icon {
-      margin-right: 8px; /* Odstęp między ikoną a tekstem */
-      font-size: 18px; /* Rozmiar ikony */
+      margin-right: 8px;
     }
 
     &:hover {
-      background-color: #f0f0f0; /* Subtelne tło na hover */
-      border-color: #555; /* Ciemniejsza ramka na hover */
+      background-color: #f0f0f0;
     }
 
     &:focus {
       outline: none;
-      box-shadow: 0 0 0 3px rgba(51, 51, 51, 0.2); /* Subtelny cień na focus */
+      box-shadow: 0 0 0 3px rgba(51, 51, 51, 0.2);
     }
   }
-
-}
-
-.dashboard-content {
-  padding: 20px;
 }

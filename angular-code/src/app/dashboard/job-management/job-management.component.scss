@@ -1,0 +1,77 @@
+.job-management-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  .title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .job-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #919497;
+      color: white;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    td {
+      color: #555;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .requirements-list {
+      list-style-type: disc;
+      padding-left: 20px;
+
+      li {
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: #666;
+      }
+    }
+  }
+
+  .load-more-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}
+.clickable-row {
+  cursor: pointer;
+}
+
+.clickable-row:hover {
+  background-color: #f0f0f0;
+}

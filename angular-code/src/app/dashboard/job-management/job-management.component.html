@@ -1,1 +1,38 @@
-<p>job-management works!</p>
+<div class="job-management-container">
+  <h2 class="title">Zarządzanie ofertami pracy</h2>
+
+  <table class="job-table">
+    <thead>
+    <tr>
+      <th>Dostępne oferty pracy</th>
+      <th>Kategoria stanowiska</th>
+      <th>Lokalizacja</th>
+      <th>Rodzaj pracy</th>
+      <th>Wymagania</th>
+      <th>Rekruterzy</th>
+      <th>Data utworzenia</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let job of jobs" [routerLink]="['/dashboard/jobs', job.id]" class="clickable-row">
+      <td>{{ job.title }}</td>
+      <td>{{ job.jobCategory }}</td>
+      <td>{{ job.location }}</td>
+      <td>{{ job.workType }}</td>
+      <td>
+        <ul class="requirements-list">
+          <li *ngFor="let req of job.requirements">{{ req }}</li>
+        </ul>
+      </td>
+      <td>
+        <ul>
+          <li *ngFor="let recruiter of job.recruiters">{{ recruiter }}</li>
+        </ul>
+      </td>
+      <td>{{ formatDate(job.createdAt) }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <button class="load-more-btn" (click)="loadMore()">Zobacz więcej</button>
+</div>
