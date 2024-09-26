@@ -18,8 +18,13 @@ export class JobService {
       `${environment.api}${this.apiUrl}?page=${page}&size=${pageSize}`
     );
   }
+
   getJobById(id: number): Observable<JobPosting> {
     return this.http.get<JobPosting>(`${environment.api}${this.apiUrl}/${id}`);
+  }
+
+  createJob(jobData: any): Observable<JobPosting> {
+    return this.http.post<JobPosting>(`${environment.api}${this.apiUrl}`, jobData);
   }
 
 }

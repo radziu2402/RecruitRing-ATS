@@ -21,8 +21,9 @@ public class JobPosting {
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "title", nullable = false, length = 200)
-    private String title;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "title_id", nullable = false)
+    private Title title;
 
     @Column(name = "description", nullable = false, columnDefinition = "TEXT")
     private String description;
@@ -35,8 +36,9 @@ public class JobPosting {
     )
     private Set<Requirement> requirements;
 
-    @Column(name = "location", nullable = false, length = 100)
-    private String location;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "location_id", nullable = false)
+    private Location location;
 
     @Column(name = "work_type", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -56,6 +58,7 @@ public class JobPosting {
     @OneToMany(mappedBy = "jobPosting")
     private Set<Application> applications;
 
-    @Column(name = "job_category", nullable = false, length = 100)
-    private String jobCategory;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "job_category_id", nullable = false)
+    private JobCategory jobCategory;
 }

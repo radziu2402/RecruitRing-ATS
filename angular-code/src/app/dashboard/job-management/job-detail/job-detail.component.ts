@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {JobPosting} from "../model/job-posting.model";
 import {JobService} from "../service/job.service";
 import {NgForOf} from "@angular/common";
@@ -21,7 +21,8 @@ export class JobDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private jobService: JobService,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     const jobId = this.route.snapshot.paramMap.get('id');
@@ -38,6 +39,9 @@ export class JobDetailComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/dashboard/jobs']);
+    this.router.navigate(['/dashboard/jobs']).then(() => {
+    }).catch((error) => {
+      console.error('Navigation error:', error);
+    });
   }
 }

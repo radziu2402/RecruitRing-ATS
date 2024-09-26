@@ -3,10 +3,8 @@ package pl.pwr.recruitringcore.repo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import pl.pwr.recruitringcore.model.entities.Recruiter;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface RecruiterRepository extends JpaRepository<Recruiter, Long> {
-
-    Optional<Recruiter> findByFirstNameAndLastName(String firstName, String lastName);
-
+    List<Recruiter> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstName, String lastName);
 }

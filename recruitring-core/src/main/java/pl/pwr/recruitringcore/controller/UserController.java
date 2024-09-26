@@ -3,8 +3,8 @@ package pl.pwr.recruitringcore.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import pl.pwr.recruitringcore.api.UserApi;
-import pl.pwr.recruitringcore.dto.ProfileDataDto;
-import pl.pwr.recruitringcore.dto.UserDto;
+import pl.pwr.recruitringcore.dto.ProfileDataDRO;
+import pl.pwr.recruitringcore.dto.UserDTO;
 import pl.pwr.recruitringcore.service.UserService;
 
 @RestController
@@ -17,8 +17,8 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<Object> getProfileData(UserDto userDto) {
-        ProfileDataDto profileData = userService.getProfileData(userDto);
+    public ResponseEntity<Object> getProfileData(UserDTO userDto) {
+        ProfileDataDRO profileData = userService.getProfileData(userDto);
         if (!profileData.isSuccess()) {
             ResponseEntity.badRequest();
         }
@@ -26,8 +26,8 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<Object> updateProfileData(UserDto userDto, ProfileDataDto profileDataDto) {
-        ProfileDataDto updatedProfileData = userService.updateProfileData(userDto, profileDataDto);
+    public ResponseEntity<Object> updateProfileData(UserDTO userDto, ProfileDataDRO profileDataDRO) {
+        ProfileDataDRO updatedProfileData = userService.updateProfileData(userDto, profileDataDRO);
         if (!updatedProfileData.isSuccess()) {
             ResponseEntity.badRequest();
         }

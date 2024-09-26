@@ -13,6 +13,7 @@ import {AdminGuard} from "./core/service/guard/admin.guard";
 import {AdminComponent} from "./admin/admin.component";
 import {JobManagementResolver} from "./dashboard/job-management/resolver/job-management.resolver";
 import {JobDetailComponent} from "./dashboard/job-management/job-detail/job-detail.component";
+import {CreateJobComponent} from "./dashboard/job-management/create-job/create-job.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [HomeGuard]},
@@ -31,6 +32,10 @@ export const routes: Routes = [
       {
         path: 'jobs/:id',
         component: JobDetailComponent
+      },
+      {
+        path: 'create-job',
+        component: CreateJobComponent
       },
       {path: 'recruitment', component: RecruitmentManagementComponent},
       {path: 'candidates', component: CandidateManagementComponent},

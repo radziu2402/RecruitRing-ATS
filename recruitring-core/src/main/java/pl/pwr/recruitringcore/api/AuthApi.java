@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.pwr.recruitringcore.dto.LoginDTO;
 import pl.pwr.recruitringcore.dto.RegisterDTO;
-import pl.pwr.recruitringcore.dto.UserDto;
+import pl.pwr.recruitringcore.dto.UserDTO;
 
 
 @RequestMapping("api/v1/")
@@ -16,5 +16,5 @@ public interface AuthApi {
     ResponseEntity<Object> login(@RequestBody LoginDTO loginDTO);
 
     @PostMapping("register")
-    ResponseEntity<UserDto> register(@RequestBody RegisterDTO registerDto);
+    ResponseEntity<UserDTO> register(@RequestBody RegisterDTO registerDto);
 }

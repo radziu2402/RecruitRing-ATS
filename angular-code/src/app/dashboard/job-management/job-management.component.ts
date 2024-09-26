@@ -36,8 +36,8 @@ export class JobManagementComponent implements OnInit {
     return `${day}-${month}-${year}`;
   }
 
-  viewJobDetail(jobId: number) {
-    this.router.navigate(['/jobs', jobId]);
+  navigateToCreateJob(): void {
+    this.router.navigate(['/dashboard/create-job']);
   }
 
   loadMore(): void {

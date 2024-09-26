@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto register(RegisterDTO registerDto) {
+    public UserDTO register(RegisterDTO registerDto) {
         if (userRepository.existsByLogin(registerDto.getLogin())) {
             throw new UserAlreadyExistsException("User with this login already exists", HttpStatus.CONFLICT);
         }
@@ -56,51 +56,51 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public JwtResultDto login(LoginDTO credentialsDto) {
+    public JwtResultDTO login(LoginDTO credentialsDto) {
         User user = userRepository.findByLogin(credentialsDto.getLogin())
                 .orElseThrow(() -> new UnknownUserException("No user found", HttpStatus.BAD_REQUEST));
 
         if (!passwordEncoder.matches(credentialsDto.getPassword(), user.getPassword())) {
-            return JwtResultDto.builder().success(false).build();
+            return JwtResultDTO.builder().success(false).build();
         }
 
         String token = userAuthenticationProvider.createToken(user);
-        return JwtResultDto.builder().accessToken(token).success(true).build();
+        return JwtResultDTO.builder().accessToken(token).success(true).build();
     }
 
     @Override
-    public UserDto findUserByLogin(String login) {
+    public UserDTO findUserByLogin(String login) {
         User user = userRepository.findByLogin(login)
                 .orElseThrow(() -> new UnknownUserException("Unknown user", HttpStatus.BAD_REQUEST));
         return userMapper.toUserDto(user);
     }
 
     @Override
-    public UserDto findUserById(Integer id) {
+    public UserDTO findUserById(Integer id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UnknownUserException("Unknown user", HttpStatus.BAD_REQUEST));
         return userMapper.toUserDto(user);
     }
 
     @Override
-    public ProfileDataDto getProfileData(UserDto userDto) {
+    public ProfileDataDRO getProfileData(UserDTO userDto) {
         UserDataProducer producer = userDataProducerFactory.get(Role.valueOf(userDto.getRole()));
         return producer.buildUserData(userDto);
     }
 
     @Override
     @Transactional
-    public ProfileDataDto updateProfileData(UserDto userDto, ProfileDataDto profileDataDto) {
+    public ProfileDataDRO updateProfileData(UserDTO userDto, ProfileDataDRO profileDataDRO) {
         Optional<User> userOptional = userRepository.findById(userDto.getId());
         if (userOptional.isEmpty()) {
-            return ProfileDataDto.builder().success(false).build();
+            return ProfileDataDRO.builder().success(false).build();
         }
         User user = userOptional.get();
 
-        user.setEmail(profileDataDto.getEmail());
-        user.setLogin(profileDataDto.getLogin());
-        user.setPassword(profileDataDto.getPassword());
+        user.setEmail(profileDataDRO.getEmail());
+        user.setLogin(profileDataDRO.getLogin());
+        user.setPassword(profileDataDRO.getPassword());
         userRepository.save(user);
-        return profileDataDto;
+        return profileDataDRO;
     }
 }

@@ -10,12 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDto {
-    @JsonIgnore
-    private Integer id;
-    private String email;
+public class ProfileDataDRO {
     private String login;
-    private String role;
+    private String firstName;
+    private String secondName;
+    private String password;
+    private String email;
+    private String dateOfBirth;
+
     @JsonIgnore
-    private String token;
+    boolean success;
 }

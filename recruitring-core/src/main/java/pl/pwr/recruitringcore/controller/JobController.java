@@ -1,9 +1,11 @@
 package pl.pwr.recruitringcore.controller;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import pl.pwr.recruitringcore.api.JobApi;
+import pl.pwr.recruitringcore.dto.JobPostingCreationDTO;
 import pl.pwr.recruitringcore.dto.JobPostingDTO;
 import pl.pwr.recruitringcore.service.JobServiceImpl;
 
@@ -29,21 +31,9 @@ public class JobController implements JobApi {
     }
 
     @Override
-    public ResponseEntity<JobPostingDTO> createJob(JobPostingDTO jobDTO) {
-        JobPostingDTO newJob = jobServiceImpl.createJob(jobDTO);
-        return ResponseEntity.status(201).body(newJob);
-    }
-
-    @Override
-    public ResponseEntity<JobPostingDTO> updateJob(Long id, JobPostingDTO jobDTO) {
-        JobPostingDTO updatedJob = jobServiceImpl.updateJob(id, jobDTO);
-        return ResponseEntity.ok(updatedJob);
-    }
-
-    @Override
-    public ResponseEntity<Void> deleteJob(Long id) {
-        jobServiceImpl.deleteJob(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<JobPostingDTO> createJob(JobPostingCreationDTO jobCreationDTO) {
+        JobPostingDTO createdJob = jobServiceImpl.createJob(jobCreationDTO);
+        return new ResponseEntity<>(createdJob, HttpStatus.CREATED);
     }
 
 }

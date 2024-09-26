@@ -31,3 +31,48 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+# Ignorowanie plików w katalogu "angular-code"
+/angular-code/dist
+/angular-code/out-tsc
+/angular-code/tmp
+/angular-code/node_modules
+
+# Ignorowanie plików Angulara i kompilacji
+/angular-code/*.js
+/angular-code/*.js.map
+/angular-code/*.css
+/angular-code/*.css.map
+/angular-code/*.sass
+/angular-code/*.scss
+/angular-code/*.d.ts
+
+# Ignorowanie środowisk i ustawień
+/angular-code/.angular
+/angular-code/.angular-cache
+/angular-code/.vscode
+/angular-code/.idea
+/angular-code/.vs
+/angular-code/src/environments/environment.prod.ts
+/angular-code/src/environments/environment.ts
+
+# Ignorowanie plików tymczasowych i dzienników
+/angular-code/*.log
+/angular-code/*.tmp
+/angular-code/*.temp
+/angular-code/npm-debug.log*
+/angular-code/yarn-error.log*
+/angular-code/lerna-debug.log*
+/angular-code/coverage
+/angular-code/.eslintcache
+
+# Ignorowanie katalogów build i cache
+/angular-code/.sass-cache
+/angular-code/connect.lock
+/angular-code/.npm
+/angular-code/build
+
+# Ignorowanie specyficznych plików IDE/OS
+/angular-code/.DS_Store
+/angular-code/Thumbs.db

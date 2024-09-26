@@ -3,6 +3,7 @@ package pl.pwr.recruitringcore.api;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.pwr.recruitringcore.dto.JobPostingCreationDTO;
 import pl.pwr.recruitringcore.dto.JobPostingDTO;
 
 @RequestMapping("api/v1/jobs")
@@ -17,11 +18,6 @@ public interface JobApi {
     ResponseEntity<JobPostingDTO> getJobById(@PathVariable Long id);
 
     @PostMapping
-    ResponseEntity<JobPostingDTO> createJob(@RequestBody JobPostingDTO jobDTO);
+    ResponseEntity<JobPostingDTO> createJob(@RequestBody JobPostingCreationDTO jobCreationDTO);
 
-    @PutMapping("/{id}")
-    ResponseEntity<JobPostingDTO> updateJob(@PathVariable Long id, @RequestBody JobPostingDTO jobDTO);
-
-    @DeleteMapping("/{id}")
-    ResponseEntity<Void> deleteJob(@PathVariable Long id);
 }

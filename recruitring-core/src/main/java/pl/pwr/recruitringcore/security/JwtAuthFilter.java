@@ -22,8 +22,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import pl.pwr.recruitringcore.dto.ErrorDto;
-import pl.pwr.recruitringcore.dto.UserDto;
+import pl.pwr.recruitringcore.dto.ErrorDTO;
+import pl.pwr.recruitringcore.dto.UserDTO;
 import pl.pwr.recruitringcore.service.UserService;
 
 import java.io.IOException;
@@ -92,7 +92,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             if (decoded.getExpiresAtAsInstant().isBefore(Instant.now())) {
                 return null;
             }
-            UserDto user = userService.findUserByLogin(decoded.getSubject());
+            UserDTO user = userService.findUserByLogin(decoded.getSubject());
             user.setToken(token);
 
             String role = decoded.getClaim("role").asString();
@@ -108,7 +108,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        ErrorDto errorDto = new ErrorDto("Invalid or Expired token");
+        ErrorDTO errorDto = new ErrorDTO("Invalid or Expired token");
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writeValue(response.getWriter(), errorDto);
     }

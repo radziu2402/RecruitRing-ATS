@@ -1,0 +1,134 @@
+<div class="create-job-container">
+  <h2>Stwórz nową ofertę pracy</h2>
+
+  <form #jobForm="ngForm" (ngSubmit)="onSubmit(jobForm)" novalidate>
+
+    <!-- Tytuł stanowiska -->
+    <div class="form-group" [ngClass]="{'invalid': titleField.invalid && titleField.touched}">
+      <label for="title-select">Tytuł stanowiska</label>
+      <ng-select
+        labelForId="title-select"
+        [(ngModel)]="newJob.titleId"
+        [items]="availableTitles"
+        bindLabel="name"
+        bindValue="id"
+        placeholder="Wybierz tytuł"
+        [typeahead]="titleInput$"
+        name="title"
+        required
+        #titleField="ngModel">
+      </ng-select>
+      <!-- Komunikat błędu jeśli pole jest niewypełnione i dotknięte -->
+      <div *ngIf="titleField.invalid && titleField.touched" class="error-message">Wybierz tytuł stanowiska.</div>
+    </div>
+
+    <!-- Lokalizacja -->
+    <div class="form-group" [ngClass]="{'invalid': locationField.invalid && locationField.touched}">
+      <label for="location">Lokalizacja</label>
+      <ng-select
+        labelForId="location"
+        [(ngModel)]="newJob.locationId"
+        [items]="availableLocations"
+        bindLabel="name"
+        bindValue="id"
+        placeholder="Wybierz lokalizację"
+        [typeahead]="locationInput$"
+        name="location"
+        required
+        #locationField="ngModel">
+      </ng-select>
+      <div *ngIf="locationField.invalid && locationField.touched" class="error-message">Wybierz lokalizację.</div>
+    </div>
+
+    <!-- Kategoria stanowiska -->
+    <div class="form-group" [ngClass]="{'invalid': categoryField.invalid && categoryField.touched}">
+      <label for="jobCategory">Kategoria stanowiska</label>
+      <ng-select
+        labelForId="jobCategory"
+        [(ngModel)]="newJob.jobCategoryId"
+        [items]="availableCategories"
+        bindLabel="name"
+        bindValue="id"
+        placeholder="Wybierz kategorię"
+        [typeahead]="categoryInput$"
+        name="jobCategory"
+        required
+        #categoryField="ngModel">
+      </ng-select>
+      <div *ngIf="categoryField.invalid && categoryField.touched" class="error-message">Wybierz kategorię stanowiska.
+      </div>
+    </div>
+
+    <!-- Rodzaj pracy -->
+    <div class="form-group" [ngClass]="{'invalid': workTypeField.invalid && workTypeField.touched}">
+      <label for="workType">Rodzaj pracy</label>
+      <select id="workType" [(ngModel)]="newJob.workType" name="workType" required #workTypeField="ngModel">
+        <option value="STATIONARY">Stacjonarna</option>
+        <option value="REMOTE">Zdalna</option>
+        <option value="HYBRID">Hybrydowa</option>
+      </select>
+      <div *ngIf="workTypeField.invalid && workTypeField.touched" class="error-message">Wybierz rodzaj pracy.</div>
+    </div>
+
+    <!-- Opis -->
+    <div class="form-group" [ngClass]="{'invalid': descriptionField.invalid && descriptionField.touched}">
+      <label for="description">Opis</label>
+      <textarea id="description" [(ngModel)]="newJob.description" name="description" rows="5" required
+                #descriptionField="ngModel"></textarea>
+      <div *ngIf="descriptionField.invalid && descriptionField.touched" class="error-message">Dodaj opis oferty.</div>
+    </div>
+
+    <!-- Rekruterzy -->
+    <div class="form-group" [ngClass]="{'invalid': recruitersField.invalid && recruitersField.touched}">
+      <label for="recruiters">Rekruterzy</label>
+      <ng-select
+        labelForId="recruiters"
+        [(ngModel)]="newJob.recruiterIds"
+        [items]="availableRecruiters"
+        bindLabel="fullName"
+        bindValue="id"
+        placeholder="Wybierz rekruterów"
+        [typeahead]="recruiterInput$"
+        name="recruiters"
+        [multiple]="true"
+        required
+        #recruitersField="ngModel">
+        <ng-template ng-option-tmp let-item="item">
+          {{ item.firstName }} {{ item.lastName }} - {{ item.position }}
+        </ng-template>
+        <!-- Wyświetlanie wybranych elementów -->
+        <ng-template ng-tag-tmp let-item="item">
+          {{ item.firstName }} {{ item.lastName }}
+        </ng-template>
+      </ng-select>
+      <div *ngIf="recruitersField.invalid && recruitersField.touched" class="error-message">Wybierz co najmniej jednego
+        rekrutera.
+      </div>
+    </div>
+
+    <!-- Wymagania -->
+    <div class="form-group" [ngClass]="{'invalid': requirementsField.invalid && requirementsField.touched}">
+      <label for="requirements">Wymagania</label>
+      <ng-select
+        labelForId="requirements"
+        [(ngModel)]="newJob.requirementIds"
+        [items]="availableRequirements"
+        bindLabel="description"
+        bindValue="id"
+        placeholder="Dodaj wymagania"
+        [typeahead]="requirementInput$"
+        name="requirements"
+        [multiple]="true"
+        required
+        #requirementsField="ngModel">
+      </ng-select>
+      <div *ngIf="requirementsField.invalid && requirementsField.touched" class="error-message">Dodaj wymagania.</div>
+    </div>
+
+    <!-- Przyciski akcji -->
+    <div class="form-actions">
+      <!-- Przycisk Zapisz ofertę będzie nieaktywny, dopóki formularz nie jest wypełniony poprawnie -->
+      <button type="submit" class="btn-primary">Zapisz ofertę</button>
+    </div>
+  </form>
+</div>

@@ -4,15 +4,15 @@ import pl.pwr.recruitringcore.dto.*;
 
 public interface UserService {
 
-    JwtResultDto login(LoginDTO credentialsDto);
+    JwtResultDTO login(LoginDTO credentialsDto);
 
-    UserDto register(RegisterDTO registerDto);
+    UserDTO register(RegisterDTO registerDto);
 
-    UserDto findUserByLogin(String login);
+    UserDTO findUserByLogin(String login);
 
-    UserDto findUserById(Integer id);
+    UserDTO findUserById(Integer id);
 
-    ProfileDataDto getProfileData(UserDto userDto);
+    ProfileDataDRO getProfileData(UserDTO userDto);
 
-    ProfileDataDto updateProfileData(UserDto userDto, ProfileDataDto profileDataDto);
+    ProfileDataDRO updateProfileData(UserDTO userDto, ProfileDataDRO profileDataDRO);
 }
