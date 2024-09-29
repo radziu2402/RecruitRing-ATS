@@ -22,4 +22,10 @@ public class TitleController implements TitleApi {
         List<TitleDTO> titles = titleService.getTitlesByName(query);
         return ResponseEntity.ok(titles);
     }
+
+    @Override
+    public ResponseEntity<TitleDTO> addTitle(String titleName) {
+        TitleDTO createdTitle = titleService.addNewTitle(titleName);
+        return ResponseEntity.ok(createdTitle);
+    }
 }

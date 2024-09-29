@@ -1,9 +1,8 @@
 <div class="create-job-container">
-  <h2>Stwórz nową ofertę pracy</h2>
+  <h2>{{ offerCode ? 'Edytuj ofertę pracy' : 'Stwórz nową ofertę pracy' }}</h2>
 
   <form #jobForm="ngForm" (ngSubmit)="onSubmit(jobForm)" novalidate>
 
-    <!-- Tytuł stanowiska -->
     <div class="form-group" [ngClass]="{'invalid': titleField.invalid && titleField.touched}">
       <label for="title-select">Tytuł stanowiska</label>
       <ng-select
@@ -12,17 +11,19 @@
         [items]="availableTitles"
         bindLabel="name"
         bindValue="id"
-        placeholder="Wybierz tytuł"
+        placeholder="Wybierz tytuł lub dodaj nowy"
         [typeahead]="titleInput$"
+        addTagText="Stwórz nowy tytuł"
+        [addTag]="addNewTitle"
         name="title"
         required
         #titleField="ngModel">
       </ng-select>
-      <!-- Komunikat błędu jeśli pole jest niewypełnione i dotknięte -->
-      <div *ngIf="titleField.invalid && titleField.touched" class="error-message">Wybierz tytuł stanowiska.</div>
+      <div *ngIf="titleField.invalid && titleField.touched" class="error-message">
+        Wybierz tytuł stanowiska.
+      </div>
     </div>
 
-    <!-- Lokalizacja -->
     <div class="form-group" [ngClass]="{'invalid': locationField.invalid && locationField.touched}">
       <label for="location">Lokalizacja</label>
       <ng-select
@@ -31,8 +32,10 @@
         [items]="availableLocations"
         bindLabel="name"
         bindValue="id"
-        placeholder="Wybierz lokalizację"
+        placeholder="Wybierz lokalizację lub dodaj nową"
         [typeahead]="locationInput$"
+        addTagText="Stwórz nową lokalizację"
+        [addTag]="addNewLocation"
         name="location"
         required
         #locationField="ngModel">
@@ -40,7 +43,6 @@
       <div *ngIf="locationField.invalid && locationField.touched" class="error-message">Wybierz lokalizację.</div>
     </div>
 
-    <!-- Kategoria stanowiska -->
     <div class="form-group" [ngClass]="{'invalid': categoryField.invalid && categoryField.touched}">
       <label for="jobCategory">Kategoria stanowiska</label>
       <ng-select
@@ -49,8 +51,10 @@
         [items]="availableCategories"
         bindLabel="name"
         bindValue="id"
-        placeholder="Wybierz kategorię"
+        placeholder="Wybierz kategorię lub dodaj nową"
         [typeahead]="categoryInput$"
+        addTagText="Stwórz nową kategorię"
+        [addTag]="addNewCategory"
         name="jobCategory"
         required
         #categoryField="ngModel">
@@ -59,7 +63,6 @@
       </div>
     </div>
 
-    <!-- Rodzaj pracy -->
     <div class="form-group" [ngClass]="{'invalid': workTypeField.invalid && workTypeField.touched}">
       <label for="workType">Rodzaj pracy</label>
       <select id="workType" [(ngModel)]="newJob.workType" name="workType" required #workTypeField="ngModel">
@@ -70,7 +73,6 @@
       <div *ngIf="workTypeField.invalid && workTypeField.touched" class="error-message">Wybierz rodzaj pracy.</div>
     </div>
 
-    <!-- Opis -->
     <div class="form-group" [ngClass]="{'invalid': descriptionField.invalid && descriptionField.touched}">
       <label for="description">Opis</label>
       <textarea id="description" [(ngModel)]="newJob.description" name="description" rows="5" required
@@ -78,7 +80,6 @@
       <div *ngIf="descriptionField.invalid && descriptionField.touched" class="error-message">Dodaj opis oferty.</div>
     </div>
 
-    <!-- Rekruterzy -->
     <div class="form-group" [ngClass]="{'invalid': recruitersField.invalid && recruitersField.touched}">
       <label for="recruiters">Rekruterzy</label>
       <ng-select
@@ -96,7 +97,6 @@
         <ng-template ng-option-tmp let-item="item">
           {{ item.firstName }} {{ item.lastName }} - {{ item.position }}
         </ng-template>
-        <!-- Wyświetlanie wybranych elementów -->
         <ng-template ng-tag-tmp let-item="item">
           {{ item.firstName }} {{ item.lastName }}
         </ng-template>
@@ -106,7 +106,6 @@
       </div>
     </div>
 
-    <!-- Wymagania -->
     <div class="form-group" [ngClass]="{'invalid': requirementsField.invalid && requirementsField.touched}">
       <label for="requirements">Wymagania</label>
       <ng-select
@@ -115,8 +114,10 @@
         [items]="availableRequirements"
         bindLabel="description"
         bindValue="id"
-        placeholder="Dodaj wymagania"
+        placeholder="Dodaj wymagania lub stwórz nowe"
         [typeahead]="requirementInput$"
+        addTagText="Stwórz nowe wymaganie"
+        [addTag]="addNewRequirement"
         name="requirements"
         [multiple]="true"
         required
@@ -125,9 +126,7 @@
       <div *ngIf="requirementsField.invalid && requirementsField.touched" class="error-message">Dodaj wymagania.</div>
     </div>
 
-    <!-- Przyciski akcji -->
     <div class="form-actions">
-      <!-- Przycisk Zapisz ofertę będzie nieaktywny, dopóki formularz nie jest wypełniony poprawnie -->
       <button type="submit" class="btn-primary">Zapisz ofertę</button>
     </div>
   </form>

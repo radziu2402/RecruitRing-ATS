@@ -23,6 +23,14 @@ public class TitleServiceImpl implements TitleService {
                 .toList();
     }
 
+    @Override
+    public TitleDTO addNewTitle(String titleName) {
+        Title newTitle = new Title();
+        newTitle.setName(titleName);
+        Title savedTitle = titleRepository.save(newTitle);
+        return mapToDTO(savedTitle);
+    }
+
     private TitleDTO mapToDTO(Title title) {
         return TitleDTO.builder()
                 .id(title.getId())

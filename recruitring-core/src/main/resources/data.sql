@@ -1,3 +1,18 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+CREATE OR REPLACE FUNCTION generate_offer_code()
+    RETURNS TRIGGER AS '
+BEGIN
+    NEW.offer_code := uuid_generate_v4();
+    RETURN NEW;
+END;
+' LANGUAGE plpgsql;
+
+CREATE TRIGGER set_offer_code
+    BEFORE INSERT ON job_postings
+    FOR EACH ROW
+EXECUTE FUNCTION generate_offer_code();
+
 INSERT INTO users (login, email, password, role)
 VALUES ('admin', 'admin@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw/iacp3HCbLpkuJN86iO', 'ADMINISTRATOR');
 
@@ -11,6 +26,7 @@ VALUES ('Admin', 'Example', 'HR Manager',
 INSERT INTO recruiters (first_name, last_name, position, user_id)
 VALUES ('User', 'Example', 'Recruiter',
         (SELECT id FROM users WHERE login = 'user'));
+
 
 -- Wprowadź dane do tabeli Title
 INSERT INTO titles (name) VALUES
@@ -60,6 +76,11 @@ INSERT INTO job_categories (name) VALUES
                                       ('Wsparcie techniczne'),
                                       ('Prawo i administracja'),
                                       ('Marketing');
+
+
+
+
+
 
 -- Zaktualizuj job_postings
 INSERT INTO job_postings (title_id, description, location_id, work_type, created_at, job_category_id)

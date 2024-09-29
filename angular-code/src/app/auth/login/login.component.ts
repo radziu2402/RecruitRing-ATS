@@ -33,7 +33,7 @@ export class LoginComponent {
     if (this.login && this.password) {
       this.authService.login(this.login, this.password).subscribe({
         next: () => {
-          this.router.navigate(["dashboard"]).then(() => {
+          this.router.navigate(["dashboard/home"]).then(() => {
             console.log('Przekierowano na stronę główną');
           }).catch(err => {
             console.error('Błąd podczas nawigacji:', err);

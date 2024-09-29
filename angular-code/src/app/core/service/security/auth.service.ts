@@ -13,7 +13,7 @@ import {catchError} from 'rxjs/operators';
 })
 export class AuthService {
 
-  private _authStatus = new BehaviorSubject<boolean>(this.hasToken());
+  private _authStatus = new BehaviorSubject<boolean>(false);
   public authStatus$ = this._authStatus.asObservable();
   private sessionEvents$ = new Subject<string>();
 
@@ -21,6 +21,7 @@ export class AuthService {
   private keyToken = 'jwt_token';
 
   constructor(private http: HttpClient, private router: Router, private snackBar: MatSnackBar) {
+    this._authStatus.next(this.isLoggedIn());
   }
 
   login(login: string, password: string): Observable<any> {
@@ -44,11 +45,7 @@ export class AuthService {
 
   getRole(): string | null {
     const tokenPayload = this.getTokenPayload();
-    return tokenPayload ? tokenPayload.role : null; // Pobieramy rolę z tokenu
-  }
-
-  private hasToken(): boolean {
-    return this.isLoggedIn();
+    return tokenPayload ? tokenPayload.role : null;
   }
 
   showNotification(message: string) {
@@ -59,6 +56,7 @@ export class AuthService {
     localStorage.removeItem(this.keyToken);
     void this.router.navigate(["login"])
     this.showNotification('Wylogowano pomyślnie');
+    this._authStatus.next(false);
   }
 
   isLoggedIn() {
@@ -69,6 +67,7 @@ export class AuthService {
   private setSession(token: Token) {
     localStorage.setItem(this.keyToken, token.accessToken);
     this.sessionEvents$.next(token.accessToken);
+    this._authStatus.next(true)
   }
 
   private getTokenExpirationDate() {

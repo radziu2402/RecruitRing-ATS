@@ -6,6 +6,7 @@ import pl.pwr.recruitringcore.model.enums.WorkType;
 
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -24,6 +25,9 @@ public class JobPosting {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "title_id", nullable = false)
     private Title title;
+
+    @Column(name = "offer_code", updatable = false, insertable = false)
+    private UUID offerCode;
 
     @Column(name = "description", nullable = false, columnDefinition = "TEXT")
     private String description;

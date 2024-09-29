@@ -1,4 +1,5 @@
 .job-details-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,17 +8,31 @@
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 900px;
-  margin: 0 auto;
+  margin: 30px auto; /* Odsunięcie od headera */
+}
+
+/* Nagłówek z przyciskami */
+.job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 h2 {
   font-size: 28px;
   font-weight: bold;
   color: #333;
-  margin-bottom: 20px;
-  text-align: center;
 }
 
+/* Dodanie marginesu między przyciskami Edytuj i Usuń */
+.job-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Szczegóły oferty pracy */
 .job-info {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -27,6 +42,7 @@ h2 {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
 }
 
 .job-detail {
@@ -56,6 +72,7 @@ h2 {
   }
 }
 
+/* Przycisk Powrót na dole */
 .back-btn {
   margin-top: 20px;
   padding: 10px 20px;
@@ -77,8 +94,45 @@ h2 {
   }
 }
 
+/* Stylizacje przycisków Edytuj i Usuń */
+.btn-action {
+  padding: 10px 15px;
+  font-size: 14px;
+  background-color: #0069d9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #005cbf;
+  }
+}
+
+.edit-btn {
+  background-color: #007bff;
+
+  &:hover {
+    background-color: #0069d9;
+  }
+}
+
+.delete-btn {
+  background-color: #d9534f;
+
+  &:hover {
+    background-color: #c9302c;
+  }
+}
+
 @media (max-width: 768px) {
   .job-info {
     grid-template-columns: 1fr;
+  }
+
+  /* Przyciski akcji na mniejszych ekranach */
+  .job-actions {
+    flex-direction: column;
   }
 }

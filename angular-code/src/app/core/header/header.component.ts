@@ -21,8 +21,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
+    console.log('Initial login status:', this.isLoggedIn);
 
     this.authSubscription = this.authService.authStatus$.subscribe(status => {
+      console.log('Auth status changed:', status);
       this.isLoggedIn = status;
     });
   }
@@ -30,15 +32,9 @@ export class HeaderComponent implements OnInit {
   navigateOnClick(event: Event): void {
     event.preventDefault();
     if (this.isLoggedIn) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/dashboard/home']);
     } else {
       this.router.navigate(['/']);
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.authSubscription) {
-      this.authSubscription.unsubscribe();
     }
   }
 }

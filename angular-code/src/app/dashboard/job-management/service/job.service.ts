@@ -19,12 +19,20 @@ export class JobService {
     );
   }
 
-  getJobById(id: number): Observable<JobPosting> {
-    return this.http.get<JobPosting>(`${environment.api}${this.apiUrl}/${id}`);
+  getJobByOfferCode(offerCode: string): Observable<JobPosting> {
+    return this.http.get<JobPosting>(`${environment.api}${this.apiUrl}/${offerCode}`);
   }
 
   createJob(jobData: any): Observable<JobPosting> {
     return this.http.post<JobPosting>(`${environment.api}${this.apiUrl}`, jobData);
+  }
+
+  deleteJobByOfferCode(offerCode: string): Observable<void> {
+    return this.http.delete<void>(`${environment.api}${this.apiUrl}/${offerCode}`);
+  }
+
+  updateJob(offerCode: string, updatedJob: any): Observable<any> {
+    return this.http.put(`${environment.api}${this.apiUrl}/${offerCode}`, updatedJob);
   }
 
 }
