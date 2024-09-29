@@ -10,5 +10,4 @@ public class RecruitringCoreApplication {
     public static void main(String[] args) {
         SpringApplication.run(RecruitringCoreApplication.class, args);
     }
-
 }

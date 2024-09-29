@@ -1,18 +1,18 @@
 package pl.pwr.recruitringcore.service;
 
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.pwr.recruitringcore.dto.JobPostingCreationDTO;
-import pl.pwr.recruitringcore.dto.JobPostingDTO;
+import pl.pwr.recruitringcore.dto.*;
 import pl.pwr.recruitringcore.model.entities.*;
 import pl.pwr.recruitringcore.repo.*;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,18 +43,46 @@ public class JobServiceImpl {
         return jobRepository.findAll(PageRequest.of(page, size)).map(this::mapToDTO);
     }
 
-    public JobPostingDTO getJobById(Long id) {
-        JobPosting jobPosting = jobRepository.findById(id)
+    public JobPostingDTO getJobByOfferCode(UUID offerCode) {
+        JobPosting jobPosting = jobRepository.findByOfferCode(offerCode)
                 .orElseThrow(() -> new RuntimeException("Job not found"));
         return mapToDTO(jobPosting);
     }
 
+    public void deleteJobPostingByOfferCode(UUID offerCode) {
+        JobPosting jobPosting = jobRepository.findByOfferCode(offerCode)
+                .orElseThrow(() -> new EntityNotFoundException("Offer not found with code: " + offerCode));
+        jobRepository.delete(jobPosting);
+    }
+
+    public JobPostingDTO updateJob(UUID offerCode, JobPostingCreationDTO jobCreationDTO) {
+        JobPosting existingJobPosting = jobRepository.findByOfferCode(offerCode)
+                .orElseThrow(() -> new RuntimeException("Job posting not found"));
+
+        JobPosting updatedJobPosting = mapToJobPostingEntities(jobCreationDTO);
+
+        updatedJobPosting.setId(existingJobPosting.getId());
+        updatedJobPosting.setOfferCode(existingJobPosting.getOfferCode());
+        updatedJobPosting.setCreatedAt(existingJobPosting.getCreatedAt());
+
+        return mapToDTO(jobRepository.save(updatedJobPosting));
+    }
+
     @Transactional
     public JobPostingDTO createJob(JobPostingCreationDTO creationDTO) {
+        JobPosting jobPosting = mapToJobPostingEntities(creationDTO);
+        jobPosting.setCreatedAt(LocalDate.now());
+        return mapToDTO(jobRepository.save(jobPosting));
+    }
+
+
+    private JobPosting mapToJobPostingEntities(JobPostingCreationDTO creationDTO) {
         Title title = titleRepository.findById(creationDTO.getTitleId())
                 .orElseThrow(() -> new RuntimeException("Invalid title ID"));
+
         Location location = locationRepository.findById(creationDTO.getLocationId())
                 .orElseThrow(() -> new RuntimeException("Invalid location ID"));
+
         JobCategory jobCategory = jobCategoryRepository.findById(creationDTO.getJobCategoryId())
                 .orElseThrow(() -> new RuntimeException("Invalid job category ID"));
 
@@ -68,7 +96,7 @@ public class JobServiceImpl {
                         .orElseThrow(() -> new RuntimeException("Invalid recruiter ID: " + id)))
                 .collect(Collectors.toSet());
 
-        JobPosting jobPosting = JobPosting.builder()
+        return JobPosting.builder()
                 .title(title)
                 .location(location)
                 .jobCategory(jobCategory)
@@ -76,30 +104,64 @@ public class JobServiceImpl {
                 .recruiters(recruiters)
                 .workType(creationDTO.getWorkType())
                 .description(creationDTO.getDescription())
-                .createdAt(LocalDate.now())
                 .build();
-
-        return mapToDTO(jobRepository.save(jobPosting));
     }
 
 
-    private JobPostingDTO mapToDTO(JobPosting jobPosting) {
-        List<String> recruiterNames = jobPosting.getRecruiters().stream()
-                .map(recruiter -> recruiter.getFirstName() + " " + recruiter.getLastName())
-                .toList();
-
+    public JobPostingDTO mapToDTO(JobPosting jobPosting) {
         return JobPostingDTO.builder()
                 .id(jobPosting.getId())
-                .title(jobPosting.getTitle().getName())
+                .title(mapToTitleDTO(jobPosting.getTitle()))
                 .description(jobPosting.getDescription())
+                .offerCode(jobPosting.getOfferCode())
                 .requirements(jobPosting.getRequirements().stream()
-                        .map(Requirement::getRequirementDescription)
+                        .map(this::mapToRequirementDTO)
                         .toList())
-                .location(jobPosting.getLocation().getName())
+                .location(mapToLocationDTO(jobPosting.getLocation()))
                 .workType(jobPosting.getWorkType())
                 .createdAt(jobPosting.getCreatedAt())
-                .recruiters(recruiterNames)
-                .jobCategory(jobPosting.getJobCategory().getName())
+                .recruiters(jobPosting.getRecruiters().stream()
+                        .map(this::mapToRecruiterDTO)
+                        .toList())
+                .jobCategory(mapToJobCategoryDTO(jobPosting.getJobCategory()))
+                .build();
+    }
+
+    private TitleDTO mapToTitleDTO(Title title) {
+        return TitleDTO.builder()
+                .id(title.getId())
+                .name(title.getName())
+                .build();
+    }
+
+    private RequirementDTO mapToRequirementDTO(Requirement requirement) {
+        return RequirementDTO.builder()
+                .id(requirement.getId())
+                .description(requirement.getRequirementDescription())
+                .build();
+    }
+
+    private LocationDTO mapToLocationDTO(Location location) {
+        return LocationDTO.builder()
+                .id(location.getId())
+                .name(location.getName())
+                .build();
+    }
+
+    private RecruiterDTO mapToRecruiterDTO(Recruiter recruiter) {
+        return RecruiterDTO.builder()
+                .id(recruiter.getId())
+                .firstName(recruiter.getFirstName())
+                .lastName(recruiter.getLastName())
+                .position(recruiter.getPosition())
+                .email(recruiter.getUser().getEmail())
+                .build();
+    }
+
+    private JobCategoryDTO mapToJobCategoryDTO(JobCategory jobCategory) {
+        return JobCategoryDTO.builder()
+                .id(jobCategory.getId())
+                .name(jobCategory.getName())
                 .build();
     }
 

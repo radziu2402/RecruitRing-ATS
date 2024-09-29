@@ -1,0 +1,17 @@
+:host {
+  .spinner-background {
+    background-color: #f3f3f4;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 5000;
+    opacity: 0.75;
+    outline: none;
+  }
+}

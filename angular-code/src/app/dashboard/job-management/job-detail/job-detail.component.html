@@ -1,7 +1,16 @@
-<div class="job-details-container">
-  <h2>{{ job.title }}</h2>
+<div *ngIf="job" class="job-details-container">
+  <div class="job-header">
+    <h2>{{ job.title.name }}</h2>
+
+    <!-- Akcje: Edytuj i Usuń -->
+    <div class="job-actions">
+      <button class="btn-action edit-btn" (click)="editJob()">Edytuj ofertę</button>
+      <button class="btn-action delete-btn" (click)="deleteJob()">Usuń ofertę</button>
+    </div>
+  </div>
 
   <div class="job-info">
+    <!-- Szczegóły oferty pracy -->
     <div class="job-detail">
       <label for="description">Opis:</label>
       <p id="description">{{ job.description }}</p>
@@ -9,12 +18,12 @@
 
     <div class="job-detail">
       <label for="category">Kategoria stanowiska:</label>
-      <p id="category">{{ job.jobCategory }}</p>
+      <p id="category">{{ job.jobCategory.name }}</p>
     </div>
 
     <div class="job-detail">
       <label for="location">Lokalizacja:</label>
-      <p id="location">{{ job.location }}</p>
+      <p id="location">{{ job.location.name }}</p>
     </div>
 
     <div class="job-detail">
@@ -25,14 +34,16 @@
     <div class="job-detail">
       <label for="requirements">Wymagania:</label>
       <ul id="requirements">
-        <li *ngFor="let requirement of job.requirements">{{ requirement }}</li>
+        <li *ngFor="let requirement of job.requirements">{{ requirement.description }}</li>
       </ul>
     </div>
 
     <div class="job-detail">
       <label for="recruiters">Rekruterzy:</label>
       <ul id="recruiters">
-        <li *ngFor="let recruiter of job.recruiters">{{ recruiter }}</li>
+        <li *ngFor="let recruiter of job.recruiters">
+          {{ recruiter.firstName }} {{ recruiter.lastName }} - {{ recruiter.position }} ({{ recruiter.email }})
+        </li>
       </ul>
     </div>
 
@@ -42,5 +53,6 @@
     </div>
   </div>
 
+  <!-- Przycisk Powrót na dole strony -->
   <button class="back-btn" (click)="goBack()">Powrót</button>
 </div>

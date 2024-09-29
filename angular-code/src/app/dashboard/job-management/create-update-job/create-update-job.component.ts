@@ -20,13 +20,14 @@ import {
 import {FormsModule, NgForm} from '@angular/forms';
 import {NgClass, NgIf} from "@angular/common";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Location} from "../model/location.model";
 
 @Component({
-  selector: 'app-create-job',
+  selector: 'app-create-update-job',
   standalone: true,
-  templateUrl: './create-job.component.html',
-  styleUrls: ['./create-job.component.scss'],
+  templateUrl: './create-update-job.component.html',
+  styleUrls: ['./create-update-job.component.scss'],
   imports: [
     FormsModule,
     NgLabelTemplateDirective,
@@ -37,9 +38,19 @@ import {Router} from "@angular/router";
     NgTagTemplateDirective
   ]
 })
-export class CreateJobComponent implements OnInit {
+export class CreateUpdateJobComponent implements OnInit {
 
-  newJob = {
+  offerCode: string | null = null;
+
+  newJob: {
+    titleId: number | null;
+    locationId: number | null;
+    jobCategoryId: number | null;
+    workType: string;
+    description: string;
+    recruiterIds: number[];
+    requirementIds: number[];
+  } = {
     titleId: null,
     locationId: null,
     jobCategoryId: null,
@@ -62,6 +73,7 @@ export class CreateJobComponent implements OnInit {
   requirementInput$ = new Subject<string>();
 
   constructor(
+    private route: ActivatedRoute,
     private jobService: JobService,
     private titleService: TitleService,
     private locationService: LocationService,
@@ -74,6 +86,9 @@ export class CreateJobComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.offerCode = this.route.snapshot.paramMap.get('offerCode');
+
     // Load initial titles
     this.titleService.searchTitles('').subscribe(titles => this.availableTitles = titles);
 
@@ -126,20 +141,68 @@ export class CreateJobComponent implements OnInit {
       distinctUntilChanged(),
       switchMap(term => this.requirementService.searchRequirements(term))
     ).subscribe(requirements => this.availableRequirements = requirements);
+
+    const offerCode = this.route.snapshot.paramMap.get('offerCode');
+    if (offerCode) {
+      this.loadJobData(offerCode);
+    }
+  }
+
+  addNewTitle = (term:string) =>{
+    this.titleService.createTitle(term).subscribe((createdTitle: Title) => {
+      this.availableTitles.push(createdTitle);
+      this.availableTitles = this.availableTitles.slice(0);
+      this.newJob.titleId = createdTitle.id;
+      this.showNotification('Nowy tytuł został dodany!');
+    });
+    return true;
+  }
+
+  addNewLocation = (term: string) => {
+    this.locationService.createLocation(term).subscribe((createdLocation: Location) => {
+      this.availableLocations.push(createdLocation);
+      this.newJob.locationId = createdLocation.id;
+      this.showNotification('Nowa lokalizacja została dodana!');
+    });
+  }
+
+  addNewCategory = (term: string) => {
+    this.categoryService.createCategory(term).subscribe((createdCategory: JobCategory) => {
+      this.availableCategories.push(createdCategory);
+      this.newJob.jobCategoryId = createdCategory.id;
+      this.showNotification('Nowa kategoria została dodana!');
+    });
+  }
+
+  addNewRequirement = (term: string) => {
+    this.requirementService.createRequirement(term).subscribe((createdRequirement: Requirement) => {
+      this.availableRequirements.push(createdRequirement);
+      this.newJob.requirementIds.push(createdRequirement.id);
+      this.showNotification('Nowe wymaganie zostało dodane!');
+    });
   }
 
   onSubmit(form: NgForm) {
     if (form.valid) {
-      this.jobService.createJob(this.newJob).subscribe(() => {
-        this.router.navigate(['/dashboard/jobs']).then(() => {
-          this.showNotification('Oferta pracy została utworzona pomyślnie!');
+      if (this.offerCode) {
+        this.jobService.updateJob(this.offerCode, this.newJob).subscribe(() => {
+          this.router.navigate(['/dashboard/jobs']).then(() => {
+            this.showNotification('Oferta pracy została zaktualizowana pomyślnie!');
+          });
         });
-      });
+      } else {
+        this.jobService.createJob(this.newJob).subscribe(() => {
+          this.router.navigate(['/dashboard/jobs']).then(() => {
+            this.showNotification('Oferta pracy została utworzona pomyślnie!');
+          });
+        });
+      }
     } else {
       this.showNotification('Wypełnij wszystkie wymagane pola przed zapisaniem!');
       this.markFormFieldsAsTouched(form);
     }
   }
+
 
   private mapRecruitersWithFullName(recruiters: Recruiter[]): Recruiter[] {
     return recruiters.map(recruiter => ({
@@ -159,5 +222,18 @@ export class CreateJobComponent implements OnInit {
       duration: 3000,
     });
   }
+
+  loadJobData(offerCode: string) {
+    this.jobService.getJobByOfferCode(offerCode).subscribe(job => {
+      this.newJob.titleId = job.title.id;
+      this.newJob.locationId = job.location.id;
+      this.newJob.jobCategoryId = job.jobCategory.id;
+      this.newJob.workType = job.workType;
+      this.newJob.description = job.description;
+      this.newJob.recruiterIds = job.recruiters.map(r => r.id);
+      this.newJob.requirementIds = job.requirements.map(r => r.id);
+    });
+  }
+
 
 }

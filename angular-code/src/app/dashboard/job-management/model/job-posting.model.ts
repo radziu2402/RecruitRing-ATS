@@ -1,11 +1,18 @@
+import {Title} from "./title.model";
+import {Requirement} from "./requirement.model";
+import {Recruiter} from "./recruiter.model";
+import {Location} from "./location.model";
+import {JobCategory} from "./job-category.model";
+
 export interface JobPosting {
   id: number;
-  title: string;
+  title: Title;
   description: string;
-  location: string;
+  offerCode: string;
+  location: Location;
   workType: string;
   createdAt: [number, number, number];
-  recruiters: string[];
-  requirements: string[];
-  jobCategory: string;
+  recruiters: Recruiter[];
+  requirements: Requirement[];
+  jobCategory: JobCategory;
 }

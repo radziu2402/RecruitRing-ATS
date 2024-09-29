@@ -8,6 +8,7 @@ import pl.pwr.recruitringcore.model.enums.WorkType;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -16,12 +17,13 @@ import java.util.List;
 public class JobPostingDTO {
 
     private Long id;
-    private String title;
+    private TitleDTO title;
     private String description;
-    private List<String> requirements;
-    private String location;
+    private UUID offerCode;
+    private List<RequirementDTO> requirements;
+    private LocationDTO location;
     private WorkType workType;
     private LocalDate createdAt;
-    private List<String> recruiters;
-    private String jobCategory;
+    private List<RecruiterDTO> recruiters;
+    private JobCategoryDTO jobCategory;
 }

@@ -2,7 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {JobPosting} from "../model/job-posting.model";
 import {JobService} from "../service/job.service";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {ConfirmationDialogComponent} from "../../../confirmation-dialog/confirmation-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 
 @Component({
@@ -10,7 +13,8 @@ import {NgForOf} from "@angular/common";
   templateUrl: './job-detail.component.html',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   styleUrls: ['./job-detail.component.scss']
 })
@@ -20,18 +24,27 @@ export class JobDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private jobService: JobService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {
   }
 
   ngOnInit(): void {
-    const jobId = this.route.snapshot.paramMap.get('id');
-    if (jobId) {
-      this.jobService.getJobById(+jobId).subscribe((job) => {
-        this.job = job;
-      });
-    }
+    this.route.paramMap.subscribe(params => {
+      const offerCode = params.get('offerCode');
+      if (offerCode) {
+        this.loadJob(offerCode);
+      }
+    });
   }
+
+  private loadJob(offerCode: string): void {
+    this.jobService.getJobByOfferCode(offerCode).subscribe((job) => {
+      this.job = job;
+    });
+  }
+
 
   formatDate(dateArray: [number, number, number]): string {
     const [year, month, day] = dateArray;
@@ -42,6 +55,34 @@ export class JobDetailComponent implements OnInit {
     this.router.navigate(['/dashboard/jobs']).then(() => {
     }).catch((error) => {
       console.error('Navigation error:', error);
+    });
+  }
+
+  editJob(): void {
+    const offerCode = this.job.offerCode;
+    this.router.navigate(['/dashboard/edit-job', offerCode]);
+  }
+
+  deleteJob(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '300px',
+      data: 'Czy na pewno chcesz usunąć tę ofertę pracy?'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.jobService.deleteJobByOfferCode(this.job.offerCode).subscribe(() => {
+          this.router.navigate(['/dashboard/jobs']).then(() => {
+            this.showNotification('Oferta pracy została usunięta pomyślnie.');
+          });
+        });
+      }
+    });
+  }
+
+  showNotification(message: string) {
+    this.snackBar.open(message, 'Zamknij', {
+      duration: 3000,
     });
   }
 }

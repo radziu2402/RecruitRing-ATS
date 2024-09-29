@@ -1,5 +1,8 @@
-<app-header [pageTitle]="'System Zarządzania Rekrutacjami'" [logoSrc]="'assets/images/logo.png'" />
+<app-header [pageTitle]="'System Zarządzania Rekrutacjami'" [logoSrc]="'assets/images/logo.png'"/>
 
-<router-outlet></router-outlet>
+<div class="content">
+  <app-progress-spinner></app-progress-spinner>
+  <router-outlet></router-outlet>
+</div>
 
 <app-footer></app-footer>

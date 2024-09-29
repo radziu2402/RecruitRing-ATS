@@ -13,7 +13,8 @@ import {AdminGuard} from "./core/service/guard/admin.guard";
 import {AdminComponent} from "./admin/admin.component";
 import {JobManagementResolver} from "./dashboard/job-management/resolver/job-management.resolver";
 import {JobDetailComponent} from "./dashboard/job-management/job-detail/job-detail.component";
-import {CreateJobComponent} from "./dashboard/job-management/create-job/create-job.component";
+import {CreateUpdateJobComponent} from "./dashboard/job-management/create-update-job/create-update-job.component";
+import {MainPanelComponent} from "./dashboard/main-panel/main-panel.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [HomeGuard]},
@@ -25,20 +26,39 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'home'
+      },
+      {
+        path: 'home',
+        component: MainPanelComponent
+      },
+      {
         path: 'jobs',
         component: JobManagementComponent,
         resolve: {jobs: JobManagementResolver}
       },
       {
-        path: 'jobs/:id',
+        path: 'jobs/:offerCode',
         component: JobDetailComponent
       },
       {
         path: 'create-job',
-        component: CreateJobComponent
+        component: CreateUpdateJobComponent
       },
-      {path: 'recruitment', component: RecruitmentManagementComponent},
-      {path: 'candidates', component: CandidateManagementComponent},
+      {
+        path: 'edit-job/:offerCode',
+        component: CreateUpdateJobComponent
+      },
+      {
+        path: 'recruitment',
+        component: RecruitmentManagementComponent
+      },
+      {
+        path: 'candidates',
+        component: CandidateManagementComponent
+      },
       {
         path: 'admin',
         component: AdminComponent,
