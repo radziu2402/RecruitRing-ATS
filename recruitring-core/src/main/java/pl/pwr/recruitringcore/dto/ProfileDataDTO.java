@@ -10,10 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProfileDataDRO {
+public class ProfileDataDTO {
     private String login;
     private String firstName;
-    private String secondName;
+    private String lastName;
+    private String position;
     private String password;
     private String email;
     private String dateOfBirth;

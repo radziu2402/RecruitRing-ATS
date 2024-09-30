@@ -1,0 +1,37 @@
+<section class="simple-dialog">
+  <div class="dialog-body">
+    <form (ngSubmit)="submit()" [formGroup]="form" novalidate>
+      <div class="form-group">
+        <label for="login">Login:</label>
+        <input type="text" formControlName="login" id="login" name="login" class="form-input" required>
+        <div *ngIf="form.get('login')?.invalid && form.get('login')?.touched" class="error-message">
+          Login musi zawierać co najmniej 3 znaki.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" formControlName="email" id="email" name="email" class="form-input" required>
+        <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched" class="error-message">
+          Podaj poprawny adres email.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Nowe Hasło:</label>
+        <input type="password" formControlName="password" id="password" name="password" class="form-input" required>
+        <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched" class="error-message">
+          Hasło musi zawierać co najmniej 8 znaków, w tym jedną dużą literę, jedną cyfrę i jeden znak specjalny.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Potwierdź Hasło:</label>
+        <input type="password" formControlName="confirmPassword" id="confirmPassword" name="confirmPassword" class="form-input" required>
+        <div *ngIf="form.get('confirmPassword')?.invalid && form.get('confirmPassword')?.touched" class="error-message">
+          Hasła muszą być takie same.
+        </div>
+      </div>
+      <div class="button-group">
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Zmień dane</button>
+      </div>
+    </form>
+  </div>
+</section>

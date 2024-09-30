@@ -8,7 +8,6 @@ import pl.pwr.recruitringcore.dto.*;
 import pl.pwr.recruitringcore.exceptions.UnknownUserException;
 import pl.pwr.recruitringcore.exceptions.UserAlreadyExistsException;
 import pl.pwr.recruitringcore.factory.UserDataProducerFactory;
-import pl.pwr.recruitringcore.mappers.UserMapper;
 import pl.pwr.recruitringcore.model.entities.User;
 import pl.pwr.recruitringcore.model.enums.Role;
 import pl.pwr.recruitringcore.producer.UserDataProducer;
@@ -21,14 +20,12 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final UserMapper userMapper;
     private final UserAuthenticationProvider userAuthenticationProvider;
     private final UserDataProducerFactory userDataProducerFactory;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper, UserAuthenticationProvider userAuthenticationProvider, UserDataProducerFactory userDataProducerFactory) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserAuthenticationProvider userAuthenticationProvider, UserDataProducerFactory userDataProducerFactory) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.userMapper = userMapper;
         this.userAuthenticationProvider = userAuthenticationProvider;
         this.userDataProducerFactory = userDataProducerFactory;
     }
@@ -52,7 +49,16 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(newUser);
 
-        return userMapper.toUserDto(newUser);
+        return toUserDto(newUser);
+    }
+
+    private UserDTO toUserDto(User newUser) {
+        return UserDTO.builder()
+                .id(newUser.getId())
+                .login(newUser.getLogin())
+                .email(newUser.getEmail())
+                .role(newUser.getRole().name())
+                .build();
     }
 
     @Override
@@ -72,35 +78,35 @@ public class UserServiceImpl implements UserService {
     public UserDTO findUserByLogin(String login) {
         User user = userRepository.findByLogin(login)
                 .orElseThrow(() -> new UnknownUserException("Unknown user", HttpStatus.BAD_REQUEST));
-        return userMapper.toUserDto(user);
+        return toUserDto(user);
     }
 
     @Override
-    public UserDTO findUserById(Integer id) {
+    public UserDTO findUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UnknownUserException("Unknown user", HttpStatus.BAD_REQUEST));
-        return userMapper.toUserDto(user);
+        return toUserDto(user);
     }
 
     @Override
-    public ProfileDataDRO getProfileData(UserDTO userDto) {
+    public ProfileDataDTO getProfileData(UserDTO userDto) {
         UserDataProducer producer = userDataProducerFactory.get(Role.valueOf(userDto.getRole()));
         return producer.buildUserData(userDto);
     }
 
     @Override
     @Transactional
-    public ProfileDataDRO updateProfileData(UserDTO userDto, ProfileDataDRO profileDataDRO) {
+    public ProfileDataDTO updateProfileData(UserDTO userDto, ProfileDataDTO profileDataDTO) {
         Optional<User> userOptional = userRepository.findById(userDto.getId());
         if (userOptional.isEmpty()) {
-            return ProfileDataDRO.builder().success(false).build();
+            return ProfileDataDTO.builder().success(false).build();
         }
         User user = userOptional.get();
 
-        user.setEmail(profileDataDRO.getEmail());
-        user.setLogin(profileDataDRO.getLogin());
-        user.setPassword(profileDataDRO.getPassword());
+        user.setEmail(profileDataDTO.getEmail());
+        user.setLogin(profileDataDTO.getLogin());
+        user.setPassword(passwordEncoder.encode(profileDataDTO.getPassword()));
         userRepository.save(user);
-        return profileDataDRO;
+        return profileDataDTO;
     }
 }

@@ -19,12 +19,12 @@ VALUES ('admin', 'admin@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw
 INSERT INTO users (login, email, password, role)
 VALUES ('user', 'user@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw/iacp3HCbLpkuJN86iO', 'RECRUITER');
 
-INSERT INTO recruiters (first_name, last_name, position, user_id)
-VALUES ('Admin', 'Example', 'HR Manager',
+INSERT INTO recruiters (first_name, last_name, position, date_of_birth, user_id)
+VALUES ('Admin', 'Example', 'HR Manager', '1980-01-01',
         (SELECT id FROM users WHERE login = 'admin'));
 
-INSERT INTO recruiters (first_name, last_name, position, user_id)
-VALUES ('User', 'Example', 'Recruiter',
+INSERT INTO recruiters (first_name, last_name, position, date_of_birth, user_id)
+VALUES ('User', 'Example', 'Recruiter', '1990-01-01',
         (SELECT id FROM users WHERE login = 'user'));
 
 

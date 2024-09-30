@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {BehaviorSubject, Observable, shareReplay, Subject, tap, throwError} from 'rxjs';
 import {jwtDecode} from "jwt-decode";
-import dayjs from "dayjs";
+import dayjs from 'dayjs/esm';
 import {environment} from "../../../../environments/environment";
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {catchError} from 'rxjs/operators';
@@ -38,6 +38,22 @@ export class AuthService {
         })
       );
   }
+
+  resetPassword(login: string): Observable<any> {
+    const resetPasswordUrl = environment.api + 'reset-password';
+
+    return this.http.post(resetPasswordUrl, { login })
+      .pipe(
+        tap(() => {
+          this.showNotification('Link do zresetowania hasła został wysłany na Twój adres email.');
+        }),
+        catchError((error) => {
+          this.showNotification('Błąd podczas resetowania hasła. Spróbuj ponownie.');
+          return throwError(() => new Error(error));
+        })
+      );
+  }
+
 
   getAuthToken(): string | null {
     return localStorage.getItem('jwt_token');

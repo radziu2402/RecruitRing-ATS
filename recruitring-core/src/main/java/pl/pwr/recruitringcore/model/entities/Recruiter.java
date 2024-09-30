@@ -3,6 +3,8 @@ package pl.pwr.recruitringcore.model.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Entity
@@ -25,6 +27,9 @@ public class Recruiter {
 
     @Column(name = "position", nullable = false, length = 100)
     private String position;
+
+    @Column(name = "date_of_birth", nullable = false)
+    private LocalDate dateOfBirth;
 
     @OneToOne
     @JoinColumn(name = "user_id")

@@ -15,10 +15,14 @@ import {JobManagementResolver} from "./dashboard/job-management/resolver/job-man
 import {JobDetailComponent} from "./dashboard/job-management/job-detail/job-detail.component";
 import {CreateUpdateJobComponent} from "./dashboard/job-management/create-update-job/create-update-job.component";
 import {MainPanelComponent} from "./dashboard/main-panel/main-panel.component";
+import {profileResolver} from "./profile/resolver/profile.resolver";
+import {UserProfileComponent} from "./profile/component/user-profile/user-profile.component";
+import {ResetPasswordComponent} from "./auth/reset-password/reset-password.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [HomeGuard]},
   {path: 'login', component: LoginComponent, canActivate: [LoginGuard]},
+  {path: 'reset-password', component: ResetPasswordComponent},
   {path: 'job-listings', component: JobListComponent},
   {
     path: 'dashboard',
@@ -63,8 +67,14 @@ export const routes: Routes = [
         path: 'admin',
         component: AdminComponent,
         canActivate: [AdminGuard],
+      },
+      {
+        path: 'profile',
+        component: UserProfileComponent,
+        resolve: {userData: profileResolver}
       }
     ]
   },
-  {path: '**', redirectTo: ''}
+  {path: '**', redirectTo: ''},
+
 ];

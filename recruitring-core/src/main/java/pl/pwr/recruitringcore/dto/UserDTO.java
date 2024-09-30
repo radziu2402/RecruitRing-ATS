@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserDTO {
     @JsonIgnore
-    private Integer id;
+    private Long id;
     private String email;
     private String login;
     private String role;

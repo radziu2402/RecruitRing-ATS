@@ -10,9 +10,9 @@ public interface UserService {
 
     UserDTO findUserByLogin(String login);
 
-    UserDTO findUserById(Integer id);
+    UserDTO findUserById(Long id);
 
-    ProfileDataDRO getProfileData(UserDTO userDto);
+    ProfileDataDTO getProfileData(UserDTO userDto);
 
-    ProfileDataDRO updateProfileData(UserDTO userDto, ProfileDataDRO profileDataDRO);
+    ProfileDataDTO updateProfileData(UserDTO userDto, ProfileDataDTO profileDataDTO);
 }

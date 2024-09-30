@@ -13,8 +13,10 @@
         required
         aria-describedby="loginHelp"
         autocomplete="username"
+        #loginControl="ngModel"
+        [ngClass]="{'is-invalid': loginControl.touched && loginControl.invalid}"
       />
-      <div *ngIf="loginForm.submitted && loginForm.controls['login'].invalid" class="text-danger">
+      <div *ngIf="loginControl.touched && loginControl.invalid" class="text-danger">
         Login jest wymagany
       </div>
     </div>
@@ -32,6 +34,8 @@
           required
           aria-describedby="passwordHelp"
           autocomplete="current-password"
+          #passwordControl="ngModel"
+          [ngClass]="{'is-invalid': passwordControl.touched && passwordControl.invalid}"
         />
         <button
           type="button"
@@ -43,9 +47,13 @@
           <fa-icon [icon]="passwordVisible ? faEyeSlash : faEye"></fa-icon>
         </button>
       </div>
-      <div *ngIf="loginForm.submitted && loginForm.controls['password'].invalid" class="text-danger">
+      <div *ngIf="passwordControl.touched && passwordControl.invalid" class="text-danger">
         Hasło jest wymagane
       </div>
+    </div>
+
+    <div class="forgot-password">
+      <a (click)="resetPassword()" class="reset-password-link">Nie pamiętasz hasła</a>
     </div>
 
     <button type="submit" class="btn btn-primary">Zaloguj się</button>

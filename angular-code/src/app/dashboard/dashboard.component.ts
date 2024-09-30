@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
   }
 
   navigateToProfile() {
-    this.router.navigate(['/profile'])
+    this.router.navigate(['/dashboard/profile'])
   }
 
   checkIfAdmin() {

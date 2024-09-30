@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { NgIf } from '@angular/common';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {faEye, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
+import {NgClass, NgIf} from '@angular/common';
 import {Router} from "@angular/router";
 import {AuthService} from "../../core/service/security/auth.service";
 
@@ -13,7 +13,8 @@ import {AuthService} from "../../core/service/security/auth.service";
   imports: [
     FormsModule,
     FontAwesomeModule,
-    NgIf
+    NgIf,
+    NgClass
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -46,6 +47,14 @@ export class LoginComponent {
     } else {
       console.error('Proszę wypełnić wszystkie pola.');
     }
+  }
+
+  resetPassword(): void {
+    this.router.navigate(['/reset-password']).then(() => {
+      console.log('Przekierowano na stronę resetowania hasła');
+    }).catch(err => {
+      console.error('Błąd podczas nawigacji:', err);
+    });
   }
 
   togglePasswordVisibility(): void {

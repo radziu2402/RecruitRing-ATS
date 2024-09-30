@@ -12,6 +12,5 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({eventCoalescing: true}),
     provideRouter(routes),
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptors([authInterceptor, restApiInterceptor]))
-  ]
+    provideHttpClient(withInterceptors([authInterceptor, restApiInterceptor]))]
 };

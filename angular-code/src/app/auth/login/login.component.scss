@@ -31,7 +31,7 @@
     max-width: 500px;
 
     .mb-4 {
-      margin-bottom: 25px;
+      margin-bottom: 15px;
 
       label {
         display: block;
@@ -46,7 +46,7 @@
         border: 1px solid #ccc;
         border-radius: 6px;
         font-size: 18px;
-        transition: border-color 0.3s ease;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
 
         &:focus {
           border-color: #007bff;
@@ -57,14 +57,18 @@
         &.is-invalid {
           border-color: #dc3545;
         }
+
+        &:hover {
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
       }
 
       .input-group {
         display: flex;
 
         .btn {
-          border-radius: 10px; /* Zaokrąglony cały przycisk */
-          padding: 8px 12px; /* Mniejsze paddingi */
+          border-radius: 10px;
+          padding: 8px 12px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -80,6 +84,9 @@
 
           fa-icon {
             font-size: 16px;
+            margin-top: 2px;
+            width: 20px;
+            height: 20px;
             color: #555;
           }
         }
@@ -92,6 +99,22 @@
       .text-danger {
         margin-top: 8px;
         font-size: 16px;
+        color: #dc3545;
+      }
+    }
+
+    .forgot-password {
+      margin-bottom: 20px;
+
+      .reset-password-link {
+        color: #007bff;
+        text-decoration: underline;
+        cursor: pointer;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: #0056b3;
+        }
       }
     }
 
@@ -103,7 +126,7 @@
       color: #fff;
       background-color: #007bff;
       border: none;
-      border-radius: 10px; /* Większe zaokrąglenie dla przycisku */
+      border-radius: 10px;
       cursor: pointer;
       transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
