@@ -15,4 +15,11 @@ public interface UserService {
     ProfileDataDTO getProfileData(UserDTO userDto);
 
     ProfileDataDTO updateProfileData(UserDTO userDto, ProfileDataDTO profileDataDTO);
+
+    void sendPasswordResetLink(String login);
+
+    boolean resetPassword(String token, String newPassword);
+
+    boolean isResetTokenValid(String token);
+
 }

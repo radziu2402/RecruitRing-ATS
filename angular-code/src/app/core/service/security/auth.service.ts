@@ -42,18 +42,26 @@ export class AuthService {
   resetPassword(login: string): Observable<any> {
     const resetPasswordUrl = environment.api + 'reset-password';
 
-    return this.http.post(resetPasswordUrl, { login })
+    const headers = { 'X-Skip-Spinner': 'true' };
+
+    return this.http.post(resetPasswordUrl, { login }, { headers })
       .pipe(
-        tap(() => {
-          this.showNotification('Link do zresetowania hasła został wysłany na Twój adres email.');
-        }),
         catchError((error) => {
-          this.showNotification('Błąd podczas resetowania hasła. Spróbuj ponownie.');
           return throwError(() => new Error(error));
         })
       );
   }
 
+
+  confirmResetPassword(token: string, newPassword: string): Observable<any> {
+    const confirmResetPasswordUrl = environment.api + `reset-password/confirm`;
+    return this.http.post(confirmResetPasswordUrl, {token, newPassword});
+  }
+
+  verifyResetToken(token: string): Observable<boolean> {
+    const verifyUrl = environment.api + `reset-password/verify-token?token=${token}`;
+    return this.http.get<boolean>(verifyUrl);
+  }
 
   getAuthToken(): string | null {
     return localStorage.getItem('jwt_token');

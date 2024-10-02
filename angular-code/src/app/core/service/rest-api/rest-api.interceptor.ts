@@ -6,15 +6,19 @@ import {ProgressSpinnerService} from "./progress-spinner.service";
 
 export const restApiInterceptor: HttpInterceptorFn = (req, next) => {
   const spinnerService = inject(ProgressSpinnerService);
-  const showSpinner = shouldShowSpinnerOnRequest(req);
 
-  if (showSpinner) {
-    spinnerService.showSpinner(true);
+  const skipSpinner = req.headers.has('X-Skip-Spinner');
+
+  if (!skipSpinner) {
+    const showSpinner = shouldShowSpinnerOnRequest(req);
+    if (showSpinner) {
+      spinnerService.showSpinner(true);
+    }
   }
 
   return next(req).pipe(
     finalize(() => {
-      if (showSpinner) {
+      if (!skipSpinner) {
         spinnerService.showSpinner(false);
       }
     })

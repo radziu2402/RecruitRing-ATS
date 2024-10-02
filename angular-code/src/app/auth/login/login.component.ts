@@ -50,12 +50,9 @@ export class LoginComponent {
   }
 
   resetPassword(): void {
-    this.router.navigate(['/reset-password']).then(() => {
-      console.log('Przekierowano na stronę resetowania hasła');
-    }).catch(err => {
-      console.error('Błąd podczas nawigacji:', err);
-    });
+    this.router.navigate(['/reset-password']);
   }
+
 
   togglePasswordVisibility(): void {
     this.passwordVisible = !this.passwordVisible;

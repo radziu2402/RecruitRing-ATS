@@ -5,6 +5,7 @@ import {FormsModule} from "@angular/forms";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-reset-password',
@@ -21,20 +22,28 @@ import {Router} from "@angular/router";
 export class ResetPasswordComponent {
   email: string = "";
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar) {
   }
 
   submit() {
     if (this.email) {
-      this.authService.resetPassword(this.email).subscribe({
-        next: () => {
-          console.log('Link do zresetowania hasła został wysłany na adres e-mail:', this.email);
-        },
-        error: (err) => {
-          console.error('Błąd podczas resetowania hasła:', err);
-        }
+      this.showNotification('Jeśli to konto istnieje, link do resetu hasła został wysłany na podany adres e-mail.');
+
+      this.goBack();
+
+      Promise.resolve().then(() => {
+        this.authService.resetPassword(this.email).subscribe({
+          next: () => {
+          },
+          error: () => {
+          }
+        });
       });
     }
+  }
+
+  showNotification(message: string) {
+    this.snackBar.open(message, 'Zamknij', {duration: 3000});
   }
 
   goBack() {

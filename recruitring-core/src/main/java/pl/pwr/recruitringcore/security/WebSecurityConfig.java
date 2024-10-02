@@ -28,6 +28,9 @@ public class WebSecurityConfig {
                 .addFilterBefore(jwtAuthFilter, BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/reset-password").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/reset-password/confirm").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/reset-password/verify-token").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/register").hasAuthority(Role.ADMINISTRATOR.toString())
                         .anyRequest().authenticated());
         return http.build();

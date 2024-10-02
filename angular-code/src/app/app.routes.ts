@@ -18,11 +18,15 @@ import {MainPanelComponent} from "./dashboard/main-panel/main-panel.component";
 import {profileResolver} from "./profile/resolver/profile.resolver";
 import {UserProfileComponent} from "./profile/component/user-profile/user-profile.component";
 import {ResetPasswordComponent} from "./auth/reset-password/reset-password.component";
+import {SetNewPasswordComponent} from "./auth/set-new-password/set-new-password.component";
+import {ErrorPageComponent} from "./auth/error-page/error-page.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [HomeGuard]},
   {path: 'login', component: LoginComponent, canActivate: [LoginGuard]},
   {path: 'reset-password', component: ResetPasswordComponent},
+  {path: 'set-new-password', component: SetNewPasswordComponent},
+  {path: 'error-page', component: ErrorPageComponent},
   {path: 'job-listings', component: JobListComponent},
   {
     path: 'dashboard',
