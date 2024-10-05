@@ -1,36 +1,52 @@
-<section class="simple-dialog">
-  <div class="dialog-body">
+<section class="profile-form">
+  <div class="form-container">
+    <h2 class="back-arrow" (click)="goBack()" (keydown)="onKeyDownHandler($event)">
+      <fa-icon [icon]="faArrowLeft"></fa-icon>
+      Edycja profilu
+    </h2>
     <form (ngSubmit)="submit()" [formGroup]="form" novalidate>
       <div class="form-group">
         <label for="login">Login:</label>
-        <input type="text" formControlName="login" id="login" name="login" class="form-input" required>
+        <input type="text" formControlName="login" id="login" name="login" required>
         <div *ngIf="form.get('login')?.invalid && form.get('login')?.touched" class="error-message">
           Login musi zawierać co najmniej 3 znaki.
         </div>
       </div>
       <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" formControlName="email" id="email" name="email" class="form-input" required>
+        <input type="email" formControlName="email" id="email" name="email" required>
         <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched" class="error-message">
           Podaj poprawny adres email.
         </div>
       </div>
       <div class="form-group">
-        <label for="password">Nowe Hasło:</label>
-        <input type="password" formControlName="password" id="password" name="password" class="form-input" required>
-        <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched" class="error-message">
-          Hasło musi zawierać co najmniej 8 znaków, w tym jedną dużą literę, jedną cyfrę i jeden znak specjalny.
-        </div>
+        <button type="button" (click)="togglePasswordChange()" class="change-password-button">Zmień hasło</button>
       </div>
-      <div class="form-group">
-        <label for="confirmPassword">Potwierdź Hasło:</label>
-        <input type="password" formControlName="confirmPassword" id="confirmPassword" name="confirmPassword" class="form-input" required>
-        <div *ngIf="form.get('confirmPassword')?.invalid && form.get('confirmPassword')?.touched" class="error-message">
-          Hasła muszą być takie same.
+      <div *ngIf="showPasswordFields" class="password-fields">
+        <div class="form-group">
+          <label for="oldPassword">Stare Hasło:</label>
+          <input type="password" formControlName="oldPassword" id="oldPassword" name="oldPassword" required>
+          <div *ngIf="form.get('oldPassword')?.invalid && form.get('oldPassword')?.touched" class="error-message">
+            Stare hasło jest wymagane.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="newPassword">Nowe Hasło:</label>
+          <input type="password" formControlName="newPassword" id="newPassword" name="newPassword" required>
+          <div *ngIf="form.get('newPassword')?.invalid && form.get('newPassword')?.touched" class="error-message">
+            Hasło musi zawierać co najmniej 8 znaków, w tym jedną dużą literę, jedną cyfrę i jeden znak specjalny.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Potwierdź Hasło:</label>
+          <input type="password" formControlName="confirmPassword" id="confirmPassword" name="confirmPassword" required>
+          <div *ngIf="form.get('confirmPassword')?.invalid && form.get('confirmPassword')?.touched" class="error-message">
+            Hasła muszą być takie same.
+          </div>
         </div>
       </div>
       <div class="button-group">
-        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Zmień dane</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Zapisz zmiany</button>
       </div>
     </form>
   </div>

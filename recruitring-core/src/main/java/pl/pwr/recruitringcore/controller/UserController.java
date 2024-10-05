@@ -32,7 +32,7 @@ public class UserController implements UserApi {
     public ResponseEntity<Object> updateProfileData(UserDTO userDto, ProfileDataDTO profileDataDTO) {
         ProfileDataDTO updatedProfileData = userService.updateProfileData(userDto, profileDataDTO);
         if (!updatedProfileData.isSuccess()) {
-            ResponseEntity.badRequest();
+            return ResponseEntity.badRequest().body("Niepoprawne obecne hasło lub błąd podczas aktualizacji profilu");
         }
         return ResponseEntity.ok(updatedProfileData);
     }

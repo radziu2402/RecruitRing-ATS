@@ -1,11 +1,11 @@
 import {Component, Input} from '@angular/core';
 import {User} from "../../model/user";
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'show-profile-data',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgOptimizedImage],
   templateUrl: './show-profile-data.component.html',
   styleUrls: ['./show-profile-data.component.scss']
 })

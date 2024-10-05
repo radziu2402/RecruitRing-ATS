@@ -15,7 +15,8 @@ public class ProfileDataDTO {
     private String firstName;
     private String lastName;
     private String position;
-    private String password;
+    private String oldPassword;
+    private String newPassword;
     private String email;
     private String dateOfBirth;
 

@@ -1,16 +1,32 @@
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+
+  img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+  }
+}
+
 .data-container {
   max-width: 800px;
   margin: 5px auto;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
 
   .property {
-    flex: 1 1 45%; // Dwa elementy na linii
+    flex: 1 1 45%;
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 8px;

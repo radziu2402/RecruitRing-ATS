@@ -114,8 +114,17 @@ public class UserServiceImpl implements UserService {
 
         user.setEmail(profileDataDTO.getEmail());
         user.setLogin(profileDataDTO.getLogin());
-        user.setPassword(passwordEncoder.encode(profileDataDTO.getPassword()));
+
+        if (profileDataDTO.getOldPassword() != null && !profileDataDTO.getOldPassword().isEmpty()) {
+            if (!passwordEncoder.matches(profileDataDTO.getOldPassword(), user.getPassword())) {
+                return ProfileDataDTO.builder().success(false).build();
+            }
+            if (profileDataDTO.getNewPassword() != null && !profileDataDTO.getNewPassword().isEmpty()) {
+                user.setPassword(passwordEncoder.encode(profileDataDTO.getNewPassword()));
+            }
+        }
         userRepository.save(user);
+        profileDataDTO.setSuccess(true);
         return profileDataDTO;
     }
 

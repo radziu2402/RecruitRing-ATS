@@ -20,6 +20,10 @@ export class UserProfileComponent implements OnInit {
   constructor(private route: ActivatedRoute) {
   }
 
+  switchToShowMode(): void {
+    this.mode = 'show';
+  }
+
   ngOnInit(): void {
     this.profileData = this.route.snapshot.data['userData'];
   }
