@@ -10,7 +10,7 @@ import {environment} from "../../../../environments/environment";
 export class JobService {
   private readonly apiUrl = 'jobs';
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
   }
 
   getJobs(page: number, pageSize: number): Observable<{ content: JobPosting[], totalElements: number }> {

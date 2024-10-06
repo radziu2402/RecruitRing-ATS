@@ -5,7 +5,7 @@ import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 export abstract class BaseFormComponent implements OnInit {
   form!: UntypedFormGroup;
 
-  protected constructor(private formBuilder: UntypedFormBuilder) {
+  protected constructor(private readonly formBuilder: UntypedFormBuilder) {
   }
 
   ngOnInit(): void {

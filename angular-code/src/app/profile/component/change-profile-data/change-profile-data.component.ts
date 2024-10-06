@@ -35,9 +35,9 @@ export class ChangeProfileDataComponent extends BaseFormComponent implements OnI
 
   constructor(
     formBuilder: UntypedFormBuilder,
-    private profileService: ProfileService,
-    private snackBar: MatSnackBar,
-    private router: Router
+    private readonly profileService: ProfileService,
+    private readonly snackBar: MatSnackBar,
+    private readonly router: Router
   ) {
     super(formBuilder);
   }

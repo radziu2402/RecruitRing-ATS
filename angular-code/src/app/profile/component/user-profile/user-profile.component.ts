@@ -17,7 +17,7 @@ export class UserProfileComponent implements OnInit {
   profileData!: User;
   mode: profileMode = 'show';
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private readonly route: ActivatedRoute) {
   }
 
   switchToShowMode(): void {

@@ -9,7 +9,7 @@ import {JobPosting} from "../model/job-posting.model";
 })
 export class JobManagementResolver implements Resolve<{ content: JobPosting[], totalElements: number }> {
 
-  constructor(private jobService: JobService) {
+  constructor(private readonly jobService: JobService) {
   }
 
   resolve(): Observable<{ content: JobPosting[], totalElements: number }> {

@@ -22,7 +22,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class ResetPasswordComponent {
   email: string = "";
 
-  constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar) {
+  constructor(private readonly authService: AuthService, private readonly router: Router, private readonly snackBar: MatSnackBar) {
   }
 
   submit() {

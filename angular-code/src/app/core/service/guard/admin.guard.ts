@@ -7,7 +7,7 @@ import {AuthService} from "../security/auth.service";
 })
 export class AdminGuard implements CanActivate {
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private readonly authService: AuthService, private readonly router: Router) {
   }
 
   canActivate(): boolean {

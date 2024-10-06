@@ -21,7 +21,7 @@ export class JobManagementComponent implements OnInit {
   pageSize = 10;
   totalJobs = 0;
 
-  constructor(private route: ActivatedRoute, private jobService: JobService, private router: Router) {
+  constructor(private readonly route: ActivatedRoute, private readonly jobService: JobService, private readonly router: Router) {
   }
 
   ngOnInit(): void {

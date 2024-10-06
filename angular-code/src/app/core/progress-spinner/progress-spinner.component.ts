@@ -18,8 +18,8 @@ export class ProgressSpinnerComponent implements AfterContentChecked {
   shouldShowSpinner: boolean = false;
 
   constructor(
-    private progressSpinnerService: ProgressSpinnerService,
-    private cdr: ChangeDetectorRef
+    private readonly progressSpinnerService: ProgressSpinnerService,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   @HostListener('window:keydown.tab', ['$event'])

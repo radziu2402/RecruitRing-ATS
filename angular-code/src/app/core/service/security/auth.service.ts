@@ -13,14 +13,14 @@ import {catchError} from 'rxjs/operators';
 })
 export class AuthService {
 
-  private _authStatus = new BehaviorSubject<boolean>(false);
+  private readonly _authStatus = new BehaviorSubject<boolean>(false);
   public authStatus$ = this._authStatus.asObservable();
-  private sessionEvents$ = new Subject<string>();
+  private readonly sessionEvents$ = new Subject<string>();
 
   private readonly loginUrl = environment.api + 'login';
-  private keyToken = 'jwt_token';
+  private readonly keyToken = 'jwt_token';
 
-  constructor(private http: HttpClient, private router: Router, private snackBar: MatSnackBar) {
+  constructor(private readonly http: HttpClient, private readonly router: Router, private readonly snackBar: MatSnackBar) {
     this._authStatus.next(this.isLoggedIn());
   }
 

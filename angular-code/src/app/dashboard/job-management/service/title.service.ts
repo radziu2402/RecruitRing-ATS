@@ -10,7 +10,7 @@ import {Title} from "../model/title.model";
 export class TitleService {
   private readonly apiUrl = `${environment.api}titles`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   searchTitles(query: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/search`, { params: { query } });

@@ -6,7 +6,7 @@ import {AuthService} from "../security/auth.service";
   providedIn: 'root'
 })
 export class HomeGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private readonly authService: AuthService, private readonly router: Router) {}
 
   canActivate(): boolean {
     if (this.authService.isLoggedIn()) {

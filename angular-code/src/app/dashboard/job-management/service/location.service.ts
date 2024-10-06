@@ -10,7 +10,7 @@ import {Location} from "../model/location.model";
 export class LocationService {
   private readonly apiUrl = `${environment.api}locations`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   searchLocations(query: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/search`, { params: { query } });

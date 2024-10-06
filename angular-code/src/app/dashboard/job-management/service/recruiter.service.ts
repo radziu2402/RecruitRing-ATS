@@ -9,7 +9,7 @@ import {environment} from "../../../../environments/environment";
 export class RecruiterService {
   private readonly apiUrl = `${environment.api}recruiters`;
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
   }
 
   searchRecruiters(query: string): Observable<any[]> {

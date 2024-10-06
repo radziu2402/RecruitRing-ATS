@@ -10,7 +10,7 @@ import {JobCategory} from "../model/job-category.model";
 export class JobCategoryService {
   private readonly apiUrl = `${environment.api}job-categories`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   searchJobCategories(query: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/search`, { params: { query } });

@@ -22,11 +22,11 @@ export class JobDetailComponent implements OnInit {
   job!: JobPosting;
 
   constructor(
-    private route: ActivatedRoute,
-    private jobService: JobService,
-    private router: Router,
-    private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private readonly route: ActivatedRoute,
+    private readonly jobService: JobService,
+    private readonly router: Router,
+    private readonly snackBar: MatSnackBar,
+    private readonly dialog: MatDialog
   ) {
   }
 

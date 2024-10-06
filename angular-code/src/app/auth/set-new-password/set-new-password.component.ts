@@ -25,10 +25,10 @@ export class SetNewPasswordComponent implements OnInit {
   tokenValid: boolean = true;
 
   constructor(
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private router: Router,
-    private snackBar: MatSnackBar
+    private readonly route: ActivatedRoute,
+    private readonly authService: AuthService,
+    private readonly router: Router,
+    private readonly snackBar: MatSnackBar
   ) {
   }
 
@@ -54,7 +54,7 @@ export class SetNewPasswordComponent implements OnInit {
   verifyToken(): void {
     this.authService.verifyResetToken(this.token)
       .pipe(
-        catchError((error) => {
+        catchError(() => {
           this.tokenValid = false;
           this.router.navigate(['/error-page']);
           return of(false);

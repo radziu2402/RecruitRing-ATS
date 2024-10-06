@@ -27,7 +27,7 @@ export class LoginComponent {
 
   protected readonly faEyeSlash = faEyeSlash;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private readonly authService: AuthService, private readonly router: Router) {
   }
 
   submit() {

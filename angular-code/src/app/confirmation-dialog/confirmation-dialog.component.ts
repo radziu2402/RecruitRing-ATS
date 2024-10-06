@@ -15,7 +15,7 @@ import {MatButton} from "@angular/material/button";
 })
 export class ConfirmationDialogComponent {
   constructor(
-    private dialogRef: MatDialogRef<ConfirmationDialogComponent>,
+    private readonly dialogRef: MatDialogRef<ConfirmationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public message: string
   ) {}
 

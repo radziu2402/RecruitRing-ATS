@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
 
   isAdmin: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private readonly authService: AuthService, private readonly router: Router) {
   }
 
   ngOnInit() {

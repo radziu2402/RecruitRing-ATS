@@ -10,7 +10,7 @@ import {Requirement} from "../model/requirement.model";
 export class RequirementService {
   private readonly apiUrl = `${environment.api}requirements`;
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
   }
 
   searchRequirements(query: string): Observable<any[]> {

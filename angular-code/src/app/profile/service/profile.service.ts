@@ -11,7 +11,7 @@ export class ProfileService {
 
   private readonly profileUrl = environment.api + 'profile';
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
   }
 
   getProfileData(): Observable<User> {

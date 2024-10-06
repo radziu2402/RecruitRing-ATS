@@ -6,7 +6,7 @@ import {Subject} from 'rxjs';
   providedIn: 'root'
 })
 export class ProgressSpinnerService {
-  private showSpinner$ = new Subject<boolean>();
+  private readonly showSpinner$ = new Subject<boolean>();
 
   getSpinnerStream$ = this.showSpinner$.asObservable();
 

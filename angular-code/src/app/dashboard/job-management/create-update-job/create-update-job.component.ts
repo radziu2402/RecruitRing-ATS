@@ -73,15 +73,15 @@ export class CreateUpdateJobComponent implements OnInit {
   requirementInput$ = new Subject<string>();
 
   constructor(
-    private route: ActivatedRoute,
-    private jobService: JobService,
-    private titleService: TitleService,
-    private locationService: LocationService,
-    private categoryService: JobCategoryService,
-    private recruiterService: RecruiterService,
-    private requirementService: RequirementService,
-    private snackBar: MatSnackBar,
-    private router: Router
+    private readonly route: ActivatedRoute,
+    private readonly jobService: JobService,
+    private readonly titleService: TitleService,
+    private readonly locationService: LocationService,
+    private readonly categoryService: JobCategoryService,
+    private readonly recruiterService: RecruiterService,
+    private readonly requirementService: RequirementService,
+    private readonly snackBar: MatSnackBar,
+    private readonly router: Router
   ) {
   }
 
