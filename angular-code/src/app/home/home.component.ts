@@ -20,6 +20,6 @@ export class HomeComponent {
   }
 
   navigateToJobListings() {
-    this.router.navigate(['/job-listings']);
+    this.router.navigate(['/jobs']);
   }
 }

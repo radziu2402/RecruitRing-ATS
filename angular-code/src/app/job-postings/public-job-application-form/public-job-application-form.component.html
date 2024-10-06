@@ -1,0 +1,19 @@
+<form [formGroup]="applicationForm" (ngSubmit)="submitApplication()">
+  <div>
+    <label for="name">Name</label>
+    <input id="name" formControlName="name" type="text" required>
+  </div>
+  <div>
+    <label for="email">Email</label>
+    <input id="email" formControlName="email" type="email" required>
+  </div>
+  <div>
+    <label for="resume">Resume</label>
+    <input id="resume" formControlName="resume" type="file" required>
+  </div>
+  <div>
+    <label for="coverLetter">Cover Letter</label>
+    <textarea id="coverLetter" formControlName="coverLetter"></textarea>
+  </div>
+  <button type="submit">Submit Application</button>
+</form>

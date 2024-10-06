@@ -1,0 +1,27 @@
+<div class="filter-container">
+  <app-public-job-filter [jobs]="jobs" (filteredJobs)="onJobsFiltered($event)"></app-public-job-filter>
+</div>
+
+<table class="job-table">
+  <thead>
+  <tr>
+    <th>Nazwa stanowiska</th>
+    <th>Dział</th>
+    <th>Lokalizacja</th>
+    <th>Rodzaj pracy</th>
+    <th>Data utworzenia</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let job of jobs" [routerLink]="['/jobs', job.offerCode]" class="clickable-row">
+    <td>{{ job.title }}</td>
+    <td>{{ job.jobCategory }}</td>
+    <td>{{ job.location }}</td>
+    <td class="worktype-cell">{{ job.workType }}</td>
+    <td class="date-cell">{{ formatDate(job.createdAt) }}</td>
+  </tr>
+  </tbody>
+</table>
+
+<button class="load-more-btn" (click)="loadMore()">Zobacz więcej</button>
+

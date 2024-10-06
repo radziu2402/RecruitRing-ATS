@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {JobPosting} from "./model/job-posting.model";
 import {JobService} from "./service/job.service";
 import {NgForOf} from "@angular/common";
+import {JobPostingSummary} from "./model/job-posting-summary.model";
 
 
 @Component({
@@ -16,7 +16,7 @@ import {NgForOf} from "@angular/common";
   ]
 })
 export class JobManagementComponent implements OnInit {
-  jobs: JobPosting[] = [];
+  jobs: JobPostingSummary[] = [];
   page = 0;
   pageSize = 10;
   totalJobs = 0;
@@ -42,7 +42,7 @@ export class JobManagementComponent implements OnInit {
 
   loadMore(): void {
     this.page++;
-    this.jobService.getJobs(this.page, this.pageSize).subscribe((response) => {
+    this.jobService.getJobs(this.page, this.pageSize, true).subscribe((response) => {
       this.jobs = [...this.jobs, ...response.content];
     });
   }

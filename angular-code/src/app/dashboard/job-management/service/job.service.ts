@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {JobPosting} from "../model/job-posting.model";
 import {environment} from "../../../../environments/environment";
+import {JobPostingSummary} from "../model/job-posting-summary.model";
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +14,12 @@ export class JobService {
   constructor(private readonly http: HttpClient) {
   }
 
-  getJobs(page: number, pageSize: number): Observable<{ content: JobPosting[], totalElements: number }> {
-    return this.http.get<{ content: JobPosting[], totalElements: number }>(
-      `${environment.api}${this.apiUrl}?page=${page}&size=${pageSize}`
+  getJobs(page: number, pageSize: number, skipSpinner: boolean = false): Observable<{ content: JobPostingSummary[], totalElements: number }> {
+    const headers = skipSpinner ? new HttpHeaders({ 'X-Skip-Spinner': 'true' }) : undefined;
+
+    return this.http.get<{ content: JobPostingSummary[], totalElements: number }>(
+      `${environment.api}${this.apiUrl}?page=${page}&size=${pageSize}`,
+      { headers }
     );
   }
 

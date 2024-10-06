@@ -70,7 +70,6 @@ export class SetNewPasswordComponent implements OnInit {
       });
   }
 
-  // Walidator sprawdzający zgodność haseł
   private matchPassword(control: UntypedFormControl): { [key: string]: boolean } | null {
     if (control.value !== this.form['password'].value) {
       return {mismatch: true};

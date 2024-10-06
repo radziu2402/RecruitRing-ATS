@@ -1,7 +1,6 @@
 import {Routes} from '@angular/router';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './auth/login/login.component';
-import {JobListComponent} from './job-postings/job-list/job-list.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {JobManagementComponent} from './dashboard/job-management/job-management.component';
 import {RecruitmentManagementComponent} from './dashboard/recruitment-management/recruitment-management.component';
@@ -20,6 +19,9 @@ import {UserProfileComponent} from "./profile/component/user-profile/user-profil
 import {ResetPasswordComponent} from "./auth/reset-password/reset-password.component";
 import {SetNewPasswordComponent} from "./auth/set-new-password/set-new-password.component";
 import {ErrorPageComponent} from "./auth/error-page/error-page.component";
+import {PublicJobListComponent} from "./job-postings/public-job-list/public-job-list.component";
+import {PublicJobListResolver} from "./job-postings/resolver/public-job-list-resolver.service";
+import {PublicJobDetailComponent} from "./job-postings/public-job-detail/public-job-detail.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [HomeGuard]},
@@ -27,7 +29,15 @@ export const routes: Routes = [
   {path: 'reset-password', component: ResetPasswordComponent},
   {path: 'set-new-password', component: SetNewPasswordComponent},
   {path: 'error-page', component: ErrorPageComponent},
-  {path: 'job-listings', component: JobListComponent},
+  {
+    path: 'jobs',
+    component: PublicJobListComponent,
+    resolve: { jobs: PublicJobListResolver },
+  },
+  {
+    path: 'jobs/:offerCode',
+    component: PublicJobDetailComponent
+  },
   {
     path: 'dashboard',
     component: DashboardComponent,

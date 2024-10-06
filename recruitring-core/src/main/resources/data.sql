@@ -94,7 +94,7 @@ VALUES
     ((SELECT id FROM titles WHERE name = 'Senior Innovation Manager'),
      'Jako Senior Innovation Manager będziesz kluczową osobą odpowiedzialną za identyfikację i wprowadzanie innowacyjnych rozwiązań w naszych produktach i usługach...',
      (SELECT id FROM locations WHERE name = 'Eskilstuna, SE, 405 08'),
-     'REMOTE', '2024-09-23',
+     'REMOTE', '2024-01-21',
      (SELECT id FROM job_categories WHERE name = 'Planowanie produktów i technologii')),
 
     ((SELECT id FROM titles WHERE name = 'Senior Software Node Owner, Electromobility'),
@@ -106,27 +106,27 @@ VALUES
     ((SELECT id FROM titles WHERE name = 'Java Software Engineer (Senior)'),
      'Jako Senior Java Software Engineer będziesz odpowiedzialny za projektowanie i rozwój systemów rozproszonych oraz aplikacji back-endowych w Java...',
      (SELECT id FROM locations WHERE name = 'Wroclaw, PL, 51-502'),
-     'REMOTE', '2024-09-23',
+     'REMOTE', '2024-09-11',
      (SELECT id FROM job_categories WHERE name = 'Technologia informacyjna')),
 
     -- Dalsze wstawianie
     ((SELECT id FROM titles WHERE name = 'Executive Assistant'),
      'Executive Assistant wspiera codzienne operacje zarządu, dbając o koordynację spotkań, zarządzanie kalendarzem oraz organizację podróży służbowych...',
      (SELECT id FROM locations WHERE name = 'Göteborg, SE, 417 56'),
-     'STATIONARY', '2024-09-23',
+     'STATIONARY', '2024-09-22',
      (SELECT id FROM job_categories WHERE name = 'Wsparcie administracyjne i biznesowe')),
 
     -- Dodaj resztę pozycji analogicznie, używając odpowiednich ID z tytułów, lokalizacji, i kategorii stanowiska
     ((SELECT id FROM titles WHERE name = 'Team Leader - Sales'),
      'Jako Team Leader w dziale sprzedaży, będziesz odpowiedzialny za prowadzenie zespołu sprzedawców oraz monitorowanie i optymalizację wyników sprzedażowych...',
      (SELECT id FROM locations WHERE name = 'Beaufort West, ZA, 6970'),
-     'STATIONARY', '2024-09-23',
+     'STATIONARY', '2024-11-23',
      (SELECT id FROM job_categories WHERE name = 'Sprzedaż i usługi')),
 
     ((SELECT id FROM titles WHERE name = 'Production Manager'),
      'Jako Production Manager, będziesz zarządzać zespołem produkcyjnym w zakładzie wytwarzającym komponenty dla przemysłu motoryzacyjnego...',
      (SELECT id FROM locations WHERE name = 'Dublin, VA, US, 24084'),
-     'HYBRID', '2024-09-23',
+     'HYBRID', '2024-01-23',
      (SELECT id FROM job_categories WHERE name = 'Produkcja')),
 
     ((SELECT id FROM titles WHERE name = 'Senior Innovation Engineer'),
@@ -138,13 +138,13 @@ VALUES
     ((SELECT id FROM titles WHERE name = 'Data Scientist - Machine Learning'),
      'W tej roli będziesz odpowiedzialny za analizowanie dużych zbiorów danych i rozwijanie algorytmów uczenia maszynowego...',
      (SELECT id FROM locations WHERE name = 'Bangalore, IN, 562122'),
-     'HYBRID', '2024-09-23',
+     'HYBRID', '2024-04-23',
      (SELECT id FROM job_categories WHERE name = 'Technologia informacyjna')),
 
     ((SELECT id FROM titles WHERE name = 'Marketing Director - Europe'),
      'Marketing Director będzie odpowiedzialny za rozwój strategii marketingowej firmy na rynkach europejskich...',
      (SELECT id FROM locations WHERE name = 'Milano, IT, 20151'),
-     'REMOTE', '2024-09-23',
+     'REMOTE', '2024-09-11',
      (SELECT id FROM job_categories WHERE name = 'Marketing'));
 
 

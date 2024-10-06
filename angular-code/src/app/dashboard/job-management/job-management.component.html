@@ -7,8 +7,8 @@
   <table class="job-table">
     <thead>
     <tr>
-      <th>Dostępne oferty pracy</th>
-      <th>Kategoria stanowiska</th>
+      <th>Nazwa stanowiska</th>
+      <th>Dział</th>
       <th>Lokalizacja</th>
       <th>Rodzaj pracy</th>
       <th>Rekruterzy</th>
@@ -17,14 +17,14 @@
     </thead>
     <tbody>
     <tr *ngFor="let job of jobs" [routerLink]="['/dashboard/jobs', job.offerCode]" class="clickable-row">
-      <td>{{ job.title.name }}</td>
-      <td>{{ job.jobCategory.name }}</td>
-      <td>{{ job.location.name }}</td>
+      <td>{{ job.title }}</td>
+      <td>{{ job.jobCategory }}</td>
+      <td>{{ job.location }}</td>
       <td>{{ job.workType }}</td>
       <td>
         <ul>
           <li *ngFor="let recruiter of job.recruiters">
-            {{ recruiter.firstName }} {{ recruiter.lastName }} - {{ recruiter.position }}
+            {{ recruiter }}
           </li>
         </ul>
       </td>

@@ -13,7 +13,8 @@ export class LocationService {
   constructor(private readonly http: HttpClient) {}
 
   searchLocations(query: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/search`, { params: { query } });
+    const headers = { 'X-Skip-Spinner': 'true' };
+    return this.http.get<any[]>(`${this.apiUrl}/search`, { params: { query }, headers });
   }
 
   createLocation(location: string): Observable<Location> {

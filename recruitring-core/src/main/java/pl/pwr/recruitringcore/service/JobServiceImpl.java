@@ -4,6 +4,7 @@ package pl.pwr.recruitringcore.service;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.pwr.recruitringcore.dto.*;
@@ -39,14 +40,15 @@ public class JobServiceImpl {
         this.recruiterRepository = recruiterRepository;
     }
 
-    public Page<JobPostingDTO> getAllJobs(int page, int size) {
-        return jobRepository.findAll(PageRequest.of(page, size)).map(this::mapToDTO);
+    public Page<JobPostingSummaryDTO> getAllJobs(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        return jobRepository.findAll(pageRequest).map(this::mapToJobPostingSummaryDTO);
     }
 
     public JobPostingDTO getJobByOfferCode(UUID offerCode) {
         JobPosting jobPosting = jobRepository.findByOfferCode(offerCode)
                 .orElseThrow(() -> new RuntimeException("Job not found"));
-        return mapToDTO(jobPosting);
+        return mapToJobPostingDTO(jobPosting);
     }
 
     public void deleteJobPostingByOfferCode(UUID offerCode) {
@@ -65,14 +67,14 @@ public class JobServiceImpl {
         updatedJobPosting.setOfferCode(existingJobPosting.getOfferCode());
         updatedJobPosting.setCreatedAt(existingJobPosting.getCreatedAt());
 
-        return mapToDTO(jobRepository.save(updatedJobPosting));
+        return mapToJobPostingDTO(jobRepository.save(updatedJobPosting));
     }
 
     @Transactional
     public JobPostingDTO createJob(JobPostingCreationDTO creationDTO) {
         JobPosting jobPosting = mapToJobPostingEntities(creationDTO);
         jobPosting.setCreatedAt(LocalDate.now());
-        return mapToDTO(jobRepository.save(jobPosting));
+        return mapToJobPostingDTO(jobRepository.save(jobPosting));
     }
 
 
@@ -108,7 +110,7 @@ public class JobServiceImpl {
     }
 
 
-    public JobPostingDTO mapToDTO(JobPosting jobPosting) {
+    public JobPostingDTO mapToJobPostingDTO(JobPosting jobPosting) {
         return JobPostingDTO.builder()
                 .id(jobPosting.getId())
                 .title(mapToTitleDTO(jobPosting.getTitle()))
@@ -124,6 +126,21 @@ public class JobServiceImpl {
                         .map(this::mapToRecruiterDTO)
                         .toList())
                 .jobCategory(mapToJobCategoryDTO(jobPosting.getJobCategory()))
+                .build();
+    }
+
+    public JobPostingSummaryDTO mapToJobPostingSummaryDTO(JobPosting jobPosting) {
+        return JobPostingSummaryDTO.builder()
+                .id(jobPosting.getId())
+                .title(jobPosting.getTitle().getName())
+                .offerCode(jobPosting.getOfferCode())
+                .location(jobPosting.getLocation().getName())
+                .workType(jobPosting.getWorkType())
+                .createdAt(jobPosting.getCreatedAt())
+                .recruiters(jobPosting.getRecruiters().stream()
+                        .map(recruiter -> recruiter.getFirstName() + " " + recruiter.getLastName() + " - " + recruiter.getPosition())
+                        .toList())
+                .jobCategory(jobPosting.getJobCategory().getName())
                 .build();
     }
 

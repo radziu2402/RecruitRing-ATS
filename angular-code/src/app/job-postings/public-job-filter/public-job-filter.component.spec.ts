@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { JobListComponent } from './job-list.component';
+import { PublicJobFilterComponent } from './public-job-filter.component';
 
-describe('JobListComponent', () => {
-  let component: JobListComponent;
-  let fixture: ComponentFixture<JobListComponent>;
+describe('PublicJobFilterComponent', () => {
+  let component: PublicJobFilterComponent;
+  let fixture: ComponentFixture<PublicJobFilterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [JobListComponent]
+      imports: [PublicJobFilterComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(JobListComponent);
+    fixture = TestBed.createComponent(PublicJobFilterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

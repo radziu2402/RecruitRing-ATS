@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.pwr.recruitringcore.api.JobApi;
 import pl.pwr.recruitringcore.dto.JobPostingCreationDTO;
 import pl.pwr.recruitringcore.dto.JobPostingDTO;
+import pl.pwr.recruitringcore.dto.JobPostingSummaryDTO;
 import pl.pwr.recruitringcore.service.JobServiceImpl;
 
 import java.util.UUID;
@@ -21,8 +22,8 @@ public class JobController implements JobApi {
     }
 
     @Override
-    public ResponseEntity<Page<JobPostingDTO>> getAllJobs(int page, int size) {
-        Page<JobPostingDTO> jobs = jobServiceImpl.getAllJobs(page, size);
+    public ResponseEntity<Page<JobPostingSummaryDTO>> getAllJobs(int page, int size) {
+        Page<JobPostingSummaryDTO> jobs = jobServiceImpl.getAllJobs(page, size);
         return ResponseEntity.ok(jobs);
     }
 

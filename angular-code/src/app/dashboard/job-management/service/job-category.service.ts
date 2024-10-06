@@ -13,7 +13,8 @@ export class JobCategoryService {
   constructor(private readonly http: HttpClient) {}
 
   searchJobCategories(query: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/search`, { params: { query } });
+    const headers = { 'X-Skip-Spinner': 'true' };
+    return this.http.get<any[]>(`${this.apiUrl}/search`, { params: { query }, headers });
   }
 
   createCategory(category: string): Observable<JobCategory> {

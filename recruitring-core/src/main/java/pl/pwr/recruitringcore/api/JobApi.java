@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.pwr.recruitringcore.dto.JobPostingCreationDTO;
 import pl.pwr.recruitringcore.dto.JobPostingDTO;
+import pl.pwr.recruitringcore.dto.JobPostingSummaryDTO;
 
 import java.util.UUID;
 
@@ -12,7 +13,7 @@ import java.util.UUID;
 public interface JobApi {
 
     @GetMapping
-    ResponseEntity<Page<JobPostingDTO>> getAllJobs(
+    ResponseEntity<Page<JobPostingSummaryDTO>> getAllJobs(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size);
 

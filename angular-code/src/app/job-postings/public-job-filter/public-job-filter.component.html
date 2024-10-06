@@ -1,0 +1,34 @@
+<div class="filters">
+  <label>
+    Lokalizacja:
+    <select (change)="onFilterChange()" [(ngModel)]="selectedLocation">
+      <option *ngFor="let location of locations" [ngValue]="location">{{ location.name }}</option>
+    </select>
+  </label>
+
+  <label>
+    Tytuł:
+    <select (change)="onFilterChange()" [(ngModel)]="selectedTitle">
+      <option *ngFor="let title of titles" [ngValue]="title">{{ title.name }}</option>
+    </select>
+  </label>
+
+  <label>
+    Rodzaj pracy:
+    <select (change)="onFilterChange()" [(ngModel)]="selectedWorkType">
+      <option *ngFor="let type of workTypes" [value]="type">{{ type }}</option>
+    </select>
+  </label>
+
+  <label>
+    Kategoria:
+    <select (change)="onFilterChange()" [(ngModel)]="selectedJobCategory">
+      <option *ngFor="let category of jobCategories" [ngValue]="category">{{ category.name }}</option>
+    </select>
+  </label>
+
+</div>
+
+<div class="search-bar">
+  <input type="text" placeholder="Wprowadź nazwę stanowiska lub słowo kluczowe" [(ngModel)]="searchTerm" (input)="onFilterChange()" />
+</div>

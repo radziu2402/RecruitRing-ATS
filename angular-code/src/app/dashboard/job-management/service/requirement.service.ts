@@ -14,7 +14,8 @@ export class RequirementService {
   }
 
   searchRequirements(query: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/search`, {params: {query}});
+    const headers = { 'X-Skip-Spinner': 'true' };
+    return this.http.get<any[]>(`${this.apiUrl}/search`, { params: { query }, headers });
   }
 
   createRequirement(requirement: string): Observable<Requirement> {
