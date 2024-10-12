@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgForOf} from '@angular/common';
-import {PublicJobSummaryPosting} from '../model/job-posting-summary.model';
 import {TitleService} from "../../dashboard/job-management/service/title.service";
 import {LocationService} from "../../dashboard/job-management/service/location.service";
 import {JobCategoryService} from "../../dashboard/job-management/service/job-category.service";
@@ -9,6 +8,8 @@ import {JobFilterParams} from "../model/job-filter-param.model";
 import {JobCategory} from "../../dashboard/job-management/model/job-category.model";
 import {Location} from "../../dashboard/job-management/model/location.model";
 import {Title} from "../../dashboard/job-management/model/title.model";
+import {mapWorkType} from "../service/work-type-mapper";
+import {PublicJobSummaryPosting} from "../model/public-job-posting-summary.model";
 
 @Component({
   selector: 'app-public-job-filter',
@@ -23,6 +24,7 @@ import {Title} from "../../dashboard/job-management/model/title.model";
 export class PublicJobFilterComponent implements OnInit {
   @Input() jobs: PublicJobSummaryPosting[] = [];
   @Output() filteredJobs = new EventEmitter<JobFilterParams>();
+  @Output() searchTermChanged = new EventEmitter<string>();
 
   locations: Location[] = [];
   titles: Title[] = [];
@@ -53,11 +55,26 @@ export class PublicJobFilterComponent implements OnInit {
     const filterParams: JobFilterParams = {
       location: this.selectedLocation ? +this.selectedLocation.id : undefined,
       title: this.selectedTitle ? +this.selectedTitle.id : undefined,
-      workType: this.selectedWorkType,
-      jobCategory: this.selectedJobCategory ? +this.selectedJobCategory.id : undefined, // Wyodrębnij id jako liczba
-      searchTerm: this.searchTerm,
+      workType: this.selectedWorkType ? this.selectedWorkType : undefined,
+      jobCategory: this.selectedJobCategory ? +this.selectedJobCategory.id : undefined,
+      searchTerm: this.searchTerm ? this.searchTerm.trim() : undefined,
     };
 
     this.filteredJobs.emit(filterParams);
   }
+
+  onSearchTermChange() {
+    this.searchTermChanged.emit(this.searchTerm);
+  }
+
+  resetFilters() {
+    this.selectedLocation = null;
+    this.selectedTitle = null;
+    this.selectedWorkType = '';
+    this.selectedJobCategory = null;
+    this.searchTerm = '';
+    this.onFilterChange();
+  }
+
+  protected readonly mapWorkType = mapWorkType;
 }

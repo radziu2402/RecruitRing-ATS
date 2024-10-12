@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Resolve} from '@angular/router';
 import {Observable} from 'rxjs';
 import {PublicJobService} from "../service/public-job.service";
-import {PublicJobSummaryPosting} from "../model/job-posting-summary.model";
+import {PublicJobSummaryPosting} from "../model/public-job-posting-summary.model";
 
 @Injectable({
   providedIn: 'root'

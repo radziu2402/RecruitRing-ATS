@@ -1,19 +1,161 @@
-<form [formGroup]="applicationForm" (ngSubmit)="submitApplication()">
-  <div>
-    <label for="name">Name</label>
-    <input id="name" formControlName="name" type="text" required>
-  </div>
-  <div>
-    <label for="email">Email</label>
-    <input id="email" formControlName="email" type="email" required>
-  </div>
-  <div>
-    <label for="resume">Resume</label>
-    <input id="resume" formControlName="resume" type="file" required>
-  </div>
-  <div>
-    <label for="coverLetter">Cover Letter</label>
-    <textarea id="coverLetter" formControlName="coverLetter"></textarea>
-  </div>
-  <button type="submit">Submit Application</button>
-</form>
+<div class="job-application-form">
+  <h2 class="back-arrow" (click)="goBack()" (keydown)="onKeyDownHandler($event)">
+    <fa-icon [icon]="faArrowLeft"></fa-icon>
+    Aplikujesz na stanowisko: {{ jobTitle }}
+  </h2>
+  <form [formGroup]="applicationForm" (ngSubmit)="submitApplication()" enctype="multipart/form-data">
+    <!-- Pole imię -->
+    <div class="form-group">
+      <label for="firstName">Imię</label>
+      <input formControlName="firstName" id="firstName" class="form-control" required>
+      <div *ngIf="applicationForm.get('firstName')?.invalid && applicationForm.get('firstName')?.touched"
+           class="text-danger">
+        Imię jest wymagane.
+      </div>
+    </div>
+
+    <!-- Pole nazwisko -->
+    <div class="form-group">
+      <label for="lastName">Nazwisko</label>
+      <input formControlName="lastName" id="lastName" class="form-control" required>
+      <div *ngIf="applicationForm.get('lastName')?.invalid && applicationForm.get('lastName')?.touched"
+           class="text-danger">
+        Nazwisko jest wymagane.
+      </div>
+    </div>
+
+    <!-- Pole telefon -->
+    <div class="form-group">
+      <label for="phone">Telefon</label>
+      <input formControlName="phone" id="phone" class="form-control" required>
+      <div *ngIf="applicationForm.get('phone')?.invalid && applicationForm.get('phone')?.touched" class="text-danger">
+        Telefon jest wymagany.
+      </div>
+    </div>
+
+    <!-- Pole e-mail z przyciskiem weryfikacji -->
+    <div class="form-group email-group">
+      <label for="email">E-mail</label>
+      <div class="email-input-container">
+        <input formControlName="email" id="email" class="form-control" required [readonly]="isEmailVerified">
+
+        <button *ngIf="!isEmailVerified" type="button" class="btn btn-primary email-verify-button"
+                (click)="verifyEmails()">
+          Zweryfikuj e-mail
+        </button>
+
+        <div *ngIf="isEmailVerified" class="verification-success">
+          <fa-icon [icon]="faCheckCircle" class="icon-success"></fa-icon>
+          <span>E-mail zweryfikowany</span>
+        </div>
+      </div>
+
+      <div *ngIf="applicationForm.get('email')?.invalid && applicationForm.get('email')?.touched" class="text-danger">
+        Wprowadź poprawny adres e-mail.
+      </div>
+    </div>
+
+
+    <!-- Pole potwierdzenia e-maila -->
+    <div class="form-group">
+      <label for="confirmEmail">Potwierdź e-mail</label>
+      <input formControlName="confirmEmail" id="confirmEmail" class="form-control" required>
+      <div *ngIf="applicationForm.errors?.['emailsNotMatching'] && applicationForm.get('confirmEmail')?.touched"
+           class="text-danger">
+        E-maile muszą się zgadzać.
+      </div>
+    </div>
+
+    <!-- Pole miasto -->
+    <div class="form-group">
+      <label for="city">Miasto</label>
+      <input formControlName="city" id="city" class="form-control" required>
+      <div *ngIf="applicationForm.get('city')?.invalid && applicationForm.get('city')?.touched" class="text-danger">
+        Miasto jest wymagane.
+      </div>
+    </div>
+
+    <!-- Pole kod pocztowy -->
+    <div class="form-group">
+      <label for="postCode">Kod pocztowy</label>
+      <input formControlName="postCode" id="postCode" class="form-control" required>
+      <div *ngIf="applicationForm.get('postCode')?.invalid && applicationForm.get('postCode')?.touched"
+           class="text-danger">
+        Kod pocztowy jest wymagany.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="street">Ulica</label>
+      <input formControlName="street" id="street" class="form-control" placeholder="Opcjonalne">
+      <div *ngIf="applicationForm.get('street')?.invalid && applicationForm.get('street')?.touched"
+           class="text-danger">
+        Wprowadź nazwę ulicy.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="streetNumber">Numer ulicy</label>
+      <input formControlName="streetNumber" id="streetNumber" class="form-control" placeholder="Opcjonalne">
+      <div *ngIf="applicationForm.get('streetNumber')?.invalid && applicationForm.get('streetNumber')?.touched"
+           class="text-danger">
+        Wprowadź numer ulicy.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="flatNumber">Numer mieszkania</label>
+      <input formControlName="flatNumber" id="flatNumber" class="form-control" placeholder="Opcjonalne">
+      <div *ngIf="applicationForm.get('flatNumber')?.invalid && applicationForm.get('flatNumber')?.touched"
+           class="text-danger">
+        Wprowadź numer mieszkania.
+      </div>
+    </div>
+
+    <!-- Pole na CV (plik PDF) -->
+    <div class="form-group">
+      <label for="resume">Dołącz CV (PDF)</label>
+      <input type="file" id="resume" formControlName="resume" accept=".pdf" (change)="onFileSelected($event)"
+             class="form-control" required>
+      <div *ngIf="applicationForm.get('resume')?.invalid && applicationForm.get('resume')?.touched" class="text-danger">
+        CV w formacie PDF jest wymagane.
+      </div>
+    </div>
+
+    <!-- Modal do weryfikacji kodu -->
+    <div *ngIf="showVerificationModal" class="modal">
+      <div class="modal-content">
+        <h2>Wprowadź kod weryfikacyjny</h2>
+        <p>Na Twój adres e-mail został wysłany kod. Wprowadź go poniżej:</p>
+
+        <div class="form-group">
+          <input formControlName="verificationCode" id="verificationCode" type="text" placeholder="Kod weryfikacyjny"
+                 class="form-control" required>
+
+          <div
+            *ngIf="applicationForm.get('verificationCode')?.invalid && applicationForm.get('verificationCode')?.touched"
+            class="text-danger">
+            Kod weryfikacyjny jest wymagany.
+          </div>
+        </div>
+
+        <div *ngIf="verificationError" class="text-danger">
+          {{ verificationError }}
+        </div>
+
+        <div class="button-container">
+          <button type="button" class="btn btn-primary" (click)="verifyCode()">Zatwierdź kod</button>
+          <button type="button" class="btn btn-secondary" (click)="closeVerificationModal()">Anuluj</button>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit"
+            class="btn btn-success"
+            [disabled]="!isEmailVerified || !applicationForm.valid"
+            [title]="!isEmailVerified ? 'Musisz zweryfikować adres e-mail' : 'Wszystkie pola muszą być wypełnione poprawnie'"
+            [ngClass]="{'disabled-tooltip': (!isEmailVerified || !applicationForm.valid)}">
+      Wyślij aplikację
+    </button>
+  </form>
+</div>

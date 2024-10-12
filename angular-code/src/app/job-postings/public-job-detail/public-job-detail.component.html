@@ -1,7 +1,36 @@
-<div class="job-detail">
-  <h2>{{ job.title }}</h2>
-  <p>{{ job.description }}</p>
-  <p>Location: {{ job.location }}</p>
-  <p>Work Type: {{ job.workType }}</p>
-  <button (click)="applyForJob()">Apply</button>
+<div *ngIf="jobDetail" class="job-detail-container">
+  <div class="job-header">
+    <h1 class="back-arrow" (click)="goBack()" (keydown)="onKeyDownHandler($event)">
+      <fa-icon [icon]="faArrowLeft"></fa-icon> {{ jobDetail.title.name }}
+    </h1>
+    <button class="apply-button" (click)="navigateToApplication()">Aplikuj na tę ofertę</button>
+  </div>
+
+  <p class="job-description"> {{ jobDetail.description }}</p>
+
+  <div class="job-info">
+    <div class="info-item">
+      <strong>Kategoria:</strong>
+      <span>{{ jobDetail.jobCategory.name }}</span>
+    </div>
+    <div class="info-item">
+      <strong>Lokalizacja:</strong>
+      <span>{{ jobDetail.location.name }}</span>
+    </div>
+    <div class="info-item">
+      <strong>Rodzaj pracy:</strong>
+      <span>{{ jobDetail.workType }}</span>
+    </div>
+    <div class="info-item">
+      <strong>Data utworzenia:</strong>
+      <span>{{ formatDate(jobDetail.createdAt) }}</span>
+    </div>
+  </div>
+
+  <div class="requirements">
+    <h3>Wymagania:</h3>
+    <ul>
+      <li *ngFor="let req of jobDetail.requirements">{{ req.description }}</li>
+    </ul>
+  </div>
 </div>

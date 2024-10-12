@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from "../../../environments/environment";
+import {PublicJobPosting} from "../model/public-job-posting.model";
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,12 @@ export class PublicJobService {
       params = params.set('jobCategoryId', filters.jobCategory);
     }
 
-    return this.http.get<any>(this.apiUrl, {params});
+    const headers = {'X-Skip-Spinner': 'true'};
+
+    return this.http.get<any>(this.apiUrl, {params, headers})
+  }
+
+  getJobByOfferCode(offerCode: string): Observable<PublicJobPosting> {
+    return this.http.get<PublicJobPosting>(`${this.apiUrl}/${offerCode}`);
   }
 }

@@ -1,6 +1,7 @@
 package pl.pwr.recruitringcore.service;
 
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Value("${cors.allowedOrigins}")
+    private String frontEndUrl;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserAuthenticationProvider userAuthenticationProvider;
@@ -150,7 +154,7 @@ public class UserServiceImpl implements UserService {
 
         tokenRepository.save(passwordResetToken);
 
-        String resetUrl = "http://localhost:4200/set-new-password?token=" + token;
+        String resetUrl = frontEndUrl + "/set-new-password?token=" + token;
 
         String emailContent =
                 "<!DOCTYPE html>" +

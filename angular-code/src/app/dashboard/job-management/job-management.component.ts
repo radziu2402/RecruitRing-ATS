@@ -3,6 +3,7 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {JobService} from "./service/job.service";
 import {NgForOf} from "@angular/common";
 import {JobPostingSummary} from "./model/job-posting-summary.model";
+import {mapWorkType} from "../../job-postings/service/work-type-mapper";
 
 
 @Component({
@@ -46,4 +47,6 @@ export class JobManagementComponent implements OnInit {
       this.jobs = [...this.jobs, ...response.content];
     });
   }
+
+  protected readonly mapWorkType = mapWorkType;
 }

@@ -6,6 +6,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ConfirmationDialogComponent} from "../../../confirmation-dialog/confirmation-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {mapWorkType} from "../../../job-postings/service/work-type-mapper";
 
 
 @Component({
@@ -85,4 +86,6 @@ export class JobDetailComponent implements OnInit {
       duration: 3000,
     });
   }
+
+  protected readonly mapWorkType = mapWorkType;
 }

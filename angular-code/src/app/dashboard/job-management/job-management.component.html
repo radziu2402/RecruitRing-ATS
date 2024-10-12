@@ -20,7 +20,7 @@
       <td>{{ job.title }}</td>
       <td>{{ job.jobCategory }}</td>
       <td>{{ job.location }}</td>
-      <td>{{ job.workType }}</td>
+      <td>{{ mapWorkType(job.workType) }}</td>
       <td>
         <ul>
           <li *ngFor="let recruiter of job.recruiters">

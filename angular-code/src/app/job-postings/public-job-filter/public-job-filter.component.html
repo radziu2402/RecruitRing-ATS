@@ -2,6 +2,7 @@
   <label>
     Lokalizacja:
     <select (change)="onFilterChange()" [(ngModel)]="selectedLocation">
+      <option [ngValue]="null"></option>
       <option *ngFor="let location of locations" [ngValue]="location">{{ location.name }}</option>
     </select>
   </label>
@@ -9,6 +10,7 @@
   <label>
     Tytuł:
     <select (change)="onFilterChange()" [(ngModel)]="selectedTitle">
+      <option [ngValue]="null"></option>
       <option *ngFor="let title of titles" [ngValue]="title">{{ title.name }}</option>
     </select>
   </label>
@@ -16,19 +18,25 @@
   <label>
     Rodzaj pracy:
     <select (change)="onFilterChange()" [(ngModel)]="selectedWorkType">
-      <option *ngFor="let type of workTypes" [value]="type">{{ type }}</option>
+      <option [ngValue]=''></option>
+      <option *ngFor="let type of workTypes" [ngValue]="type">{{ mapWorkType(type) }}</option>
     </select>
   </label>
 
   <label>
     Kategoria:
     <select (change)="onFilterChange()" [(ngModel)]="selectedJobCategory">
+      <option [ngValue]="null"></option>
       <option *ngFor="let category of jobCategories" [ngValue]="category">{{ category.name }}</option>
     </select>
   </label>
 
+  <button class="reset-button" (click)="resetFilters()">Resetuj filtry</button>
 </div>
 
 <div class="search-bar">
-  <input type="text" placeholder="Wprowadź nazwę stanowiska lub słowo kluczowe" [(ngModel)]="searchTerm" (input)="onFilterChange()" />
+  <input type="text"
+         placeholder="Wprowadź nazwę stanowiska lub słowo kluczowe"
+         [(ngModel)]="searchTerm"
+         (input)="onSearchTermChange()"/>
 </div>

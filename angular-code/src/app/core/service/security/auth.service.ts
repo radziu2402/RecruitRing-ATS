@@ -42,9 +42,9 @@ export class AuthService {
   resetPassword(login: string): Observable<any> {
     const resetPasswordUrl = environment.api + 'reset-password';
 
-    const headers = { 'X-Skip-Spinner': 'true' };
+    const headers = {'X-Skip-Spinner': 'true'};
 
-    return this.http.post(resetPasswordUrl, { login }, { headers })
+    return this.http.post(resetPasswordUrl, {login}, {headers})
       .pipe(
         catchError((error) => {
           return throwError(() => new Error(error));
@@ -52,6 +52,20 @@ export class AuthService {
       );
   }
 
+  sendVerificationCode(email: string): Observable<any> {
+    const verificationUrl = environment.api + 'verify-email';
+    const headers = {'X-Skip-Spinner': 'true'};
+    return this.http.post(verificationUrl, {}, {
+      params: {email},
+      responseType: 'text',
+      headers
+    });
+  }
+
+  confirmVerificationCode(email: string, code: string): Observable<any> {
+    const confirmUrl = environment.api + 'confirm-code';
+    return this.http.post(confirmUrl, {}, {params: {email, code}, responseType: 'text'});
+  }
 
   confirmResetPassword(token: string, newPassword: string): Observable<any> {
     const confirmResetPasswordUrl = environment.api + `reset-password/confirm`;

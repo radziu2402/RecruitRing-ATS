@@ -1,5 +1,8 @@
 <div class="filter-container">
-  <app-public-job-filter [jobs]="jobs" (filteredJobs)="onJobsFiltered($event)"></app-public-job-filter>
+  <app-public-job-filter [jobs]="jobs"
+                         (filteredJobs)="onJobsFiltered($event)"
+                         (searchTermChanged)="onSearchTermChange($event)">
+  </app-public-job-filter>
 </div>
 
 <table class="job-table">
@@ -13,11 +16,11 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let job of jobs" [routerLink]="['/jobs', job.offerCode]" class="clickable-row">
+  <tr *ngFor="let job of filteredJobs" [routerLink]="['/jobs', job.offerCode]" class="clickable-row">
     <td>{{ job.title }}</td>
     <td>{{ job.jobCategory }}</td>
     <td>{{ job.location }}</td>
-    <td class="worktype-cell">{{ job.workType }}</td>
+    <td class="worktype-cell">{{ mapWorkType(job.workType) }}</td>
     <td class="date-cell">{{ formatDate(job.createdAt) }}</td>
   </tr>
   </tbody>

@@ -1,12 +1,14 @@
 package pl.pwr.recruitringcore.model.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "address")
 public class Address {
     @Id
@@ -17,11 +19,11 @@ public class Address {
     @Column(name = "city", nullable = false, length = 50)
     private String city;
 
-    @Column(name = "street", nullable = false, length = 50)
-    private String street;
-
-    @Column(name = "\"post code\"", length = 10)
+    @Column(name = "\"post code\"", nullable = false, length = 10)
     private String postCode;
+
+    @Column(name = "street", length = 50)
+    private String street;
 
     @Column(name = "\"street number\"")
     private Integer streetNumber;

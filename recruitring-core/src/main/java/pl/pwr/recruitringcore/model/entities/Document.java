@@ -1,14 +1,16 @@
 package pl.pwr.recruitringcore.model.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "documents")
 public class Document {
 
@@ -25,15 +27,11 @@ public class Document {
     @JoinColumn(name = "application_id", nullable = false)
     private Application application;
 
-    @Column(name = "file_name", nullable = false, length = 255)
+    @Column(name = "file_name", nullable = false)
     private String fileName;
 
     @Column(name = "file_type", nullable = false, length = 50)
     private String fileType;
-
-    @Lob
-    @Column(name = "data", nullable = false)
-    private byte[] data;
 
     @Column(name = "uploaded_at", nullable = false)
     private LocalDateTime uploadedAt;

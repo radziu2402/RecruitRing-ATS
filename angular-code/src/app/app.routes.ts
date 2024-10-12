@@ -22,6 +22,9 @@ import {ErrorPageComponent} from "./auth/error-page/error-page.component";
 import {PublicJobListComponent} from "./job-postings/public-job-list/public-job-list.component";
 import {PublicJobListResolver} from "./job-postings/resolver/public-job-list-resolver.service";
 import {PublicJobDetailComponent} from "./job-postings/public-job-detail/public-job-detail.component";
+import {
+  PublicJobApplicationFormComponent
+} from "./job-postings/public-job-application-form/public-job-application-form.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [HomeGuard]},
@@ -37,6 +40,10 @@ export const routes: Routes = [
   {
     path: 'jobs/:offerCode',
     component: PublicJobDetailComponent
+  },
+  {
+    path: 'jobs/apply/:offerCode',
+    component: PublicJobApplicationFormComponent
   },
   {
     path: 'dashboard',
