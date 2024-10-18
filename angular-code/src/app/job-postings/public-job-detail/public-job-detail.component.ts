@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {NgForOf, NgIf} from "@angular/common";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import {mapWorkType} from "../service/work-type-mapper";
 
 @Component({
   selector: 'app-public-job-detail',
@@ -52,4 +53,6 @@ export class PublicJobDetailComponent implements OnInit {
     }
   }
 
-  protected readonly faArrowLeft = faArrowLeft;}
+  protected readonly faArrowLeft = faArrowLeft;
+  protected readonly mapWorkType = mapWorkType;
+}

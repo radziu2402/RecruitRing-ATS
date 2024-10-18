@@ -64,7 +64,7 @@ export class AuthService {
 
   confirmVerificationCode(email: string, code: string): Observable<any> {
     const confirmUrl = environment.api + 'confirm-code';
-    return this.http.post(confirmUrl, {}, {params: {email, code}, responseType: 'text'});
+    return this.http.post(confirmUrl, {}, { params: { email, code } });
   }
 
   confirmResetPassword(token: string, newPassword: string): Observable<any> {

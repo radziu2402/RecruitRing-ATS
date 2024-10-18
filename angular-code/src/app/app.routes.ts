@@ -25,6 +25,9 @@ import {PublicJobDetailComponent} from "./job-postings/public-job-detail/public-
 import {
   PublicJobApplicationFormComponent
 } from "./job-postings/public-job-application-form/public-job-application-form.component";
+import {
+  ApplicationSuccessConfirmationComponent
+} from "./job-postings/application-success-confirmation/application-success-confirmation.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [HomeGuard]},
@@ -34,16 +37,25 @@ export const routes: Routes = [
   {path: 'error-page', component: ErrorPageComponent},
   {
     path: 'jobs',
-    component: PublicJobListComponent,
-    resolve: { jobs: PublicJobListResolver },
-  },
-  {
-    path: 'jobs/:offerCode',
-    component: PublicJobDetailComponent
-  },
-  {
-    path: 'jobs/apply/:offerCode',
-    component: PublicJobApplicationFormComponent
+    children: [
+      {
+        path: '',
+        component: PublicJobListComponent,
+        resolve: { jobs: PublicJobListResolver },
+      },
+      {
+        path: ':offerCode',
+        component: PublicJobDetailComponent
+      },
+      {
+        path: 'apply/:offerCode',
+        component: PublicJobApplicationFormComponent
+      },
+      {
+        path: 'apply/:offerCode/confirmation',
+        component: ApplicationSuccessConfirmationComponent
+      }
+    ]
   },
   {
     path: 'dashboard',

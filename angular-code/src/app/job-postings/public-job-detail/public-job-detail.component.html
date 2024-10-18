@@ -6,8 +6,6 @@
     <button class="apply-button" (click)="navigateToApplication()">Aplikuj na tę ofertę</button>
   </div>
 
-  <p class="job-description"> {{ jobDetail.description }}</p>
-
   <div class="job-info">
     <div class="info-item">
       <strong>Kategoria:</strong>
@@ -19,13 +17,15 @@
     </div>
     <div class="info-item">
       <strong>Rodzaj pracy:</strong>
-      <span>{{ jobDetail.workType }}</span>
+      <span>{{ mapWorkType(jobDetail.workType) }}</span>
     </div>
     <div class="info-item">
       <strong>Data utworzenia:</strong>
       <span>{{ formatDate(jobDetail.createdAt) }}</span>
     </div>
   </div>
+
+  <p class="job-description"> {{ jobDetail.description }}</p>
 
   <div class="requirements">
     <h3>Wymagania:</h3>

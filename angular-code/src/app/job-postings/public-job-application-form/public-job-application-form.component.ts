@@ -104,16 +104,13 @@ export class PublicJobApplicationFormComponent implements OnInit {
     const verificationCode = this.applicationForm.get('verificationCode')?.value;
 
     this.authService.confirmVerificationCode(email, verificationCode).subscribe({
-      next: (isValid) => {
-        if (isValid) {
-          this.isEmailVerified = true;
-          this.applicationForm.get('email')?.disable();
-          this.applicationForm.get('confirmEmail')?.disable();
-          this.closeVerificationModal(); // Zamknij modal
-          this.verificationError = '';
-        } else {
-          this.verificationError = 'Niepoprawny kod weryfikacyjny lub wygasł.';
-        }
+      next: () => {
+        this.isEmailVerified = true;
+        this.applicationForm.get('email')?.disable();
+        this.applicationForm.get('confirmEmail')?.disable();
+        this.closeVerificationModal(); // Zamknij modal
+        this.verificationError = '';
+
       },
       error: () => {
         this.verificationError = 'Wystąpił błąd podczas weryfikacji kodu.';
@@ -132,9 +129,11 @@ export class PublicJobApplicationFormComponent implements OnInit {
     if (this.applicationForm.valid && this.isEmailVerified) {
       const applicationData = this.createApplicationDto();
       const formData = new FormData();
-      formData.append('application', JSON.stringify(applicationData));
+      formData.append('application', new Blob([JSON.stringify(applicationData)], {type: 'application/json'}));
       formData.append('cv', this.selectedFile as Blob);
-      this.applicationService.submitApplication(formData).subscribe();
+      this.applicationService.submitApplication(formData).subscribe({
+        next: () => this.router.navigate([`/jobs/apply/${this.applicationForm.get('offerCode')?.value}/confirmation`])
+      });
     }
   }
 
