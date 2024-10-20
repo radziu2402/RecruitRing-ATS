@@ -1,20 +1,48 @@
-<div class="overview-content">
-  <div class="overview-tiles">
-    <div class="overview-tile">
-      <h3>Aktywne rekrutacje</h3>
-      <p>15</p>
+<div class="main-panel">
+  <!-- Hero Section with Key Stats -->
+  <div class="hero">
+    <div class="hero-stat">
+      <h2>5</h2>
+      <p>Otwarte Rekrutacje</p>
     </div>
-    <div class="overview-tile">
-      <h3>Najnowsze aplikacje</h3>
-      <p>3 nowe zgłoszenia</p>
+    <div class="hero-stat">
+      <h2>10</h2>
+      <p>Nowi Kandydaci</p>
     </div>
-    <div class="overview-tile">
-      <h3>Zaplanowane rozmowy</h3>
-      <p>5 w tym tygodniu</p>
+    <div class="hero-stat">
+      <h2>3</h2>
+      <p>Rozmowy Zaplanowane</p>
     </div>
-    <div class="overview-tile">
-      <h3>Statystyki ogólne</h3>
-      <p>120 ofert pracy</p>
+    <div class="hero-stat">
+      <h2>2 dni</h2>
+      <p>Średni Czas Odpowiedzi</p>
+    </div>
+  </div>
+
+  <!-- Recent Activity Section -->
+  <div class="recent-activity">
+    <h3>Ostatnia Aktywność</h3>
+    <ul>
+      <li><span class="dot"></span>Nowy kandydat: Jan Kowalski zaaplikował na stanowisko Marketing Specialist</li>
+      <li><span class="dot"></span>Rozmowa zaplanowana z Anną Nowak na stanowisko Junior Developer</li>
+      <li><span class="dot"></span>Kandydat Marek Wiśniewski zmienił status na "W trakcie rozmowy"</li>
+      <li><span class="dot"></span>Rekrutacja "Product Manager" zamknięta</li>
+    </ul>
+  </div>
+
+  <!-- Shortcut Section -->
+  <div class="shortcuts">
+    <div class="shortcut">
+      <button (click)="navigateTo('recruitment')">Moje Rekrutacje</button>
+    </div>
+    <div class="shortcut">
+      <button (click)="navigateTo('candidates')">Kandydaci</button>
+    </div>
+    <div class="shortcut">
+      <button (click)="navigateTo('jobs')">Oferty Pracy</button>
+    </div>
+    <div class="shortcut">
+      <button (click)="navigateTo('calendar')">Kalendarz</button>
     </div>
   </div>
 </div>

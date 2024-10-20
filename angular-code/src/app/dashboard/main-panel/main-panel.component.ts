@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-main-panel',
@@ -9,4 +10,9 @@ import { Component } from '@angular/core';
 })
 export class MainPanelComponent {
 
+  constructor(private router: Router) {}
+
+  navigateTo(section: string) {
+    this.router.navigate([`/dashboard/${section}`]);
+  }
 }

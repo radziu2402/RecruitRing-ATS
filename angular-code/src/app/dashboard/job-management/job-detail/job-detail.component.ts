@@ -7,6 +7,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {ConfirmationDialogComponent} from "../../../confirmation-dialog/confirmation-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {mapWorkType} from "../../../job-postings/service/work-type-mapper";
+import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 
 
 @Component({
@@ -15,7 +17,8 @@ import {mapWorkType} from "../../../job-postings/service/work-type-mapper";
   standalone: true,
   imports: [
     NgForOf,
-    NgIf
+    NgIf,
+    FaIconComponent
   ],
   styleUrls: ['./job-detail.component.scss']
 })
@@ -87,5 +90,11 @@ export class JobDetailComponent implements OnInit {
     });
   }
 
+  onKeyDownHandler(event: KeyboardEvent): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.goBack();
+    }
+  }
   protected readonly mapWorkType = mapWorkType;
+  protected readonly faArrowLeft = faArrowLeft;
 }

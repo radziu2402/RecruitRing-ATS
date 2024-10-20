@@ -1,5 +1,8 @@
 <div class="create-job-container">
-  <h2>{{ offerCode ? 'Edytuj ofertę pracy' : 'Stwórz nową ofertę pracy' }}</h2>
+  <h2 class="back-arrow" (click)="goBack()" (keydown)="onKeyDownHandler($event)">
+    <fa-icon [icon]="faArrowLeft"></fa-icon>
+    {{ offerCode ? 'Edytuj ofertę pracy' : 'Stwórz nową ofertę pracy' }}
+  </h2>
 
   <form #jobForm="ngForm" (ngSubmit)="onSubmit(jobForm)" novalidate>
 

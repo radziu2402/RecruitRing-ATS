@@ -3,7 +3,7 @@ import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './auth/login/login.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {JobManagementComponent} from './dashboard/job-management/job-management.component';
-import {RecruitmentManagementComponent} from './dashboard/recruitment-management/recruitment-management.component';
+import {RecruitmentManagementComponent} from './dashboard/recruitment/recruitment-management/recruitment-management.component';
 import {CandidateManagementComponent} from './dashboard/candidate-management/candidate-management.component';
 import {HomeGuard} from './core/service/guard/home.guard';
 import {LoginGuard} from './core/service/guard/login.guard';
@@ -28,6 +28,8 @@ import {
 import {
   ApplicationSuccessConfirmationComponent
 } from "./job-postings/application-success-confirmation/application-success-confirmation.component";
+import {RecruitmentListComponent} from "./dashboard/recruitment/recruitment-list/recruitment-list.component";
+import {CalendarComponent} from "./dashboard/calendar/calendar.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [HomeGuard]},
@@ -63,11 +65,6 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'home'
-      },
-      {
         path: 'home',
         component: MainPanelComponent
       },
@@ -90,11 +87,19 @@ export const routes: Routes = [
       },
       {
         path: 'recruitment',
+        component: RecruitmentListComponent
+      },
+      {
+        path: 'recruitment/:id',
         component: RecruitmentManagementComponent
       },
       {
         path: 'candidates',
         component: CandidateManagementComponent
+      },
+      {
+        path: 'calendar',
+        component: CalendarComponent
       },
       {
         path: 'admin',
@@ -105,6 +110,11 @@ export const routes: Routes = [
         path: 'profile',
         component: UserProfileComponent,
         resolve: {userData: profileResolver}
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'home'
       }
     ]
   },

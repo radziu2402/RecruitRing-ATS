@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, RouterLink, RouterOutlet} from "@angular/router";
 import {AuthService} from "../core/service/security/auth.service";
-import {faSignOutAlt, faUser} from '@fortawesome/free-solid-svg-icons';
+import {faHome, faSignOutAlt, faUser} from '@fortawesome/free-solid-svg-icons';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {NgIf} from "@angular/common";
 
@@ -44,4 +44,5 @@ export class DashboardComponent implements OnInit {
   }
 
   protected readonly faUser = faUser;
+  protected readonly faHome = faHome;
 }

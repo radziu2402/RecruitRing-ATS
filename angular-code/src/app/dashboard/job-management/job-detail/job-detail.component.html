@@ -1,8 +1,9 @@
 <div *ngIf="job" class="job-details-container">
   <div class="job-header">
-    <h2>{{ job.title.name }}</h2>
-
-    <!-- Akcje: Edytuj i Usuń -->
+    <h2 class="back-arrow" (click)="goBack()" (keydown)="onKeyDownHandler($event)">
+      <fa-icon [icon]="faArrowLeft"></fa-icon>
+      {{ job.title.name }}
+    </h2>
     <div class="job-actions">
       <button class="btn-action edit-btn" (click)="editJob()">Edytuj ofertę</button>
       <button class="btn-action delete-btn" (click)="deleteJob()">Usuń ofertę</button>
@@ -10,7 +11,6 @@
   </div>
 
   <div class="job-info">
-    <!-- Szczegóły oferty pracy -->
     <div class="job-detail">
       <label for="description">Opis:</label>
       <p id="description">{{ job.description }}</p>
@@ -53,6 +53,4 @@
     </div>
   </div>
 
-  <!-- Przycisk Powrót na dole strony -->
-  <button class="back-btn" (click)="goBack()">Powrót</button>
 </div>

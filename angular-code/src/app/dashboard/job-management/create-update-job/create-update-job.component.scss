@@ -5,18 +5,41 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
 
 textarea {
   resize: none;
 }
 
-h2.title {
+h2.back-arrow {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
   font-size: 28px;
   font-weight: bold;
   color: #333;
-  margin-bottom: 20px;
-  text-align: center;
+  transition: color 0.3s ease;
+  margin-top: 10px;
+
+  &:hover {
+    color: #007bff;
+  }
+
+  &:focus {
+    outline: none;
+    color: #0056b3;
+  }
+
+  fa-icon {
+    margin-right: 8px;
+    margin-top: 2px;
+    font-size: 24px;
+    transition: transform 0.3s ease, color 0.3s ease;
+
+    &:hover {
+      transform: scale(1.1);
+      color: #007bff;
+    }
+  }
 }
 
 form {
@@ -137,4 +160,5 @@ form {
     font-size: 14px;
     margin-top: 5px;
   }
+}
 }

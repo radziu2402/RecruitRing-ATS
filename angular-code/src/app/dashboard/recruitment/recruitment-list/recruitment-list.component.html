@@ -1,0 +1,34 @@
+<div class="recruitment-overview">
+  <!-- Sidebar with filters -->
+  <aside class="filters">
+    <h3>Filtruj</h3>
+    <ul>
+      <li (click)="applyFilter('rating')">Dział</li>
+      <li (click)="applyFilter('stage')">Lokalizacja</li>
+      <li (click)="applyFilter('salary')">Status rekrutacji</li>
+      <li (click)="applyFilter('availability')">Rodzaj pracy</li>
+      <!-- Add more filters as needed -->
+    </ul>
+  </aside>
+
+  <!-- Main section with recruitment list -->
+  <section class="recruitment-list">
+    <div class="header">
+      <h1>Moje rekrutacje</h1>
+      <input type="text" placeholder="Szukaj rekrutacji..." (input)="onSearch($event)">
+    </div>
+
+    <ul>
+      <li *ngFor="let recruitment of filteredRecruitments" class="recruitment-item" (click)="goToRecruitment(recruitment.id)">
+        <div class="recruitment-info">
+          <h3>{{ recruitment.title }}</h3>
+          <p>{{ recruitment.location }}</p>
+        </div>
+        <div class="recruitment-stats">
+          <span>Nowi kandydaci: {{ recruitment.newCandidates }}</span>
+          <span>Wszyscy kandydaci: {{ recruitment.candidates }}</span>
+        </div>
+      </li>
+    </ul>
+  </section>
+</div>

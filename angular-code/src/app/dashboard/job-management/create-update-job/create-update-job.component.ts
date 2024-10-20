@@ -22,6 +22,8 @@ import {NgClass, NgIf} from "@angular/common";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "../model/location.model";
+import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 
 @Component({
   selector: 'app-create-update-job',
@@ -35,7 +37,8 @@ import {Location} from "../model/location.model";
     NgSelectComponent,
     NgClass,
     NgIf,
-    NgTagTemplateDirective
+    NgTagTemplateDirective,
+    FaIconComponent
   ]
 })
 export class CreateUpdateJobComponent implements OnInit {
@@ -148,7 +151,7 @@ export class CreateUpdateJobComponent implements OnInit {
     }
   }
 
-  addNewTitle = (term:string) =>{
+  addNewTitle = (term: string) => {
     this.titleService.createTitle(term).subscribe((createdTitle: Title) => {
       this.availableTitles.push(createdTitle);
       this.availableTitles = this.availableTitles.slice(0);
@@ -235,5 +238,18 @@ export class CreateUpdateJobComponent implements OnInit {
     });
   }
 
+  goBack() {
+    this.router.navigate(['/dashboard/jobs']).then(() => {
+    }).catch((error) => {
+      console.error('Navigation error:', error);
+    });
+  }
 
+  onKeyDownHandler(event: KeyboardEvent): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.goBack();
+    }
+  }
+
+  protected readonly faArrowLeft = faArrowLeft;
 }

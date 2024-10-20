@@ -1,0 +1,40 @@
+<div class="recruitment-overview">
+  <!-- Panel boczny z filtrami -->
+  <aside class="filters">
+    <h3>Filtruj</h3>
+    <ul>
+      <li>Ocena</li>
+      <li>Etap</li>
+      <li>Wynagrodzenie</li>
+      <li>Dyspozycyjność</li>
+      <li>Status aplikacji</li>
+      <li>Tagi</li>
+      <!-- Dodaj więcej filtrów w zależności od potrzeb -->
+    </ul>
+  </aside>
+
+  <!-- Główna sekcja z listą kandydatów -->
+  <section class="candidates">
+    <div class="header">
+      <input type="text" placeholder="Szukaj kandydata..." />
+      <button class="sort-button"><i class="icon-sort"></i> Sortuj</button>
+      <button class="add-button">+ Dodaj kandydata</button>
+    </div>
+
+    <div class="candidate-list">
+      <div class="candidate-item" *ngFor="let candidate of candidates">
+        <div class="candidate-info">
+          <h4>{{ candidate.name }}</h4>
+          <p>{{ candidate.email }}</p>
+          <p>{{ candidate.phone }}</p>
+          <p>{{ candidate.location }}</p>
+        </div>
+        <div class="candidate-status">
+          <span class="status">{{ candidate.stage }}</span>
+          <span class="last-action">{{ candidate.lastAction }}</span>
+          <span class="salary">{{ candidate.salary }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

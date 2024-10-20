@@ -7,11 +7,10 @@
   background-color: #f5f7fa;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 900px;
-  margin: 30px auto; /* Odsunięcie od headera */
+  max-width: 1000px;
+  margin: 30px auto;
 }
 
-/* Nagłówek z przyciskami */
 .job-header {
   display: flex;
   justify-content: space-between;
@@ -20,19 +19,43 @@
   margin-bottom: 20px;
 }
 
-h2 {
+h2.back-arrow {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin: 10px;
   font-size: 28px;
   font-weight: bold;
   color: #333;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #007bff;
+  }
+
+  &:focus {
+    outline: none;
+    color: #0056b3;
+  }
+
+  fa-icon {
+    margin-right: 8px;
+    margin-top: 2px;
+    font-size: 24px;
+    transition: transform 0.3s ease, color 0.3s ease;
+
+    &:hover {
+      transform: scale(1.1);
+      color: #007bff;
+    }
+  }
 }
 
-/* Dodanie marginesu między przyciskami Edytuj i Usuń */
 .job-actions {
   display: flex;
   gap: 10px;
 }
 
-/* Szczegóły oferty pracy */
 .job-info {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -72,29 +95,6 @@ h2 {
   }
 }
 
-/* Przycisk Powrót na dole */
-.back-btn {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
-  }
-}
-
-/* Stylizacje przycisków Edytuj i Usuń */
 .btn-action {
   padding: 10px 15px;
   font-size: 14px;
@@ -131,7 +131,6 @@ h2 {
     grid-template-columns: 1fr;
   }
 
-  /* Przyciski akcji na mniejszych ekranach */
   .job-actions {
     flex-direction: column;
   }

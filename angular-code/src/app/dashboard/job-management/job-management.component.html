@@ -21,14 +21,14 @@
       <td>{{ job.jobCategory }}</td>
       <td>{{ job.location }}</td>
       <td>{{ mapWorkType(job.workType) }}</td>
-      <td>
+      <td class="recruiters">
         <ul>
           <li *ngFor="let recruiter of job.recruiters">
             {{ recruiter }}
           </li>
         </ul>
       </td>
-      <td>{{ formatDate(job.createdAt) }}</td>
+      <td class="date">{{ formatDate(job.createdAt) }}</td>
     </tr>
     </tbody>
   </table>
