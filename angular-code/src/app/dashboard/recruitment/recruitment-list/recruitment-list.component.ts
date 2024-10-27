@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NgForOf, NgIf} from '@angular/common';
-import { Recruitment } from "../service/recruitment.model";
+import {Recruitment} from "../service/recruitment.model";
 import {mapWorkType} from "../../../job-postings/service/work-type-mapper";
 
 @Component({
@@ -34,7 +34,8 @@ export class RecruitmentListComponent implements OnInit {
   uniqueLocations: string[] = [];
   uniqueWorkTypes: string[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private readonly router: Router, private readonly route: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
     this.route.data.subscribe(data => {
@@ -73,7 +74,7 @@ export class RecruitmentListComponent implements OnInit {
   }
 
   resetFilters() {
-    this.activeFilters = { jobCategory: '', location: '', workType: '' };
+    this.activeFilters = {jobCategory: '', location: '', workType: ''};
     this.filteredRecruitments = [...this.recruitments];
   }
 
@@ -82,4 +83,25 @@ export class RecruitmentListComponent implements OnInit {
   }
 
   protected readonly mapWorkType = mapWorkType;
+
+  onKeyDownHandler(event: KeyboardEvent, offerCode: string): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.goToRecruitment(offerCode);
+    }
+  }
+
+  onKeyDownToggleFilter(event: KeyboardEvent, filterType: keyof typeof this.showFilterOptions): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.toggleFilterOptions(filterType);
+    }
+  }
+
+  onKeyDownApplyFilter(event: KeyboardEvent, filterType: keyof typeof this.activeFilters, value: string): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.applyFilter(filterType, value);
+    }
+  }
+
 }

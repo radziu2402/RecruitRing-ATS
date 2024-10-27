@@ -9,7 +9,7 @@ import {
   CalendarView,
   DateAdapter,
 } from 'angular-calendar';
-import {addDays, addHours, addMonths, subDays, subMonths} from 'date-fns';
+import {addDays, addMonths, subDays, subMonths} from 'date-fns';
 import {NgIf, registerLocaleData} from '@angular/common';
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import localePl from '@angular/common/locales/pl';
@@ -44,7 +44,7 @@ export class CalendarComponent {
   view: CalendarView = CalendarView.Month;
   CalendarView = CalendarView;
 
-  constructor(private dialog: MatDialog) {
+  constructor(private readonly dialog: MatDialog) {
   }
 
   events: CalendarEvent[] = [
@@ -52,7 +52,7 @@ export class CalendarComponent {
       start: new Date('2024-10-25T10:00:00'),
       end: new Date('2024-10-25T12:00:00'),
       title: 'Spotkanie rekrutacyjne',
-      color: { primary: '#ad2121', secondary: '#FAE3E3' },
+      color: {primary: '#ad2121', secondary: '#FAE3E3'},
       meta: {
         description: 'Spotkanie rekrutacyjne z potencjalnym kandydatem na stanowisko junior developera. Omówienie ścieżki kariery i oczekiwań.'
       }
@@ -61,7 +61,7 @@ export class CalendarComponent {
       start: new Date('2024-10-26T14:00:00'),
       end: new Date('2024-10-26T15:00:00'),
       title: 'Rozmowa kwalifikacyjna',
-      color: { primary: '#1e90ff', secondary: '#D1E8FF' },
+      color: {primary: '#1e90ff', secondary: '#D1E8FF'},
       meta: {
         description: 'Rozmowa kwalifikacyjna na stanowisko senior managera. Pytania techniczne oraz omówienie umiejętności zarządzania zespołem.'
       }
@@ -70,7 +70,7 @@ export class CalendarComponent {
       start: new Date('2024-10-27T09:00:00'),
       end: new Date('2024-10-27T10:30:00'),
       title: 'Warsztaty zespołowe',
-      color: { primary: '#e3bc08', secondary: '#FDF1BA' },
+      color: {primary: '#e3bc08', secondary: '#FDF1BA'},
       meta: {
         description: 'Warsztaty dla zespołu IT dotyczące nowoczesnych praktyk DevOps. Wprowadzenie do CI/CD oraz automatyzacji procesów wdrażania.'
       }

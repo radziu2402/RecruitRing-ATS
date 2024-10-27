@@ -2,29 +2,50 @@
   <aside class="filters">
     <h3>Filtruj</h3>
     <ul>
-      <li (click)="toggleFilterOptions('jobCategory')" [class.active]="activeFilters.jobCategory">Dział</li>
+      <li (click)="toggleFilterOptions('jobCategory')"
+          (keydown)="onKeyDownToggleFilter($event, 'jobCategory')"
+          [class.active]="activeFilters.jobCategory"
+          tabindex="0">
+        Dział
+      </li>
       <ul *ngIf="showFilterOptions.jobCategory">
         <li *ngFor="let category of uniqueJobCategories"
             (click)="applyFilter('jobCategory', category)"
-            [class.active]="activeFilters.jobCategory === category">
+            (keydown)="onKeyDownApplyFilter($event, 'jobCategory', category)"
+            [class.active]="activeFilters.jobCategory === category"
+            tabindex="0">
           {{ category }}
         </li>
       </ul>
 
-      <li (click)="toggleFilterOptions('location')" [class.active]="activeFilters.location">Lokalizacja</li>
+      <li (click)="toggleFilterOptions('location')"
+          (keydown)="onKeyDownToggleFilter($event, 'location')"
+          [class.active]="activeFilters.location"
+          tabindex="0">
+        Lokalizacja
+      </li>
       <ul *ngIf="showFilterOptions.location">
         <li *ngFor="let location of uniqueLocations"
             (click)="applyFilter('location', location)"
-            [class.active]="activeFilters.location === location">
+            (keydown)="onKeyDownApplyFilter($event, 'location', location)"
+            [class.active]="activeFilters.location === location"
+            tabindex="0">
           {{ location }}
         </li>
       </ul>
 
-      <li (click)="toggleFilterOptions('workType')" [class.active]="activeFilters.workType">Rodzaj pracy</li>
+      <li (click)="toggleFilterOptions('workType')"
+          (keydown)="onKeyDownToggleFilter($event, 'workType')"
+          [class.active]="activeFilters.workType"
+          tabindex="0">
+        Rodzaj pracy
+      </li>
       <ul *ngIf="showFilterOptions.workType">
         <li *ngFor="let type of uniqueWorkTypes"
             (click)="applyFilter('workType', type)"
-            [class.active]="activeFilters.workType === type">
+            (keydown)="onKeyDownApplyFilter($event, 'workType', type)"
+            [class.active]="activeFilters.workType === type"
+            tabindex="0">
           {{ mapWorkType(type) }}
         </li>
       </ul>
@@ -41,7 +62,9 @@
     <ul>
       <li *ngFor="let recruitment of filteredRecruitments"
           class="recruitment-item"
-          (click)="goToRecruitment(recruitment.offerCode)">
+          (click)="goToRecruitment(recruitment.offerCode)"
+          (keydown)="onKeyDownHandler($event, recruitment.offerCode)"
+          tabindex="0">
         <div class="recruitment-info">
           <h3>{{ recruitment.title }}</h3>
           <p>{{ recruitment.location }}</p>

@@ -8,7 +8,7 @@ import { RecruitmentService } from './recruitment.service';
 })
 export class RecruitmentListResolver implements Resolve<any[]> {
 
-  constructor(private recruitmentService: RecruitmentService) {}
+  constructor(private readonly recruitmentService: RecruitmentService) {}
 
   resolve(): Observable<any[]> {
     return this.recruitmentService.getRecruitments();

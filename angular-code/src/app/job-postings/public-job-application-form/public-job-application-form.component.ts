@@ -1,5 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {
+  AbstractControl,
+  AbstractControlOptions,
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators
+} from "@angular/forms";
 import {NgClass, NgIf} from "@angular/common";
 import {AuthService} from "../../core/service/security/auth.service";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
@@ -31,11 +40,17 @@ export class PublicJobApplicationFormComponent implements OnInit {
   verificationError: string = '';
   faCheckCircle = faCheckCircle;
 
-  constructor(private readonly fb: FormBuilder,
-              private readonly authService: AuthService,
-              private readonly router: Router,
-              private readonly route: ActivatedRoute,
-              private readonly applicationService: ApplicationService) {
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly authService: AuthService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly applicationService: ApplicationService
+  ) {
+    const controlOptions: AbstractControlOptions = {
+      validators: this.emailMatchValidator
+    };
+
     this.applicationForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -49,7 +64,7 @@ export class PublicJobApplicationFormComponent implements OnInit {
       flatNumber: [null],
       resume: [null, Validators.required],
       verificationCode: ['', Validators.required]
-    }, {validators: this.emailMatchValidator});
+    }, controlOptions);
   }
 
   ngOnInit(): void {
@@ -58,9 +73,9 @@ export class PublicJobApplicationFormComponent implements OnInit {
     this.offerCode = this.route.snapshot.paramMap.get('offerCode');
   }
 
-  emailMatchValidator(group: FormGroup): any {
-    const email = group.get('email')?.value;
-    const confirmEmail = group.get('confirmEmail')?.value;
+  emailMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const email = control.get('email')?.value;
+    const confirmEmail = control.get('confirmEmail')?.value;
     return email === confirmEmail ? null : {emailsNotMatching: true};
   }
 
@@ -132,7 +147,7 @@ export class PublicJobApplicationFormComponent implements OnInit {
       formData.append('application', new Blob([JSON.stringify(applicationData)], {type: 'application/json'}));
       formData.append('cv', this.selectedFile as Blob);
       this.applicationService.submitApplication(formData).subscribe({
-        next: () => this.router.navigate([`/jobs/apply/${this.applicationForm.get('offerCode')?.value}/confirmation`])
+        next: () => void this.router.navigate([`/jobs/apply/${this.applicationForm.get('offerCode')?.value}/confirmation`])
       });
     }
   }

@@ -44,10 +44,9 @@ export class RecruitmentManagementComponent implements OnInit {
 
   recruitmentId: string | null = null;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private readonly route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    // Pobranie ID rekrutacji z URL-a
     this.recruitmentId = this.route.snapshot.paramMap.get('id');
     console.log('Recruitment ID:', this.recruitmentId);
   }

@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class RecruitmentService {
-  private apiUrl = '/api/v1/jobs/recruiter/assigned';
+  private readonly apiUrl = '/api/v1/jobs/recruiter/assigned';
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getRecruitments(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);

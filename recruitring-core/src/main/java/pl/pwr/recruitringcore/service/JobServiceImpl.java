@@ -105,7 +105,7 @@ public class JobServiceImpl implements JobService {
                         .totalApplications(job.getApplications().size())
                         .newApplications((int) job.getApplications().stream().filter(app -> app.getStatus().equals(ApplicationStatus.NEW)).count())
                         .build())
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private JobPosting mapToJobPostingEntities(JobPostingCreationDTO creationDTO) {
