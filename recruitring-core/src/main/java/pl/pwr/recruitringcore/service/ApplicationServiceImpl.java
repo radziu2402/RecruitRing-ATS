@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pl.pwr.recruitringcore.blobstorage.AzureBlobStorageService;
 import pl.pwr.recruitringcore.dto.ApplicationDTO;
+import pl.pwr.recruitringcore.dto.CandidateDTO;
 import pl.pwr.recruitringcore.model.entities.Application;
 import pl.pwr.recruitringcore.model.entities.Candidate;
 import pl.pwr.recruitringcore.model.entities.Document;
@@ -19,7 +20,9 @@ import pl.pwr.recruitringcore.repo.JobRepository;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
@@ -100,6 +103,20 @@ public class ApplicationServiceImpl implements ApplicationService {
         applicationRepository.save(application);
 
         return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public List<CandidateDTO> getCandidatesByOfferCode(String offerCode) {
+        List<Application> applications = applicationRepository.findByJobPostingOfferCode(UUID.fromString(offerCode));
+        return applications.stream()
+                .map(application -> new CandidateDTO(
+                        application.getCandidate().getFirstName(),
+                        application.getCandidate().getLastName(),
+                        application.getCandidate().getEmail(),
+                        application.getCandidate().getPhone(),
+                        application.getStatus().toString()
+                ))
+                .toList();
     }
 
 }

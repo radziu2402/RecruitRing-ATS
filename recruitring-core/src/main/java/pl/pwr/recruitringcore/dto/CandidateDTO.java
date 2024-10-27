@@ -1,19 +1,18 @@
 package pl.pwr.recruitringcore.dto;
 
-import lombok.*;
-import pl.pwr.recruitringcore.model.entities.Address;
-
-import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ApplicationDTO {
+public class CandidateDTO {
     private String firstName;
     private String lastName;
     private String email;
     private String phone;
-    private UUID offerCode;
-    private Address address;
+    private String status;
 }

@@ -1,53 +1,80 @@
-import {Component, OnInit} from '@angular/core';
-import {NgForOf} from "@angular/common";
-import {ActivatedRoute} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { NgForOf, NgIf } from "@angular/common";
+import { CandidateService } from "../service/candidate.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-recruitment-management',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './recruitment-management.component.html',
-  styleUrl: './recruitment-management.component.scss'
+  styleUrls: ['./recruitment-management.component.scss']
 })
 export class RecruitmentManagementComponent implements OnInit {
-  candidates = [
-    {
-      name: 'Emilia Skoczek',
-      email: 'emilia.skoczek@gmailer.com',
-      phone: '123 456 789',
-      location: 'Poznań, wielkopolskie',
-      stage: 'Analiza CV',
-      lastAction: '4 dni temu, Zaaplikowanie',
-      salary: '6 - 8 tys. zł',
-    },
-    {
-      name: 'Bartosz Oracki',
-      email: 'boracki@gmailer.pl',
-      phone: '123 456 789',
-      location: 'Tłuszcz Gdański, pomorskie',
-      stage: 'Zadanie rekrutacyjne',
-      lastAction: '5 dni temu, Wysłanie karty kandydata',
-      salary: '4 - 6 tys. zł',
-    },
-    {
-      name: 'Renata Cwalina',
-      email: 'rcwalina@gmailer.pl',
-      phone: '123 456 789',
-      location: 'Poznań, wielkopolskie',
-      stage: 'II etap',
-      lastAction: '5 dni temu, Decyzja managera',
-      salary: '6 - 8 tys. zł',
-    },
-  ];
+  candidates: any[] = [];
+  filteredCandidates: any[] = [];
 
-  recruitmentId: string | null = null;
+  showFilterOptions: { [key: string]: boolean } = { status: false, location: false };
+  activeFilters: { status: string | null; location: string | null } = { status: null, location: null };
+  uniqueStatuses: string[] = [];
+  uniqueLocations: string[] = [];
+  offerCode: string | null = null;
 
-  constructor(private readonly route: ActivatedRoute) {}
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly candidateService: CandidateService
+  ) {}
 
   ngOnInit(): void {
-    this.recruitmentId = this.route.snapshot.paramMap.get('id');
-    console.log('Recruitment ID:', this.recruitmentId);
+    this.offerCode = this.route.snapshot.paramMap.get('offerCode');
+    if (this.offerCode) {
+      this.loadCandidates(this.offerCode);
+    }
+  }
+
+  loadCandidates(offerCode: string) {
+    this.candidateService.getCandidatesByOfferCode(offerCode).subscribe((candidates) => {
+      this.candidates = candidates;
+      this.filteredCandidates = candidates;
+      this.extractUniqueFilterOptions();
+    });
+  }
+
+  extractUniqueFilterOptions() {
+    this.uniqueStatuses = Array.from(new Set(this.candidates.map(c => c.status)));
+    this.uniqueLocations = Array.from(new Set(this.candidates.map(c => c.location)));
+  }
+
+  applyFilter(filterType: 'status' | 'location', value: string) {
+    this.activeFilters[filterType] = value;
+    this.filterCandidates();
+  }
+
+  filterCandidates() {
+    this.filteredCandidates = this.candidates.filter(c =>
+      (!this.activeFilters.status || c.status === this.activeFilters.status) &&
+      (!this.activeFilters.location || c.location === this.activeFilters.location)
+    );
+  }
+
+  toggleFilterOptions(filterType: 'status' | 'location') {
+    this.showFilterOptions[filterType] = !this.showFilterOptions[filterType];
+  }
+
+  resetFilters() {
+    this.activeFilters = { status: null, location: null };
+    this.filteredCandidates = [...this.candidates];
+  }
+
+  onSearch(event: Event) {
+    const query = (event.target as HTMLInputElement).value.toLowerCase();
+    this.filteredCandidates = this.candidates.filter(c =>
+      c.name.toLowerCase().includes(query) ||
+      c.email.toLowerCase().includes(query) ||
+      c.phone.toLowerCase().includes(query)
+    );
   }
 }

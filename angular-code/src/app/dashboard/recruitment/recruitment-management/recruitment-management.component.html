@@ -3,26 +3,37 @@
   <aside class="filters">
     <h3>Filtruj</h3>
     <ul>
-      <li>Ocena</li>
-      <li>Etap</li>
-      <li>Wynagrodzenie</li>
-      <li>Dyspozycyjność</li>
-      <li>Status aplikacji</li>
-      <li>Tagi</li>
-      <!-- Dodaj więcej filtrów w zależności od potrzeb -->
+      <li (click)="toggleFilterOptions('status')" [class.active]="activeFilters['status']">Status aplikacji</li>
+      <ul *ngIf="showFilterOptions['status']">
+        <li *ngFor="let status of uniqueStatuses"
+            (click)="applyFilter('status', status)"
+            [class.active]="activeFilters['status'] === status">
+          {{ status }}
+        </li>
+      </ul>
+
+      <li (click)="toggleFilterOptions('location')" [class.active]="activeFilters['location']">Lokalizacja</li>
+      <ul *ngIf="showFilterOptions['location']">
+        <li *ngFor="let location of uniqueLocations"
+            (click)="applyFilter('location', location)"
+            [class.active]="activeFilters['location'] === location">
+          {{ location }}
+        </li>
+      </ul>
     </ul>
+    <button (click)="resetFilters()" class="reset-button">Resetuj filtry</button>
   </aside>
 
   <!-- Główna sekcja z listą kandydatów -->
   <section class="candidates">
     <div class="header">
-      <input type="text" placeholder="Szukaj kandydata..." />
+      <input type="text" placeholder="Szukaj kandydata..." (input)="onSearch($event)" />
       <button class="sort-button"><i class="icon-sort"></i> Sortuj</button>
       <button class="add-button">+ Dodaj kandydata</button>
     </div>
 
     <div class="candidate-list">
-      <div class="candidate-item" *ngFor="let candidate of candidates">
+      <div class="candidate-item" *ngFor="let candidate of filteredCandidates">
         <div class="candidate-info">
           <h4>{{ candidate.name }}</h4>
           <p>{{ candidate.email }}</p>
@@ -30,7 +41,7 @@
           <p>{{ candidate.location }}</p>
         </div>
         <div class="candidate-status">
-          <span class="status">{{ candidate.stage }}</span>
+          <span class="status">{{ candidate.status }}</span>
           <span class="last-action">{{ candidate.lastAction }}</span>
           <span class="salary">{{ candidate.salary }}</span>
         </div>

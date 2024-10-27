@@ -18,15 +18,7 @@ public class Note {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "candidate_id", nullable = true)
-    private Candidate candidate;
-
-    @ManyToOne
-    @JoinColumn(name = "application_id", nullable = true)
+    @JoinColumn(name = "application_id", nullable = false)
     private Application application;
 
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")

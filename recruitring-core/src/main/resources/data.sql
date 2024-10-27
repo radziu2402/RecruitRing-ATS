@@ -27,6 +27,30 @@ INSERT INTO recruiters (first_name, last_name, position, date_of_birth, user_id)
 VALUES ('User', 'Example', 'Recruiter', '1990-01-01',
         (SELECT id FROM users WHERE login = 'user'));
 
+-- Nowi użytkownicy z rolą RECRUITER
+INSERT INTO users (login, email, password, role)
+VALUES ('recruiter1', 'recruiter1@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw/iacp3HCbLpkuJN86iO', 'RECRUITER');
+
+INSERT INTO users (login, email, password, role)
+VALUES ('recruiter2', 'recruiter2@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw/iacp3HCbLpkuJN86iO', 'RECRUITER');
+
+INSERT INTO users (login, email, password, role)
+VALUES ('recruiter3', 'recruiter3@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw/iacp3HCbLpkuJN86iO', 'RECRUITER');
+
+-- Przypisanie danych osobowych nowym rekruterom
+INSERT INTO recruiters (first_name, last_name, position, date_of_birth, user_id)
+VALUES ('John', 'Doe', 'Recruiter', '1985-05-20',
+        (SELECT id FROM users WHERE login = 'recruiter1'));
+
+INSERT INTO recruiters (first_name, last_name, position, date_of_birth, user_id)
+VALUES ('Anna', 'Smith', 'Recruiter', '1992-08-15',
+        (SELECT id FROM users WHERE login = 'recruiter2'));
+
+INSERT INTO recruiters (first_name, last_name, position, date_of_birth, user_id)
+VALUES ('Peter', 'Johnson', 'Recruiter', '1988-03-10',
+        (SELECT id FROM users WHERE login = 'recruiter3'));
+
+
 
 -- Wprowadź dane do tabeli Title
 INSERT INTO titles (name) VALUES
@@ -213,12 +237,28 @@ VALUES
 
 
 INSERT INTO job_posting_recruiters (job_posting_id, recruiter_id) VALUES
-                                                                      (1, 1), (1, 2),
-                                                                      (2, 1), (3, 2),
-                                                                      (4, 1), (5, 2),
-                                                                      (6, 1), (7, 2),
-                                                                      (8, 1), (9, 2),
-                                                                      (10, 1);
+                                                                      (1, 1), (1, 2), (1, 5),
+                                                                      (2, 2), (2, 4),
+                                                                      (3, 1), (3, 4), (3, 5),
+                                                                      (4, 2), (4, 3),
+                                                                      (5, 1), (5, 5),
+                                                                      (6, 3), (6, 4),
+                                                                      (7, 2), (7, 5),
+                                                                      (8, 1), (8, 3), (8, 4),
+                                                                      (9, 2), (9, 3), (9, 5),
+                                                                      (10, 1), (10, 4),
+                                                                      (11, 2), (11, 5),
+                                                                      (12, 3), (12, 4),
+                                                                      (13, 1), (13, 2), (13, 5),
+                                                                      (14, 3), (14, 4),
+                                                                      (15, 1), (15, 3),
+                                                                      (16, 2), (16, 5),
+                                                                      (17, 1), (17, 4), (17, 5),
+                                                                      (18, 2), (18, 3),
+                                                                      (19, 1), (19, 2), (19, 4),
+                                                                      (20, 3), (20, 5);
+
+
 
 INSERT INTO requirements (requirement) VALUES
                                            ('Doświadczenie w zarządzaniu zespołem sprzedażowym.'),
@@ -260,3 +300,42 @@ INSERT INTO job_posting_requirements (job_posting_id, requirement_id) VALUES
                                                                           (9, 11),
                                                                           (10, 12),
                                                                           (10, 1);
+
+
+
+-- Dodaj kandydatów do tabeli candidates
+INSERT INTO candidates (first_name, last_name, email, phone, address_id)
+VALUES
+    ('Jan', 'Kowalski', 'jan.kowalski@example.com', '123-456-789', NULL),
+    ('Radzi', 'Nowak', 'radzi2002@wp.pl', '987-654-321', NULL),
+    ('Radziu', 'Zielinski', 'radziu2402@gmail.com', '555-444-333', NULL);
+
+-- Dodaj aplikacje do tabeli applications dla istniejącej oferty pracy
+INSERT INTO applications (candidate_id, job_posting_id, applied_at, status)
+VALUES
+    ((SELECT id FROM candidates WHERE email = 'jan.kowalski@example.com'),
+     (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
+     '2024-10-12', 'NEW'),
+
+    ((SELECT id FROM candidates WHERE email = 'radzi2002@wp.pl'),
+     (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
+     '2024-10-12', 'NEW'),
+
+    ((SELECT id FROM candidates WHERE email = 'radziu2402@gmail.com'),
+     (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
+     '2024-10-12', 'NEW');
+
+-- Dodaj dokumenty (CV) do tabeli documents dla każdej aplikacji
+INSERT INTO documents (application_id, candidate_id, file_name, file_type, uploaded_at)
+VALUES
+    ((SELECT id FROM applications WHERE candidate_id = (SELECT id FROM candidates WHERE email = 'jan.kowalski@example.com')),
+     (SELECT id FROM candidates WHERE email = 'jan.kowalski@example.com'),
+     'jan.kowalski@example.com_CV.pdf', 'PDF', '2024-10-12 19:56:05'),
+
+    ((SELECT id FROM applications WHERE candidate_id = (SELECT id FROM candidates WHERE email = 'radzi2002@wp.pl')),
+     (SELECT id FROM candidates WHERE email = 'radzi2002@wp.pl'),
+     'radzi2002@wp.pl_CV.pdf', 'PDF', '2024-10-17 19:29:23'),
+
+    ((SELECT id FROM applications WHERE candidate_id = (SELECT id FROM candidates WHERE email = 'radziu2402@gmail.com')),
+     (SELECT id FROM candidates WHERE email = 'radziu2402@gmail.com'),
+     'radziu2402@gmail.com_CV.pdf', 'PDF', '2024-10-17 19:29:23');

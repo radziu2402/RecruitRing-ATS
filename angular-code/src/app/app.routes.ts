@@ -92,7 +92,7 @@ export const routes: Routes = [
         resolve: { recruitments: RecruitmentListResolver }
       },
       {
-        path: 'recruitment/:id',
+        path: 'recruitment/:offerCode',
         component: RecruitmentManagementComponent
       },
       {
