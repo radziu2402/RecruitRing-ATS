@@ -22,5 +22,11 @@ public class LocationController implements LocationApi {
         List<LocationDTO> locations = locationService.findLocationsByName(query);
         return ResponseEntity.ok(locations);
     }
+
+    @Override
+    public ResponseEntity<LocationDTO> addLocation(String locationName) {
+        LocationDTO createdLocation = locationService.addNewLocation(locationName);
+        return ResponseEntity.ok(createdLocation);
+    }
 }
 

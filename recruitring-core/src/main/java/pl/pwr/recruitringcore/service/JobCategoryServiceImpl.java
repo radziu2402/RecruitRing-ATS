@@ -8,7 +8,7 @@ import pl.pwr.recruitringcore.repo.JobCategoryRepository;
 import java.util.List;
 
 @Service
-public class JobCategoryServiceImpl {
+public class JobCategoryServiceImpl implements JobCategoryService {
 
     private final JobCategoryRepository jobCategoryRepository;
 
@@ -16,11 +16,22 @@ public class JobCategoryServiceImpl {
         this.jobCategoryRepository = jobCategoryRepository;
     }
 
+    @Override
     public List<JobCategoryDTO> findJobCategoriesByName(String query) {
         return jobCategoryRepository.findByNameContainingIgnoreCase(query)
                 .stream()
                 .map(this::mapToDTO)
                 .toList();
+    }
+
+    @Override
+    public JobCategoryDTO addNewJobCategory(String categoryName) {
+        JobCategory category = new JobCategory();
+        category.setName(categoryName);
+
+        JobCategory savedCategory = jobCategoryRepository.save(category);
+
+        return mapToDTO(savedCategory);
     }
 
     private JobCategoryDTO mapToDTO(JobCategory jobCategory) {

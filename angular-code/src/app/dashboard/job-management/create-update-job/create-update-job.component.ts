@@ -164,25 +164,31 @@ export class CreateUpdateJobComponent implements OnInit {
   addNewLocation = (term: string) => {
     this.locationService.createLocation(term).subscribe((createdLocation: Location) => {
       this.availableLocations.push(createdLocation);
+      this.availableLocations = this.availableLocations.slice(0);
       this.newJob.locationId = createdLocation.id;
       this.showNotification('Nowa lokalizacja została dodana!');
     });
+    return true;
   }
 
   addNewCategory = (term: string) => {
     this.categoryService.createCategory(term).subscribe((createdCategory: JobCategory) => {
       this.availableCategories.push(createdCategory);
+      this.availableCategories = this.availableCategories.slice(0);
       this.newJob.jobCategoryId = createdCategory.id;
       this.showNotification('Nowa kategoria została dodana!');
     });
+    return true;
   }
 
   addNewRequirement = (term: string) => {
     this.requirementService.createRequirement(term).subscribe((createdRequirement: Requirement) => {
       this.availableRequirements.push(createdRequirement);
+      this.availableRequirements = this.availableRequirements.slice(0);
       this.newJob.requirementIds.push(createdRequirement.id);
       this.showNotification('Nowe wymaganie zostało dodane!');
     });
+    return true;
   }
 
   onSubmit(form: NgForm) {
@@ -241,7 +247,7 @@ export class CreateUpdateJobComponent implements OnInit {
   goBack() {
     this.router.navigate(['/dashboard/jobs']).then(() => {
     }).catch((error) => {
-      console.error('Navigation error:', error);
+      console.error(error);
     });
   }
 

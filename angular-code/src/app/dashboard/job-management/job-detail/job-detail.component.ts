@@ -4,7 +4,7 @@ import {JobPosting} from "../model/job-posting.model";
 import {JobService} from "../service/job.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {ConfirmationDialogComponent} from "../../../confirmation-dialog/confirmation-dialog.component";
+import {ConfirmationDialogComponent} from "../confirmation-dialog/confirmation-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {mapWorkType} from "../../../job-postings/service/work-type-mapper";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
@@ -58,7 +58,7 @@ export class JobDetailComponent implements OnInit {
   goBack() {
     this.router.navigate(['/dashboard/jobs']).then(() => {
     }).catch((error) => {
-      console.error('Navigation error:', error);
+      console.error(error);
     });
   }
 

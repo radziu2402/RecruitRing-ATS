@@ -34,18 +34,10 @@ export class LoginComponent {
     if (this.login && this.password) {
       this.authService.login(this.login, this.password).subscribe({
         next: () => {
-          this.router.navigate(["dashboard/home"]).then(() => {
-            console.log('Przekierowano na stronę główną');
-          }).catch(err => {
-            console.error('Błąd podczas nawigacji:', err);
-          });
+          this.router.navigate(["dashboard/home"]).catch(err => {});
         },
-        error: (err) => {
-          console.error('Błąd podczas logowania:', err);
-        }
+        error: () => {}
       });
-    } else {
-      console.error('Proszę wypełnić wszystkie pola.');
     }
   }
 

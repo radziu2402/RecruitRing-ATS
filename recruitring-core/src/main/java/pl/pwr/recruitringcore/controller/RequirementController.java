@@ -22,4 +22,10 @@ public class RequirementController implements RequirementApi {
         List<RequirementDTO> requirements = requirementService.findRequirementsByDescription(query);
         return ResponseEntity.ok(requirements);
     }
+
+    @Override
+    public ResponseEntity<RequirementDTO> addRequirement(String requirementDescription) {
+        RequirementDTO createdRequirement = requirementService.addNewRequirement(requirementDescription);
+        return ResponseEntity.ok(createdRequirement);
+    }
 }

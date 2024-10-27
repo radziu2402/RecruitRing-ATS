@@ -1,43 +1,85 @@
-import {Component} from '@angular/core';
-import {Router} from "@angular/router";
-import {NgForOf} from "@angular/common";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import {NgForOf, NgIf} from '@angular/common';
+import { Recruitment } from "../service/recruitment.model";
+import {mapWorkType} from "../../../job-postings/service/work-type-mapper";
 
 @Component({
   selector: 'app-recruitment-list',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './recruitment-list.component.html',
-  styleUrl: './recruitment-list.component.scss'
+  styleUrls: ['./recruitment-list.component.scss']
 })
-export class RecruitmentListComponent {
+export class RecruitmentListComponent implements OnInit {
+  recruitments: Recruitment[] = [];
+  filteredRecruitments: Recruitment[] = [];
 
-  constructor(private router: Router) {
+  showFilterOptions: { [key in 'jobCategory' | 'location' | 'workType']: boolean } = {
+    jobCategory: false,
+    location: false,
+    workType: false
+  };
+
+  activeFilters: { jobCategory: string | null; location: string | null; workType: string | null } = {
+    jobCategory: null,
+    location: null,
+    workType: null
+  };
+
+  uniqueJobCategories: string[] = [];
+  uniqueLocations: string[] = [];
+  uniqueWorkTypes: string[] = [];
+
+  constructor(private router: Router, private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.route.data.subscribe(data => {
+      this.recruitments = data['recruitments'];
+      this.filteredRecruitments = [...this.recruitments];
+
+      this.uniqueJobCategories = [...new Set(this.recruitments.map(r => r.jobCategory))];
+      this.uniqueLocations = [...new Set(this.recruitments.map(r => r.location))];
+      this.uniqueWorkTypes = [...new Set(this.recruitments.map(r => r.workType))];
+    });
   }
 
-  recruitments = [
-    {id: 1, title: 'Customer Success Consultant', location: 'Poznań', newCandidates: 20, candidates: 37},
-    {id: 2, title: 'System poleceń', location: 'cała Polska', newCandidates: 2, candidates: 29},
-    {id: 3, title: 'On-line Marketing Specialist', location: 'Stockholm', newCandidates: 8, candidates: 43},
-    {id: 4, title: 'Junior Account Manager', location: 'Poznań', newCandidates: 1, candidates: 24}
-  ];
+  applyFilter(filterType: keyof typeof this.activeFilters, value: string) {
+    this.activeFilters[filterType] = this.activeFilters[filterType] === value ? null : value;
+    this.filterRecruitments();
+  }
 
-  filteredRecruitments = [...this.recruitments]; // Initially all
+  filterRecruitments() {
+    this.filteredRecruitments = this.recruitments.filter(r =>
+      (!this.activeFilters.jobCategory || r.jobCategory === this.activeFilters.jobCategory) &&
+      (!this.activeFilters.location || r.location === this.activeFilters.location) &&
+      (!this.activeFilters.workType || r.workType === this.activeFilters.workType)
+    );
+  }
 
-  applyFilter(filterType: string) {
-    console.log(`Filtering by: ${filterType}`);
-    // Apply filtering logic here
+  toggleFilterOptions(filterType: keyof typeof this.showFilterOptions) {
+    this.showFilterOptions[filterType] = !this.showFilterOptions[filterType];
   }
 
   onSearch(event: any) {
     const query = event.target.value.toLowerCase();
     this.filteredRecruitments = this.recruitments.filter(r =>
-      r.title.toLowerCase().includes(query) || r.location.toLowerCase().includes(query)
+      r.title.toLowerCase().includes(query) ||
+      r.location.toLowerCase().includes(query)
     );
   }
 
-  goToRecruitment(id: number) {
-    this.router.navigate(['/dashboard/recruitment', id]);
+  resetFilters() {
+    this.activeFilters = { jobCategory: '', location: '', workType: '' };
+    this.filteredRecruitments = [...this.recruitments];
   }
+
+  goToRecruitment(offerCode: string) {
+    this.router.navigate(['/dashboard/recruitment', offerCode]);
+  }
+
+  protected readonly mapWorkType = mapWorkType;
 }

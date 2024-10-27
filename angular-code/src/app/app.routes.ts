@@ -30,6 +30,7 @@ import {
 } from "./job-postings/application-success-confirmation/application-success-confirmation.component";
 import {RecruitmentListComponent} from "./dashboard/recruitment/recruitment-list/recruitment-list.component";
 import {CalendarComponent} from "./dashboard/calendar/calendar.component";
+import {RecruitmentListResolver} from "./dashboard/recruitment/service/recruitment-list.resolver";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [HomeGuard]},
@@ -87,7 +88,8 @@ export const routes: Routes = [
       },
       {
         path: 'recruitment',
-        component: RecruitmentListComponent
+        component: RecruitmentListComponent,
+        resolve: { recruitments: RecruitmentListResolver }
       },
       {
         path: 'recruitment/:id',

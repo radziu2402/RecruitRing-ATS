@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.*;
 import pl.pwr.recruitringcore.dto.JobPostingCreationDTO;
 import pl.pwr.recruitringcore.dto.JobPostingDTO;
 import pl.pwr.recruitringcore.dto.JobPostingSummaryDTO;
+import pl.pwr.recruitringcore.dto.RecruiterJobPostingDTO;
 
+import java.util.List;
 import java.util.UUID;
 
 @RequestMapping("api/v1/jobs")
@@ -30,5 +32,8 @@ public interface JobApi {
 
     @DeleteMapping("/{offerCode}")
     ResponseEntity<Void> deleteJobPosting(@PathVariable UUID offerCode);
+
+    @GetMapping("/recruiter/assigned")
+    ResponseEntity<List<RecruiterJobPostingDTO>> getRecruiterJobPostings();
 
 }

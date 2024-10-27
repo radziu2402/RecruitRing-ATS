@@ -8,8 +8,10 @@ import pl.pwr.recruitringcore.api.JobApi;
 import pl.pwr.recruitringcore.dto.JobPostingCreationDTO;
 import pl.pwr.recruitringcore.dto.JobPostingDTO;
 import pl.pwr.recruitringcore.dto.JobPostingSummaryDTO;
+import pl.pwr.recruitringcore.dto.RecruiterJobPostingDTO;
 import pl.pwr.recruitringcore.service.JobServiceImpl;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -48,6 +50,12 @@ public class JobController implements JobApi {
     public ResponseEntity<Void> deleteJobPosting(UUID offerCode) {
         jobServiceImpl.deleteJobPostingByOfferCode(offerCode);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<List<RecruiterJobPostingDTO>> getRecruiterJobPostings() {
+        List<RecruiterJobPostingDTO> jobPostings = jobServiceImpl.getRecruiterJobPostings();
+        return ResponseEntity.ok(jobPostings);
     }
 
 }

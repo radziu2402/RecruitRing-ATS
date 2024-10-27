@@ -18,6 +18,7 @@ export class LocationService {
   }
 
   createLocation(location: string): Observable<Location> {
-    return this.http.post<Location>(this.apiUrl, location);
+    const headers = { 'X-Skip-Spinner': 'true' };
+    return this.http.post<Location>(this.apiUrl, location, { headers });
   }
 }

@@ -22,4 +22,10 @@ public class JobCategoryController implements JobCategoryApi {
         List<JobCategoryDTO> jobCategories = jobCategoryService.findJobCategoriesByName(query);
         return ResponseEntity.ok(jobCategories);
     }
+
+    @Override
+    public ResponseEntity<JobCategoryDTO> addJobCategory(String categoryName) {
+        JobCategoryDTO createdCategory = jobCategoryService.addNewJobCategory(categoryName);
+        return ResponseEntity.ok(createdCategory);
+    }
 }

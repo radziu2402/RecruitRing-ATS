@@ -1,17 +1,37 @@
 <div class="recruitment-overview">
-  <!-- Sidebar with filters -->
   <aside class="filters">
     <h3>Filtruj</h3>
     <ul>
-      <li (click)="applyFilter('rating')">Dział</li>
-      <li (click)="applyFilter('stage')">Lokalizacja</li>
-      <li (click)="applyFilter('salary')">Status rekrutacji</li>
-      <li (click)="applyFilter('availability')">Rodzaj pracy</li>
-      <!-- Add more filters as needed -->
+      <li (click)="toggleFilterOptions('jobCategory')" [class.active]="activeFilters.jobCategory">Dział</li>
+      <ul *ngIf="showFilterOptions.jobCategory">
+        <li *ngFor="let category of uniqueJobCategories"
+            (click)="applyFilter('jobCategory', category)"
+            [class.active]="activeFilters.jobCategory === category">
+          {{ category }}
+        </li>
+      </ul>
+
+      <li (click)="toggleFilterOptions('location')" [class.active]="activeFilters.location">Lokalizacja</li>
+      <ul *ngIf="showFilterOptions.location">
+        <li *ngFor="let location of uniqueLocations"
+            (click)="applyFilter('location', location)"
+            [class.active]="activeFilters.location === location">
+          {{ location }}
+        </li>
+      </ul>
+
+      <li (click)="toggleFilterOptions('workType')" [class.active]="activeFilters.workType">Rodzaj pracy</li>
+      <ul *ngIf="showFilterOptions.workType">
+        <li *ngFor="let type of uniqueWorkTypes"
+            (click)="applyFilter('workType', type)"
+            [class.active]="activeFilters.workType === type">
+          {{ mapWorkType(type) }}
+        </li>
+      </ul>
     </ul>
+    <button (click)="resetFilters()" class="reset-button">Resetuj filtry</button>
   </aside>
 
-  <!-- Main section with recruitment list -->
   <section class="recruitment-list">
     <div class="header">
       <h1>Moje rekrutacje</h1>
@@ -19,14 +39,16 @@
     </div>
 
     <ul>
-      <li *ngFor="let recruitment of filteredRecruitments" class="recruitment-item" (click)="goToRecruitment(recruitment.id)">
+      <li *ngFor="let recruitment of filteredRecruitments"
+          class="recruitment-item"
+          (click)="goToRecruitment(recruitment.offerCode)">
         <div class="recruitment-info">
           <h3>{{ recruitment.title }}</h3>
           <p>{{ recruitment.location }}</p>
         </div>
         <div class="recruitment-stats">
-          <span>Nowi kandydaci: {{ recruitment.newCandidates }}</span>
-          <span>Wszyscy kandydaci: {{ recruitment.candidates }}</span>
+          <span>Nowi kandydaci: {{ recruitment.newApplications }}</span>
+          <span>Wszyscy kandydaci: {{ recruitment.totalApplications }}</span>
         </div>
       </li>
     </ul>

@@ -1,23 +1,25 @@
 package pl.pwr.recruitringcore.service;
 
-
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.pwr.recruitringcore.dto.*;
 import pl.pwr.recruitringcore.model.entities.*;
+import pl.pwr.recruitringcore.model.enums.ApplicationStatus;
 import pl.pwr.recruitringcore.repo.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class JobServiceImpl {
+public class JobServiceImpl implements JobService {
 
     private final JobRepository jobRepository;
     private final TitleRepository titleRepository;
@@ -40,23 +42,27 @@ public class JobServiceImpl {
         this.recruiterRepository = recruiterRepository;
     }
 
+    @Override
     public Page<JobPostingSummaryDTO> getAllJobs(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
         return jobRepository.findAll(pageRequest).map(this::mapToJobPostingSummaryDTO);
     }
 
+    @Override
     public JobPostingDTO getJobByOfferCode(UUID offerCode) {
         JobPosting jobPosting = jobRepository.findByOfferCode(offerCode)
                 .orElseThrow(() -> new RuntimeException("Job not found"));
         return mapToJobPostingDTO(jobPosting);
     }
 
+    @Override
     public void deleteJobPostingByOfferCode(UUID offerCode) {
         JobPosting jobPosting = jobRepository.findByOfferCode(offerCode)
                 .orElseThrow(() -> new EntityNotFoundException("Offer not found with code: " + offerCode));
         jobRepository.delete(jobPosting);
     }
 
+    @Override
     public JobPostingDTO updateJob(UUID offerCode, JobPostingCreationDTO jobCreationDTO) {
         JobPosting existingJobPosting = jobRepository.findByOfferCode(offerCode)
                 .orElseThrow(() -> new RuntimeException("Job posting not found"));
@@ -70,6 +76,7 @@ public class JobServiceImpl {
         return mapToJobPostingDTO(jobRepository.save(updatedJobPosting));
     }
 
+    @Override
     @Transactional
     public JobPostingDTO createJob(JobPostingCreationDTO creationDTO) {
         JobPosting jobPosting = mapToJobPostingEntities(creationDTO);
@@ -77,6 +84,29 @@ public class JobServiceImpl {
         return mapToJobPostingDTO(jobRepository.save(jobPosting));
     }
 
+    @Override
+    public List<RecruiterJobPostingDTO> getRecruiterJobPostings() {
+        UserDTO user = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = user.getEmail();
+
+        Recruiter recruiter = recruiterRepository.findByUserEmail(email)
+                .orElseThrow(() -> new RuntimeException("Recruiter not found for email: " + email));
+
+        List<JobPosting> jobPostings = jobRepository.findByRecruiterId(recruiter.getId());
+
+        return jobPostings.stream()
+                .map(job -> RecruiterJobPostingDTO.builder()
+                        .id(job.getId())
+                        .offerCode(job.getOfferCode())
+                        .title(job.getTitle().getName())
+                        .location(job.getLocation().getName())
+                        .jobCategory(job.getJobCategory().getName())
+                        .workType(job.getWorkType())
+                        .totalApplications(job.getApplications().size())
+                        .newApplications((int) job.getApplications().stream().filter(app -> app.getStatus().equals(ApplicationStatus.NEW)).count())
+                        .build())
+                .collect(Collectors.toList());
+    }
 
     private JobPosting mapToJobPostingEntities(JobPostingCreationDTO creationDTO) {
         Title title = titleRepository.findById(creationDTO.getTitleId())
@@ -108,7 +138,6 @@ public class JobServiceImpl {
                 .description(creationDTO.getDescription())
                 .build();
     }
-
 
     public JobPostingDTO mapToJobPostingDTO(JobPosting jobPosting) {
         return JobPostingDTO.builder()

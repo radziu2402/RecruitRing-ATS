@@ -1,11 +1,19 @@
 <div class="calendar-container">
   <div class="calendar-header">
-    <button (click)="previousView()">←</button>
+    <button (click)="previousView()">
+      <i class="fas fa-chevron-left"></i>
+    </button>
     <button (click)="setView(CalendarView.Day)">Dzień</button>
     <button (click)="setView(CalendarView.Week)">Tydzień</button>
     <button (click)="setView(CalendarView.Month)">Miesiąc</button>
-    <button (click)="nextView()">→</button>
+    <button (click)="nextView()">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+    <button (click)="resetView()" class="reset-button">Resetuj do dziś</button>
   </div>
+
+  <h2 *ngIf="view === CalendarView.Month">{{ currentMonth }}</h2>
+  <h2 *ngIf="view === CalendarView.Day">{{ currentDay }}</h2>
 
   <mwl-calendar-month-view
     *ngIf="view === CalendarView.Month"
@@ -19,13 +27,15 @@
     *ngIf="view === CalendarView.Week"
     [viewDate]="viewDate"
     [events]="events"
-    [locale]="locale">
+    [locale]="locale"
+    (eventClicked)="eventClicked($event.event)">
   </mwl-calendar-week-view>
 
   <mwl-calendar-day-view
     *ngIf="view === CalendarView.Day"
     [viewDate]="viewDate"
     [events]="events"
-    [locale]="locale">
+    [locale]="locale"
+    (eventClicked)="eventClicked($event.event)">
   </mwl-calendar-day-view>
 </div>

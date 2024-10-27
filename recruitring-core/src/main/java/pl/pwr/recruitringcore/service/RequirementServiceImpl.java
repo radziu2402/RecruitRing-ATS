@@ -8,7 +8,7 @@ import pl.pwr.recruitringcore.repo.RequirementRepository;
 import java.util.List;
 
 @Service
-public class RequirementServiceImpl {
+public class RequirementServiceImpl implements RequirementService {
 
     private final RequirementRepository requirementRepository;
 
@@ -16,11 +16,22 @@ public class RequirementServiceImpl {
         this.requirementRepository = requirementRepository;
     }
 
+    @Override
     public List<RequirementDTO> findRequirementsByDescription(String query) {
         return requirementRepository.findByRequirementDescriptionContainingIgnoreCase(query)
                 .stream()
                 .map(this::mapToDTO)
                 .toList();
+    }
+
+    @Override
+    public RequirementDTO addNewRequirement(String requirementDescription) {
+        Requirement requirement = new Requirement();
+        requirement.setRequirementDescription(requirementDescription);
+
+        Requirement savedRequirement = requirementRepository.save(requirement);
+
+        return mapToDTO(savedRequirement);
     }
 
     private RequirementDTO mapToDTO(Requirement requirement) {

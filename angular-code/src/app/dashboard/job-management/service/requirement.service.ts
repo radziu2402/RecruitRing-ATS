@@ -19,6 +19,7 @@ export class RequirementService {
   }
 
   createRequirement(requirement: string): Observable<Requirement> {
-    return this.http.post<Requirement>(this.apiUrl, requirement);
+    const headers = { 'X-Skip-Spinner': 'true' };
+    return this.http.post<Requirement>(this.apiUrl, requirement, { headers });
   }
 }

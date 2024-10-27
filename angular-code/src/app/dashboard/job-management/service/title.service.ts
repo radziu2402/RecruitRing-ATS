@@ -19,6 +19,7 @@ export class TitleService {
   }
 
   createTitle(title: string): Observable<Title> {
-    return this.http.post<Title>(this.apiUrl, title);
+    const headers = {'X-Skip-Spinner': 'true'};
+    return this.http.post<Title>(this.apiUrl, title, { headers });
   }
 }

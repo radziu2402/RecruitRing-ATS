@@ -18,6 +18,7 @@ export class JobCategoryService {
   }
 
   createCategory(category: string): Observable<JobCategory> {
-    return this.http.post<JobCategory>(this.apiUrl, category);
+    const headers = { 'X-Skip-Spinner': 'true' };
+    return this.http.post<JobCategory>(this.apiUrl, category, { headers });
   }
 }

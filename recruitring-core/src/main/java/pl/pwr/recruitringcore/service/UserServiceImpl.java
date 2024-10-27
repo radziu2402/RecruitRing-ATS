@@ -31,16 +31,16 @@ public class UserServiceImpl implements UserService {
     private final UserAuthenticationProvider userAuthenticationProvider;
     private final UserDataProducerFactory userDataProducerFactory;
     private final PasswordResetTokenRepository tokenRepository;
-    private final EmailService emailService;
+    private final EmailServiceImpl emailServiceImpl;
 
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserAuthenticationProvider userAuthenticationProvider, UserDataProducerFactory userDataProducerFactory, PasswordResetTokenRepository tokenRepository, EmailService emailService) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserAuthenticationProvider userAuthenticationProvider, UserDataProducerFactory userDataProducerFactory, PasswordResetTokenRepository tokenRepository, EmailServiceImpl emailServiceImpl) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userAuthenticationProvider = userAuthenticationProvider;
         this.userDataProducerFactory = userDataProducerFactory;
         this.tokenRepository = tokenRepository;
-        this.emailService = emailService;
+        this.emailServiceImpl = emailServiceImpl;
     }
 
     @Override
@@ -195,7 +195,7 @@ public class UserServiceImpl implements UserService {
                         "</body>" +
                         "</html>";
 
-        emailService.sendEmail(email, "Reset your password", emailContent);
+        emailServiceImpl.sendEmail(email, "Reset your password", emailContent);
     }
 
     @Override

@@ -11,7 +11,7 @@ import pl.pwr.recruitringcore.repo.JobRepository;
 import java.util.UUID;
 
 @Service
-public class PublicJobServiceImpl {
+public class PublicJobServiceImpl implements PublicJobService {
 
     private final JobRepository jobRepository;
 
@@ -19,6 +19,7 @@ public class PublicJobServiceImpl {
         this.jobRepository = jobRepository;
     }
 
+    @Override
     public Page<PublicJobPostingSummaryDTO> getAllJobs(PageRequest pageRequest, Long titleId, Long locationId, Long jobCategoryId, WorkType workType) {
         Page<JobPosting> jobPostings;
 
@@ -31,6 +32,7 @@ public class PublicJobServiceImpl {
         return jobPostings.map(this::maptoPublicJobPostingSummaryDTO);
     }
 
+    @Override
     public PublicJobPostingDTO getJobByOfferCode(UUID offerCode) {
         JobPosting jobPosting = jobRepository.findByOfferCode(offerCode)
                 .orElseThrow(() -> new RuntimeException("Job not found"));

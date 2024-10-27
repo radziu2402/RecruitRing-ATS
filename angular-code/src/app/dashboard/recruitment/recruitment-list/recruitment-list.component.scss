@@ -1,85 +1,147 @@
 .recruitment-overview {
   display: flex;
   padding: 20px;
-}
+  gap: 20px;
 
-.filters {
-  width: 250px;
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-right: 1px solid #ddd;
-  margin-right: 20px;
+  .filters {
+    width: 250px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+    position: sticky;
+    top: 20px;
+    max-height: calc(100vh - 40px);
 
-  h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
+    h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
 
-  ul {
-    list-style: none;
-    padding: 0;
+    ul {
+      list-style: none;
+      padding: 0;
 
-    li {
-      padding: 10px 0;
-      border-bottom: 1px solid #ddd;
-      cursor: pointer;
-      transition: background-color 0.3s;
+      > li {
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
 
-      &:hover {
-        background-color: #f1f1f1;
+        &.active {
+          background-color: #cfe2ff;
+          color: #0056b3;
+          font-weight: bold;
+        }
+
+        &:hover {
+          background-color: #e0e7ff;
+          color: #0056b3;
+        }
+      }
+
+      ul {
+        padding-left: 15px;
+        margin-top: 5px;
+        list-style: none;
+
+        li {
+          padding: 8px 0;
+          cursor: pointer;
+          font-size: 14px;
+          color: #555;
+          border-bottom: none;
+
+          &.selected {
+            color: #007bff;
+            font-weight: bold;
+            background-color: #e6f2ff;
+          }
+
+          &:hover {
+            background-color: #f1f1f1;
+            color: #0056b3;
+          }
+        }
       }
     }
-  }
-}
 
-.recruitment-list {
-  flex: 1;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-
-    input {
-      padding: 10px;
+    .reset-button {
+      display: block;
+      width: 100%;
+      margin-top: 20px;
+      padding: 8px 0;
       border: 1px solid #ddd;
       border-radius: 5px;
-      width: 300px;
+      background-color: #f9f9f9;
+      color: #555;
+      text-align: center;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+
+      &:hover {
+        background-color: #e0e7ff;
+        color: #0056b3;
+        border-color: #cfe2ff;
+      }
+
+      &:active {
+        background-color: #cfe2ff;
+        color: #003a79;
+      }
     }
   }
 
-  ul {
-    list-style: none;
-    padding: 0;
+  .recruitment-list {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    min-height: 80vh;
 
-    .recruitment-item {
+    .header {
       display: flex;
       justify-content: space-between;
-      padding: 15px;
-      margin-bottom: 10px;
-      background-color: #f9f9f9;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      cursor: pointer;
-      transition: box-shadow 0.3s ease;
+      align-items: center;
+      margin-bottom: 20px;
 
-      &:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      input {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        width: 300px;
       }
+    }
 
-      .recruitment-info h3 {
-        color: #007bff;
-      }
+    ul {
+      list-style: none;
+      padding: 0;
 
-      .recruitment-stats {
+      .recruitment-item {
         display: flex;
-        flex-direction: column;
-        text-align: right;
+        justify-content: space-between;
+        padding: 15px;
+        margin-bottom: 10px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: box-shadow 0.3s ease;
+
+        &:hover {
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .recruitment-info h3 {
+          color: #007bff;
+        }
+
+        .recruitment-stats {
+          display: flex;
+          flex-direction: column;
+          text-align: right;
+        }
       }
     }
   }

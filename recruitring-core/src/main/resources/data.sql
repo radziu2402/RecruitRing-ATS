@@ -147,6 +147,69 @@ VALUES
      'REMOTE', '2024-09-11',
      (SELECT id FROM job_categories WHERE name = 'Marketing'));
 
+-- Dodaj więcej ofert pracy do tabeli job_postings
+INSERT INTO job_postings (title_id, description, location_id, work_type, created_at, job_category_id)
+VALUES
+    ((SELECT id FROM titles WHERE name = 'Financial Analyst'),
+     'Jako Financial Analyst będziesz odpowiedzialny za analizę finansową i raportowanie wyników finansowych firmy...',
+     (SELECT id FROM locations WHERE name = 'Göteborg, SE, 417 56'),
+     'REMOTE', '2024-10-01',
+     (SELECT id FROM job_categories WHERE name = 'Finanse')),
+
+    ((SELECT id FROM titles WHERE name = 'Software Architect - Cloud Solutions'),
+     'W tej roli będziesz odpowiedzialny za projektowanie i wdrażanie architektury chmurowej dla naszych aplikacji...',
+     (SELECT id FROM locations WHERE name = 'Wroclaw, PL, 51-502'),
+     'HYBRID', '2024-10-02',
+     (SELECT id FROM job_categories WHERE name = 'Technologia informacyjna')),
+
+    ((SELECT id FROM titles WHERE name = 'Business Development Manager - International Markets'),
+     'Jako Business Development Manager będziesz odpowiedzialny za rozwój biznesu na rynkach międzynarodowych...',
+     (SELECT id FROM locations WHERE name = 'Milano, IT, 20151'),
+     'STATIONARY', '2024-10-03',
+     (SELECT id FROM job_categories WHERE name = 'Sprzedaż i usługi')),
+
+    ((SELECT id FROM titles WHERE name = 'Customer Support Specialist - IT'),
+     'W tej roli będziesz odpowiedzialny za wsparcie techniczne klientów oraz rozwiązywanie problemów IT...',
+     (SELECT id FROM locations WHERE name = 'Bangalore, IN, 562122'),
+     'REMOTE', '2024-10-04',
+     (SELECT id FROM job_categories WHERE name = 'Wsparcie techniczne')),
+
+    ((SELECT id FROM titles WHERE name = 'Senior Legal Counsel - Corporate Affairs'),
+     'Jako Senior Legal Counsel będziesz odpowiedzialny za doradztwo prawne w zakresie spraw korporacyjnych...',
+     (SELECT id FROM locations WHERE name = 'Dublin, VA, US, 24084'),
+     'HYBRID', '2024-10-05',
+     (SELECT id FROM job_categories WHERE name = 'Prawo i administracja')),
+
+    ((SELECT id FROM titles WHERE name = 'UX/UI Designer - Digital Products'),
+     'W tej roli będziesz odpowiedzialny za projektowanie interfejsów użytkownika dla naszych produktów cyfrowych...',
+     (SELECT id FROM locations WHERE name = 'Göteborg, SE, 417 15'),
+     'REMOTE', '2024-10-06',
+     (SELECT id FROM job_categories WHERE name = 'Projektowanie produktu')),
+
+    ((SELECT id FROM titles WHERE name = 'Lead Data Scientist - Artificial Intelligence'),
+     'Jako Lead Data Scientist będziesz kierować zespołem naukowców zajmujących się sztuczną inteligencją...',
+     (SELECT id FROM locations WHERE name = 'Wacol, QLD, AU, 4076'),
+     'HYBRID', '2024-10-07',
+     (SELECT id FROM job_categories WHERE name = 'Technologia informacyjna')),
+
+    ((SELECT id FROM titles WHERE name = 'Junior Sales Manager - Automotive'),
+     'W tej roli będziesz odpowiedzialny za zarządzanie sprzedażą w sektorze motoryzacyjnym...',
+     (SELECT id FROM locations WHERE name = 'Eskilstuna, SE, 405 08'),
+     'STATIONARY', '2024-10-08',
+     (SELECT id FROM job_categories WHERE name = 'Sprzedaż i usługi')),
+
+    ((SELECT id FROM titles WHERE name = 'IT Security Specialist'),
+     'Jako IT Security Specialist będziesz odpowiedzialny za zapewnienie bezpieczeństwa informatycznego w firmie...',
+     (SELECT id FROM locations WHERE name = 'Göteborg, SE, 417 56'),
+     'REMOTE', '2024-10-09',
+     (SELECT id FROM job_categories WHERE name = 'Technologia informacyjna')),
+
+    ((SELECT id FROM titles WHERE name = 'Production Manager'),
+     'Jako Production Manager będziesz zarządzać zespołem produkcyjnym w zakładzie wytwarzającym komponenty dla przemysłu motoryzacyjnego...',
+     (SELECT id FROM locations WHERE name = 'Dublin, VA, US, 24084'),
+     'HYBRID', '2024-10-10',
+     (SELECT id FROM job_categories WHERE name = 'Produkcja'));
+
 
 
 INSERT INTO job_posting_recruiters (job_posting_id, recruiter_id) VALUES

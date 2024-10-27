@@ -1,9 +1,7 @@
 package pl.pwr.recruitringcore.api;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pl.pwr.recruitringcore.dto.LocationDTO;
 
 import java.util.List;
@@ -13,4 +11,7 @@ public interface LocationApi {
 
     @GetMapping("/search")
     ResponseEntity<List<LocationDTO>> findLocationsByName(@RequestParam String query);
+
+    @PostMapping
+    ResponseEntity<LocationDTO> addLocation(@RequestBody String locationName);
 }

@@ -42,4 +42,13 @@
     background-color: white;
     padding: 20px;
   }
+
+  mwl-calendar-month-view {
+    .cal-cell {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
 }
