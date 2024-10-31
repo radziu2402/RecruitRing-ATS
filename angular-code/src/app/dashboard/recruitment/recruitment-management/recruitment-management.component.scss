@@ -1,12 +1,40 @@
 .recruitment-overview {
-  display: flex;
-  padding: 20px;
+  padding: 0 20px 20px 20px;
+
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+
+    .back-arrow {
+      cursor: pointer;
+      font-size: 20px;
+      color: #0056b3;
+      margin-right: 10px;
+
+      &:hover {
+        color: #003a79;
+      }
+
+      fa-icon {
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .main-content {
+    display: flex;
+    gap: 20px;
+  }
 
   .filters {
     width: 250px;
     background-color: #f9f9f9;
-    padding: 20px;
+    padding: 15px;
     border-right: 1px solid #ddd;
+    position: sticky;
+    top: 20px;
+    max-height: calc(100vh - 40px);
 
     h3 {
       font-size: 18px;
@@ -17,84 +45,196 @@
       list-style: none;
       padding: 0;
 
-      li {
-        padding: 10px 0;
+      > li {
+        padding: 8px 0;
         border-bottom: 1px solid #ddd;
         cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+
+        &.active {
+          background-color: #cfe2ff;
+          color: #0056b3;
+          font-weight: bold;
+        }
 
         &:hover {
-          background-color: #f1f1f1;
+          background-color: #e0e7ff;
+          color: #0056b3;
         }
+      }
+
+      ul {
+        padding-left: 15px;
+        margin-top: 5px;
+        list-style: none;
+
+        li {
+          padding: 6px 0;
+          cursor: pointer;
+          font-size: 14px;
+          color: #555;
+
+          &.selected {
+            color: #007bff;
+            font-weight: bold;
+            background-color: #e6f2ff;
+          }
+
+          &:hover {
+            background-color: #f1f1f1;
+            color: #0056b3;
+          }
+        }
+      }
+    }
+
+    .reset-button {
+      display: block;
+      width: 100%;
+      margin-top: 20px;
+      padding: 8px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      color: #555;
+      text-align: center;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+
+      &:hover {
+        background-color: #e0e7ff;
+        color: #0056b3;
+        border-color: #cfe2ff;
+      }
+
+      &:active {
+        background-color: #cfe2ff;
+        color: #003a79;
       }
     }
   }
 
   .candidates {
     flex: 1;
-    padding: 20px;
+    padding: 15px 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
-    .header {
+    .search-header {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 20px;
+      align-items: center;
+      margin-bottom: 15px;
 
-      input {
-        width: 300px;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
+      h1 {
+        font-size: 22px;
+        margin: 5px;
       }
 
-      .sort-button, .add-button {
-        background-color: #007bff;
-        color: white;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
+      .search-container {
+        input {
+          padding: 8px;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          width: 300px;
+        }
       }
     }
 
+    .no-candidates-message {
+      display: flex;
+      min-height: 80vh;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      color: #333;
+      font-weight: 600;
+      text-align: center;
+    }
+
     .candidate-list {
+      min-height: 80vh;
       .candidate-item {
         display: flex;
         justify-content: space-between;
-        padding: 20px;
-        background-color: white;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 25px;
         margin-bottom: 10px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: box-shadow 0.3s ease;
+        &:hover {
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
 
-        .candidate-info {
-          h4 {
-            font-size: 16px;
-            margin-bottom: 5px;
-          }
+        .candidate-info h4 {
+          color: #007bff;
+          margin: 0;
+        }
 
-          p {
-            margin-bottom: 5px;
-            font-size: 14px;
-            color: #666;
-          }
+        p {
+          margin: 2px 0;
+          padding: 2px 0;
+          color: #555;
         }
 
         .candidate-status {
           display: flex;
           flex-direction: column;
-          align-items: flex-end;
-          font-size: 14px;
+          text-align: right;
 
           .status {
-            font-size: 12px;
-            background-color: #ffcd00;
-            padding: 5px 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
+            font-weight: bold;
+            margin-bottom: 5px;
+
+            &.status-new {
+              color: #13bf16; // zielony dla nowego statusu
+            }
+
+            &.status-cv_review {
+              color: #007bff; // niebieski dla przeglądu CV
+            }
+
+            &.status-cv_rejected {
+              color: #ff0000; // czerwony dla odrzuconego CV
+            }
+
+            &.status-phone_interview {
+              color: #ffbf00; // pomarańczowy dla rozmowy telefonicznej
+            }
+
+            &.status_meeting {
+              color: #8000ff; // fioletowy dla spotkania
+            }
+
+            &.status_rejected_after_meeting {
+              color: #ff5733; // inny odcień czerwieni
+            }
+
+            &.status-second_stage {
+              color: #3399ff; // jasny niebieski
+            }
+
+            &.status-offer_made {
+              color: #00bfa5; // zielony morski dla oferty
+            }
+
+            &.status_hired {
+              color: #00c853; // zielony dla zatrudnionego
+            }
+
+            &.status-application_withdrawn {
+              color: #757575; // szary dla wycofanej aplikacji
+            }
           }
 
-          .last-action, .salary {
-            margin-bottom: 5px;
-            color: #999;
+
+          .rating {
+            font-size: 14px;
+            color: #666;
           }
         }
       }

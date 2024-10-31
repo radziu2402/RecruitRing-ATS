@@ -78,15 +78,15 @@ export class RecruitmentListComponent implements OnInit {
     this.filteredRecruitments = [...this.recruitments];
   }
 
-  goToRecruitment(offerCode: string) {
-    this.router.navigate(['/dashboard/recruitment', offerCode]);
+  goToRecruitment(offerCode: string, offerName: string) {
+    this.router.navigate(['/dashboard/recruitment', offerCode], { queryParams: { offerName } });
   }
 
   protected readonly mapWorkType = mapWorkType;
 
-  onKeyDownHandler(event: KeyboardEvent, offerCode: string): void {
+  onKeyDownHandler(event: KeyboardEvent, offerCode: string, title: string): void {
     if (event.key === 'Enter' || event.key === ' ') {
-      this.goToRecruitment(offerCode);
+      this.goToRecruitment(offerCode, title);
     }
   }
 

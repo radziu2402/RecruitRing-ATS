@@ -13,6 +13,19 @@ CREATE TRIGGER set_offer_code
     FOR EACH ROW
 EXECUTE FUNCTION generate_offer_code();
 
+CREATE OR REPLACE FUNCTION generate_application_code()
+    RETURNS TRIGGER AS '
+    BEGIN
+        NEW.application_code := uuid_generate_v4();
+        RETURN NEW;
+    END;
+' LANGUAGE plpgsql;
+
+CREATE TRIGGER set_application_code
+    BEFORE INSERT ON applications
+    FOR EACH ROW
+EXECUTE FUNCTION generate_application_code();
+
 INSERT INTO users (login, email, password, role)
 VALUES ('admin', 'admin@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw/iacp3HCbLpkuJN86iO', 'ADMINISTRATOR');
 
@@ -303,27 +316,46 @@ INSERT INTO job_posting_requirements (job_posting_id, requirement_id) VALUES
 
 
 
--- Dodaj kandydatów do tabeli candidates
+-- Dodaj przykładowe adresy do tabeli address
+INSERT INTO address (city, "post code", street, "street number", "flat number")
+VALUES
+    ('Warszawa', '00-001', 'Marszałkowska', 10, 5),
+    ('Kraków', '30-002', 'Grochowa', 20, NULL),
+    ('Poznań', '60-003', 'Dworcowa', 15, 3),
+    ('Wrocław', '50-004', 'Świdnicka', 8, 2),
+    ('Gdańsk', '80-005', 'Długa', 12, NULL);
+
+-- Dodaj kandydatów do tabeli candidates, przypisując im adresy
 INSERT INTO candidates (first_name, last_name, email, phone, address_id)
 VALUES
-    ('Jan', 'Kowalski', 'jan.kowalski@example.com', '123-456-789', NULL),
-    ('Radzi', 'Nowak', 'radzi2002@wp.pl', '987-654-321', NULL),
-    ('Radziu', 'Zielinski', 'radziu2402@gmail.com', '555-444-333', NULL);
+    ('Jan', 'Kowalski', 'jan.kowalski@example.com', '123-456-789', (SELECT id FROM address WHERE city = 'Warszawa')),
+    ('Radzi', 'Nowak', 'radzi2002@wp.pl', '987-654-321', (SELECT id FROM address WHERE city = 'Kraków')),
+    ('Radziu', 'Zielinski', 'radziu2402@gmail.com', '555-444-333', (SELECT id FROM address WHERE city = 'Poznań')),
+    ('Anna', 'Nowicka', 'anna.nowicka@gmail.com', '111-222-333', (SELECT id FROM address WHERE city = 'Wrocław')),
+    ('Piotr', 'Sikorski', 'piotr.sikorski@gmail.com', '444-555-666', (SELECT id FROM address WHERE city = 'Gdańsk'));
 
 -- Dodaj aplikacje do tabeli applications dla istniejącej oferty pracy
-INSERT INTO applications (candidate_id, job_posting_id, applied_at, status)
+INSERT INTO applications (candidate_id, job_posting_id, applied_at, status, rating)
 VALUES
     ((SELECT id FROM candidates WHERE email = 'jan.kowalski@example.com'),
      (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
-     '2024-10-12', 'NEW'),
+     '2024-10-12', 'NEW', 0),
 
     ((SELECT id FROM candidates WHERE email = 'radzi2002@wp.pl'),
      (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
-     '2024-10-12', 'NEW'),
+     '2024-10-12', 'CV_REVIEW', 4),
 
     ((SELECT id FROM candidates WHERE email = 'radziu2402@gmail.com'),
      (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
-     '2024-10-12', 'NEW');
+     '2024-10-12', 'CV_REJECTED', 1),
+
+    ((SELECT id FROM candidates WHERE email = 'anna.nowicka@gmail.com'),
+     (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
+     '2024-10-12', 'OFFER_MADE', 5),
+
+    ((SELECT id FROM candidates WHERE email = 'piotr.sikorski@gmail.com'),
+     (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
+     '2024-10-12', 'APPLICATION_WITHDRAWN', 0);
 
 -- Dodaj dokumenty (CV) do tabeli documents dla każdej aplikacji
 INSERT INTO documents (application_id, candidate_id, file_name, file_type, uploaded_at)

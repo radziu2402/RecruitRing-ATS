@@ -6,6 +6,7 @@ import pl.pwr.recruitringcore.model.enums.ApplicationStatus;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -21,6 +22,9 @@ public class Application {
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
+    @Column(name = "application_code", updatable = false, insertable = false)
+    private UUID applicationCode;
+
     @ManyToOne
     @JoinColumn(name = "candidate_id", nullable = false)
     private Candidate candidate;
@@ -35,6 +39,9 @@ public class Application {
     @Column(name = "status", nullable = false, length = 50)
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status;
+
+    @Column(name = "rating")
+    private Integer rating = 0;
 
     @OneToOne(mappedBy = "application", cascade = CascadeType.ALL)
     private Interview interview;

@@ -78,4 +78,11 @@
 .dashboard-content {
   min-height: 90vh;
   padding-top: 10px;
+
+  background-color: rgba(249, 249, 249, 0.32);
+  background-image: radial-gradient(rgba(0, 123, 255, 0.05) 1px, transparent 1px),
+  radial-gradient(rgba(0, 123, 255, 0.05) 1px, transparent 1px);
+  background-size: 20px 17.32px;
+  background-position: 0 0, 10px 8.66px;
+
 }

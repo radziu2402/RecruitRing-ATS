@@ -31,6 +31,7 @@ import {
 import {RecruitmentListComponent} from "./dashboard/recruitment/recruitment-list/recruitment-list.component";
 import {CalendarComponent} from "./dashboard/calendar/calendar.component";
 import {RecruitmentListResolver} from "./dashboard/recruitment/service/recruitment-list.resolver";
+import {CandidateDetailsComponent} from "./dashboard/recruitment/candidate-details/candidate-details.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [HomeGuard]},
@@ -94,6 +95,10 @@ export const routes: Routes = [
       {
         path: 'recruitment/:offerCode',
         component: RecruitmentManagementComponent
+      },
+      {
+        path: 'recruitment/:offerCode/candidate/:applicationCode',
+        component: CandidateDetailsComponent
       },
       {
         path: 'candidates',

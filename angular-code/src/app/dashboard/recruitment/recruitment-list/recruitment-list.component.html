@@ -62,8 +62,8 @@
     <ul>
       <li *ngFor="let recruitment of filteredRecruitments"
           class="recruitment-item"
-          (click)="goToRecruitment(recruitment.offerCode)"
-          (keydown)="onKeyDownHandler($event, recruitment.offerCode)"
+          (click)="goToRecruitment(recruitment.offerCode, recruitment.title)"
+          (keydown)="onKeyDownHandler($event, recruitment.offerCode, recruitment.title)"
           tabindex="0">
         <div class="recruitment-info">
           <h3>{{ recruitment.title }}</h3>

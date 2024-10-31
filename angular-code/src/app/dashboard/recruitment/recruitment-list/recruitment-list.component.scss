@@ -104,7 +104,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+
+      h1 {
+        font-size: 22px;
+        margin: 5px;
+      }
 
       input {
         padding: 10px;

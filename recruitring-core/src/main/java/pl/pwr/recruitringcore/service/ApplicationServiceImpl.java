@@ -110,12 +110,15 @@ public class ApplicationServiceImpl implements ApplicationService {
         List<Application> applications = applicationRepository.findByJobPostingOfferCode(UUID.fromString(offerCode));
         return applications.stream()
                 .map(application -> new CandidateDTO(
+                        application.getApplicationCode(),
                         application.getCandidate().getFirstName(),
                         application.getCandidate().getLastName(),
                         application.getCandidate().getEmail(),
                         application.getCandidate().getPhone(),
-                        application.getStatus().toString()
-                ))
+                        application.getStatus().toString(),
+                        application.getRating(),
+                        application.getCandidate().getAddress().getCity()
+                        ))
                 .toList();
     }
 
