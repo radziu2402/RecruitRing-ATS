@@ -35,6 +35,7 @@ import {CalendarComponent} from "./dashboard/calendar/calendar.component";
 import {recruitmentListResolver} from "./dashboard/recruitment/resolver/recruitment-list.resolver";
 import {CandidateDetailsComponent} from "./dashboard/recruitment/candidate-details/candidate-details.component";
 import {candidateDetailsResolver} from "./dashboard/recruitment/resolver/candidate-details.resolver";
+import {eventsResolver} from "./dashboard/calendar/resolver/events.resolver";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [HomeGuard]},
@@ -110,7 +111,8 @@ export const routes: Routes = [
       },
       {
         path: 'calendar',
-        component: CalendarComponent
+        component: CalendarComponent,
+        resolve: { events: eventsResolver }
       },
       {
         path: 'admin',

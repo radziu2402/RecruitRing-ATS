@@ -1,0 +1,63 @@
+<h2>Dodaj nowe wydarzenie</h2>
+<form [formGroup]="eventForm" (ngSubmit)="submit()">
+  <!-- Pole tytułu -->
+  <mat-form-field appearance="fill">
+    <mat-label>Tytuł</mat-label>
+    <input matInput formControlName="title" required />
+    <mat-error *ngIf="eventForm.controls['title'].hasError('required')">
+      Tytuł jest wymagany
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Pole daty rozpoczęcia -->
+  <mat-form-field appearance="fill">
+    <mat-label>Data rozpoczęcia</mat-label>
+    <input matInput formControlName="startDate" [matDatepicker]="startPicker" required />
+    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+    <mat-datepicker #startPicker></mat-datepicker>
+    <mat-error *ngIf="eventForm.controls['startDate'].hasError('required')">
+      Data rozpoczęcia jest wymagana
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Pole godziny rozpoczęcia -->
+  <mat-form-field appearance="fill">
+    <mat-label>Godzina rozpoczęcia (HH:mm)</mat-label>
+    <input matInput formControlName="startTime" placeholder="12:00" pattern="^([01]?[0-9]|2[0-3]):[0-5][0-9]$" required />
+    <mat-error *ngIf="eventForm.controls['startTime'].hasError('pattern')">
+      Wprowadź poprawny format godziny (HH:mm)
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Pole daty zakończenia -->
+  <mat-form-field appearance="fill">
+    <mat-label>Data zakończenia</mat-label>
+    <input matInput formControlName="endDate" [matDatepicker]="endPicker" required />
+    <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+    <mat-datepicker #endPicker></mat-datepicker>
+    <mat-error *ngIf="eventForm.controls['endDate'].hasError('required')">
+      Data zakończenia jest wymagana
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Pole godziny zakończenia -->
+  <mat-form-field appearance="fill">
+    <mat-label>Godzina zakończenia (HH:mm)</mat-label>
+    <input matInput formControlName="endTime" placeholder="13:30" pattern="^([01]?[0-9]|2[0-3]):[0-5][0-9]$" required />
+    <mat-error *ngIf="eventForm.controls['endTime'].hasError('pattern')">
+      Wprowadź poprawny format godziny (HH:mm)
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Pole opisu -->
+  <mat-form-field appearance="fill">
+    <mat-label>Opis</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+
+  <!-- Przyciski akcji -->
+  <div class="dialog-actions">
+    <button mat-button (click)="close()">Anuluj</button>
+    <button mat-raised-button color="primary" type="submit">Dodaj</button>
+  </div>
+</form>

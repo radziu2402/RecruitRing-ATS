@@ -10,6 +10,7 @@
       <i class="fas fa-chevron-right"></i>
     </button>
     <button (click)="resetView()" class="reset-button">Resetuj do dziś</button>
+    <button (click)="openAddEventDialog()">Dodaj wydarzenie</button>
   </div>
 
   <h2 *ngIf="view === CalendarView.Month">{{ currentMonth }}</h2>
@@ -28,6 +29,8 @@
     [viewDate]="viewDate"
     [events]="events"
     [locale]="locale"
+    [dayStartHour]="dayStartHour"
+    [dayEndHour]="dayEndHour"
     (eventClicked)="eventClicked($event.event)">
   </mwl-calendar-week-view>
 
@@ -36,6 +39,8 @@
     [viewDate]="viewDate"
     [events]="events"
     [locale]="locale"
+    [dayStartHour]="dayStartHour"
+    [dayEndHour]="dayEndHour"
     (eventClicked)="eventClicked($event.event)">
   </mwl-calendar-day-view>
 </div>

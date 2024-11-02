@@ -10,4 +10,6 @@ public interface RecruiterRepository extends JpaRepository<Recruiter, Long> {
     List<Recruiter> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstName, String lastName);
 
     Optional<Recruiter> findByUserEmail(String email);
+
+    Optional<Recruiter> findByUserId(Long userId);
 }

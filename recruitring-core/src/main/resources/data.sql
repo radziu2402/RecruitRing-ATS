@@ -40,6 +40,29 @@ INSERT INTO recruiters (first_name, last_name, position, date_of_birth, user_id)
 VALUES ('User', 'Example', 'Recruiter', '1990-01-01',
         (SELECT id FROM users WHERE login = 'user'));
 
+INSERT INTO events (title, description, start_time, end_time, recruiter_id)
+VALUES
+    ('Spotkanie z kandydatem A', 'Rozmowa kwalifikacyjna na stanowisko programisty.',
+     '2024-11-03 10:00:00', '2024-11-03 11:00:00',
+     (SELECT id FROM recruiters WHERE user_id = (SELECT id FROM users WHERE login = 'user'))),
+
+    ('Warsztat DevOps', 'Szkolenie dotyczące praktyk CI/CD i automatyzacji wdrożeń.',
+     '2024-11-05 19:00:00', '2024-11-05 22:00:00',
+     (SELECT id FROM recruiters WHERE user_id = (SELECT id FROM users WHERE login = 'user'))),
+
+    ('Spotkanie z zespołem', 'Omówienie bieżących rekrutacji oraz postępów projektowych.',
+     '2024-11-06 14:00:00', '2024-11-06 15:30:00',
+     (SELECT id FROM recruiters WHERE user_id = (SELECT id FROM users WHERE login = 'user'))),
+
+    ('Przegląd aplikacji', 'Weryfikacja i ocena aplikacji kandydatów.',
+     '2024-11-07 05:00:00', '2024-11-07 06:00:00',
+     (SELECT id FROM recruiters WHERE user_id = (SELECT id FROM users WHERE login = 'user'))),
+
+    ('Spotkanie HR', 'Dyskusja na temat strategii rekrutacyjnych na przyszły rok.',
+     '2024-11-10 15:00:00', '2024-11-10 16:30:00',
+     (SELECT id FROM recruiters WHERE user_id = (SELECT id FROM users WHERE login = 'admin')));
+
+
 -- Nowi użytkownicy z rolą RECRUITER
 INSERT INTO users (login, email, password, role)
 VALUES ('recruiter1', 'recruiter1@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw/iacp3HCbLpkuJN86iO', 'RECRUITER');
