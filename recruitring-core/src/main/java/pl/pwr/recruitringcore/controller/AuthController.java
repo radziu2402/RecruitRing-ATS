@@ -10,19 +10,19 @@ import pl.pwr.recruitringcore.dto.LoginDTO;
 import pl.pwr.recruitringcore.dto.RegisterDTO;
 import pl.pwr.recruitringcore.dto.UserDTO;
 import pl.pwr.recruitringcore.exceptions.UserAlreadyExistsException;
-import pl.pwr.recruitringcore.service.AuthServiceImpl;
-import pl.pwr.recruitringcore.service.UserServiceImpl;
+import pl.pwr.recruitringcore.service.AuthService;
+import pl.pwr.recruitringcore.service.UserService;
 
 
 @RestController
 public class AuthController implements AuthApi {
 
-    private final UserServiceImpl userService;
-    private final AuthServiceImpl authServiceImpl;
+    private final UserService userService;
+    private final AuthService authService;
 
-    public AuthController(UserServiceImpl userService, AuthServiceImpl authServiceImpl) {
+    public AuthController(UserService userService, AuthService authService) {
         this.userService = userService;
-        this.authServiceImpl = authServiceImpl;
+        this.authService = authService;
     }
 
     @Override
@@ -43,13 +43,13 @@ public class AuthController implements AuthApi {
 
     @Override
     public ResponseEntity<String> verifyEmail(String email) {
-        authServiceImpl.sendVerificationCode(email);
+        authService.sendVerificationCode(email);
         return ResponseEntity.ok().build();
     }
 
     @Override
     public ResponseEntity<String> confirmVerificationCode(String email, String code) {
-        boolean isVerified = authServiceImpl.verifyCode(email, code);
+        boolean isVerified = authService.verifyCode(email, code);
         if (isVerified) {
             return ResponseEntity.ok().build();
         } else {

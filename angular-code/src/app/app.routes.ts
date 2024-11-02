@@ -3,7 +3,9 @@ import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './auth/login/login.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {JobManagementComponent} from './dashboard/job-management/job-management.component';
-import {RecruitmentManagementComponent} from './dashboard/recruitment/recruitment-management/recruitment-management.component';
+import {
+  RecruitmentManagementComponent
+} from './dashboard/recruitment/recruitment-management/recruitment-management.component';
 import {CandidateManagementComponent} from './dashboard/candidate-management/candidate-management.component';
 import {HomeGuard} from './core/service/guard/home.guard';
 import {LoginGuard} from './core/service/guard/login.guard';
@@ -30,8 +32,9 @@ import {
 } from "./job-postings/application-success-confirmation/application-success-confirmation.component";
 import {RecruitmentListComponent} from "./dashboard/recruitment/recruitment-list/recruitment-list.component";
 import {CalendarComponent} from "./dashboard/calendar/calendar.component";
-import {RecruitmentListResolver} from "./dashboard/recruitment/service/recruitment-list.resolver";
+import {recruitmentListResolver} from "./dashboard/recruitment/resolver/recruitment-list.resolver";
 import {CandidateDetailsComponent} from "./dashboard/recruitment/candidate-details/candidate-details.component";
+import {candidateDetailsResolver} from "./dashboard/recruitment/resolver/candidate-details.resolver";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [HomeGuard]},
@@ -45,7 +48,7 @@ export const routes: Routes = [
       {
         path: '',
         component: PublicJobListComponent,
-        resolve: { jobs: PublicJobListResolver },
+        resolve: {jobs: PublicJobListResolver},
       },
       {
         path: ':offerCode',
@@ -90,7 +93,7 @@ export const routes: Routes = [
       {
         path: 'recruitment',
         component: RecruitmentListComponent,
-        resolve: { recruitments: RecruitmentListResolver }
+        resolve: {recruitments: recruitmentListResolver}
       },
       {
         path: 'recruitment/:offerCode',
@@ -98,7 +101,8 @@ export const routes: Routes = [
       },
       {
         path: 'recruitment/:offerCode/candidate/:applicationCode',
-        component: CandidateDetailsComponent
+        component: CandidateDetailsComponent,
+        resolve: {candidate: candidateDetailsResolver}
       },
       {
         path: 'candidates',

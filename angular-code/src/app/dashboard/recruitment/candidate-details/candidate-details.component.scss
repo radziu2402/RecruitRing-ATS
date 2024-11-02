@@ -1,0 +1,334 @@
+.candidate-details {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    .back-button {
+      display: flex;
+      align-items: center;
+      background: transparent;
+      border: none;
+      color: #0056b3;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 600;
+
+      fa-icon {
+        margin-right: 8px;
+      }
+
+      &:hover {
+        color: #003a79;
+      }
+    }
+
+    h1 {
+      color: #333;
+      font-size: 24px;
+      margin: 0;
+    }
+  }
+
+  .profile-summary {
+    display: flex;
+    gap: 30px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    .profile-photo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e0e7ff;
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+    }
+
+    .profile-info {
+      flex: 1;
+
+      h2 {
+        margin: 0 0 10px;
+        color: #333;
+      }
+
+      p {
+        margin: 5px 0;
+        color: #666;
+
+        span {
+          font-weight: bold;
+          color: #333;
+        }
+      }
+    }
+
+    .rating-status-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      .rating-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        label {
+          font-size: 14px;
+          color: #555;
+          margin-bottom: 5px;
+        }
+
+        .rating-display {
+          display: flex;
+          align-items: center;
+          font-size: 24px;
+          color: #ff9800;
+
+          .star {
+            cursor: pointer;
+            transition: color 0.3s;
+
+            &.selected {
+              color: #ff9800;
+            }
+
+            &:not(.selected) {
+              color: #ddd;
+            }
+
+            &:hover,
+            &:hover ~ .star {
+              color: #ddd;
+            }
+
+            &:hover,
+            & ~ .star:hover {
+              color: #ffc107;
+            }
+          }
+
+          .rating-text {
+            font-size: 16px;
+            color: #333;
+            margin-left: 8px;
+          }
+        }
+
+      }
+
+      .status-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        label {
+          font-size: 14px;
+          color: #555;
+          margin-bottom: 5px;
+        }
+
+        select {
+          padding: 5px;
+          font-size: 16px;
+          color: #333;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+
+          &:focus {
+            border-color: #007bff;
+            outline: none;
+          }
+        }
+      }
+    }
+  }
+
+  .details-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+
+    .cv-section, .notes-section {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+      h3 {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 15px;
+      }
+    }
+
+    .cv-section {
+      .cv-preview-button,
+      .cv-download-button {
+        padding: 8px 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px;
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+
+      .pdf-viewer-container {
+        position: relative;
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        height: 80vh;
+        overflow: hidden;
+      }
+    }
+
+
+    .notes-section {
+      ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 8px;
+          background-color: #f9f9f9;
+          border-radius: 5px;
+          margin-bottom: 5px;
+          color: #555;
+
+          .delete-note {
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 16px;
+
+            &:hover {
+              color: #c82333;
+            }
+          }
+        }
+      }
+
+      .add-note-button {
+        padding: 8px 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #0056b3;        }
+      }
+    }
+  }
+
+  .save-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+
+    .save-button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #218838;
+      }
+    }
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+
+    .modal {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 300px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+
+      h3 {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 15px;
+      }
+
+      textarea {
+        width: 100%;
+        height: 80px;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        resize: none;
+        margin-bottom: 10px;
+      }
+
+      .modal-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 10px;
+
+        button {
+          padding: 8px 12px;
+          border-radius: 5px;
+          cursor: pointer;
+          color: white;
+          border: none;
+
+          &:first-of-type {
+            background-color: #007bff;
+
+            &:hover {
+              background-color: #0056b3;
+            }
+          }
+
+          &:last-of-type {
+            background-color: #dc3545;
+
+            &:hover {
+              background-color: #c82333;
+            }
+          }
+        }
+      }
+    }
+  }
+}

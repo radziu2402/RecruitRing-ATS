@@ -4,16 +4,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import pl.pwr.recruitringcore.api.RequirementApi;
 import pl.pwr.recruitringcore.dto.RequirementDTO;
-import pl.pwr.recruitringcore.service.RequirementServiceImpl;
+import pl.pwr.recruitringcore.service.RequirementService;
 
 import java.util.List;
 
 @RestController
 public class RequirementController implements RequirementApi {
 
-    private final RequirementServiceImpl requirementService;
+    private final RequirementService requirementService;
 
-    public RequirementController(RequirementServiceImpl requirementService) {
+    public RequirementController(RequirementService requirementService) {
         this.requirementService = requirementService;
     }
 

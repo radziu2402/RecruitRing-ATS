@@ -17,9 +17,9 @@ public class RecruiterServiceImpl implements RecruiterService {
         this.recruiterRepository = recruiterRepository;
     }
 
+    @Override
     public List<RecruiterDTO> findRecruitersByName(String query) {
         List<Recruiter> recruiters = recruiterRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(query, query);
-
         return recruiters.stream().map(this::mapToDTO).toList();
     }
 

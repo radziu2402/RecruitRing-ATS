@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.pwr.recruitringcore.dto.ApplicationDTO;
 import pl.pwr.recruitringcore.dto.CandidateDTO;
+import pl.pwr.recruitringcore.dto.DetailedCandidateDTO;
 
 import java.util.List;
 
@@ -20,4 +21,14 @@ public interface ApplicationApi {
 
     @GetMapping("recruitments/{offerCode}/candidates")
     ResponseEntity<List<CandidateDTO>> getCandidatesByOfferCode(@PathVariable String offerCode);
+
+    @GetMapping("recruitments/candidates/{applicationCode}")
+    ResponseEntity<DetailedCandidateDTO> getCandidateDetails(@PathVariable String applicationCode);
+
+    @GetMapping("documents/download-url/{blobName}")
+    ResponseEntity<String> getFileUrlToDownload(@PathVariable String blobName);
+
+    @PutMapping("recruitments/candidates/{applicationCode}")
+    ResponseEntity<Void> updateCandidate(@PathVariable String applicationCode, @RequestBody DetailedCandidateDTO candidateDto);
+
 }

@@ -4,16 +4,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import pl.pwr.recruitringcore.api.JobCategoryApi;
 import pl.pwr.recruitringcore.dto.JobCategoryDTO;
-import pl.pwr.recruitringcore.service.JobCategoryServiceImpl;
+import pl.pwr.recruitringcore.service.JobCategoryService;
 
 import java.util.List;
 
 @RestController
 public class JobCategoryController implements JobCategoryApi {
 
-    private final JobCategoryServiceImpl jobCategoryService;
+    private final JobCategoryService jobCategoryService;
 
-    public JobCategoryController(JobCategoryServiceImpl jobCategoryService) {
+    public JobCategoryController(JobCategoryService jobCategoryService) {
         this.jobCategoryService = jobCategoryService;
     }
 

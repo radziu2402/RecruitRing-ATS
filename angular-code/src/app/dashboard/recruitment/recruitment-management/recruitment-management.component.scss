@@ -194,37 +194,37 @@
               color: #13bf16; // zielony dla nowego statusu
             }
 
-            &.status-cv_review {
-              color: #007bff; // niebieski dla przeglądu CV
-            }
+            //&.status-cv_review {
+            //  color: #007bff; // niebieski dla przeglądu CV
+            //}
 
             &.status-cv_rejected {
               color: #ff0000; // czerwony dla odrzuconego CV
             }
 
-            &.status-phone_interview {
-              color: #ffbf00; // pomarańczowy dla rozmowy telefonicznej
-            }
-
-            &.status_meeting {
-              color: #8000ff; // fioletowy dla spotkania
-            }
-
-            &.status_rejected_after_meeting {
-              color: #ff5733; // inny odcień czerwieni
-            }
-
-            &.status-second_stage {
-              color: #3399ff; // jasny niebieski
-            }
-
-            &.status-offer_made {
-              color: #00bfa5; // zielony morski dla oferty
-            }
-
-            &.status_hired {
-              color: #00c853; // zielony dla zatrudnionego
-            }
+            //&.status-phone_interview {
+            //  color: #ffbf00; // pomarańczowy dla rozmowy telefonicznej
+            //}
+            //
+            //&.status_meeting {
+            //  color: #8000ff; // fioletowy dla spotkania
+            //}
+            //
+            //&.status_rejected_after_meeting {
+            //  color: #ff5733; // inny odcień czerwieni
+            //}
+            //
+            //&.status-second_stage {
+            //  color: #3399ff; // jasny niebieski
+            //}
+            //
+            //&.status-offer_made {
+            //  color: #00bfa5; // zielony morski dla oferty
+            //}
+            //
+            //&.status_hired {
+            //  color: #00c853; // zielony dla zatrudnionego
+            //}
 
             &.status-application_withdrawn {
               color: #757575; // szary dla wycofanej aplikacji
@@ -233,8 +233,26 @@
 
 
           .rating {
-            font-size: 14px;
-            color: #666;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            justify-content: flex-end;
+
+            .star {
+              font-size: 20px;
+              color: #ddd;
+              transition: color 0.3s;
+
+              &.filled {
+                color: #ff9800;
+              }
+            }
+
+            .rating-text {
+              font-size: 14px;
+              color: #333;
+              margin-left: 8px;
+            }
           }
         }
       }

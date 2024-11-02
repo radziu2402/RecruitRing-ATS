@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgForOf, NgIf} from '@angular/common';
-import {Recruitment} from "../service/recruitment.model";
+import {Recruitment} from "../model/recruitment.model";
 import {mapWorkType} from "../../../job-postings/service/work-type-mapper";
 
 @Component({

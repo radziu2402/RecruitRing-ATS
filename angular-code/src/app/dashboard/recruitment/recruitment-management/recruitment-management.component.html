@@ -1,7 +1,8 @@
 <div class="recruitment-overview">
   <div class="header">
     <h2 class="back-arrow" (click)="goBack()" (keydown)="onKeyDownHandler($event)">
-      <fa-icon [icon]="faArrowLeft"></fa-icon> Moje rekrutacje
+      <fa-icon [icon]="faArrowLeft"></fa-icon>
+      Moje rekrutacje
     </h2>
   </div>
 
@@ -68,9 +69,9 @@
 
     <section class="candidates">
       <div class="search-header">
-        <h1>Rekrutacja na stanowisko: {{ offerName }}</h1>
+        <h1>Aplikacje na stanowisko: {{ offerName }}</h1>
         <div class="search-container">
-          <input type="text" placeholder="Szukaj kandydata..." (input)="onSearch($event)" />
+          <input type="text" placeholder="Szukaj kandydata..." (input)="onSearch($event)"/>
         </div>
       </div>
 
@@ -83,7 +84,8 @@
              *ngFor="let candidate of filteredCandidates"
              (click)="goToCandidateDetails(candidate.applicationCode)"
              (keydown)="onKeyDownGoToCandidate($event, candidate.applicationCode)"
-             tabindex="0">          <div class="candidate-info">
+             tabindex="0">
+          <div class="candidate-info">
             <h4>{{ candidate.firstName }} {{ candidate.lastName }}</h4>
             <p>{{ candidate.email }}</p>
             <p>{{ candidate.phone }}</p>
@@ -93,8 +95,17 @@
             <span class="status" [ngClass]="'status-' + (candidate.status | lowercase)">
               {{ mapApplicationStatusToPolish(candidate.status) }}
             </span>
-            <span class="rating">Ocena: {{ candidate.rating > 0 ? candidate.rating : 'Nieocenione' }}</span>
+            <div class="rating">
+              <span *ngFor="let star of [1, 2, 3, 4, 5]" class="star"
+                    [class.filled]="star <= candidate.rating">
+                ★
+              </span>
+              <span class="rating-text">
+                {{ candidate.rating > 0 ? candidate.rating + '/5' : 'Nieocenione' }}
+              </span>
+            </div>
           </div>
+
         </div>
       </div>
     </section>
