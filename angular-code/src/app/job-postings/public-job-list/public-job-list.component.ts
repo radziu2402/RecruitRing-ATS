@@ -2,10 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {NgForOf, NgIf} from '@angular/common';
 import {PublicJobFilterComponent} from '../public-job-filter/public-job-filter.component';
 import {PublicJobService} from '../service/public-job.service';
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {JobFilterParams} from "../model/job-filter-param.model";
 import {mapWorkType} from "../service/work-type-mapper";
 import {PublicJobSummaryPosting} from "../model/public-job-posting-summary.model";
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import {faChartSimple} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-public-job-list',
@@ -14,7 +16,8 @@ import {PublicJobSummaryPosting} from "../model/public-job-posting-summary.model
     NgForOf,
     PublicJobFilterComponent,
     NgIf,
-    RouterLink
+    RouterLink,
+    FaIconComponent
   ],
   templateUrl: './public-job-list.component.html',
   styleUrls: ['./public-job-list.component.scss']
@@ -33,7 +36,7 @@ export class PublicJobListComponent implements OnInit {
     searchTerm: ''
   };
 
-  constructor(private readonly jobService: PublicJobService, private readonly route: ActivatedRoute) {
+  constructor(private readonly jobService: PublicJobService, private readonly route: ActivatedRoute, private readonly router: Router) {
   }
 
   ngOnInit(): void {
@@ -82,4 +85,10 @@ export class PublicJobListComponent implements OnInit {
   }
 
   protected readonly mapWorkType = mapWorkType;
+
+  openApplicationStatusChecker(): void {
+    this.router.navigate(['jobs/status']);
+  }
+
+  protected readonly faChartSimple = faChartSimple;
 }

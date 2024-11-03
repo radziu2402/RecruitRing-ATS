@@ -6,7 +6,6 @@ import {JobManagementComponent} from './dashboard/job-management/job-management.
 import {
   RecruitmentManagementComponent
 } from './dashboard/recruitment/recruitment-management/recruitment-management.component';
-import {CandidateManagementComponent} from './dashboard/candidate-management/candidate-management.component';
 import {HomeGuard} from './core/service/guard/home.guard';
 import {LoginGuard} from './core/service/guard/login.guard';
 import {AuthGuard} from './core/service/guard/auth.guard';
@@ -36,6 +35,9 @@ import {recruitmentListResolver} from "./dashboard/recruitment/resolver/recruitm
 import {CandidateDetailsComponent} from "./dashboard/recruitment/candidate-details/candidate-details.component";
 import {candidateDetailsResolver} from "./dashboard/recruitment/resolver/candidate-details.resolver";
 import {eventsResolver} from "./dashboard/calendar/resolver/events.resolver";
+import {
+  ApplicationStatusCheckerComponent
+} from "./job-postings/application-status-checker/application-status-checker.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [HomeGuard]},
@@ -50,6 +52,10 @@ export const routes: Routes = [
         path: '',
         component: PublicJobListComponent,
         resolve: {jobs: PublicJobListResolver},
+      },
+      {
+        path: 'status',
+        component: ApplicationStatusCheckerComponent
       },
       {
         path: ':offerCode',
@@ -106,13 +112,9 @@ export const routes: Routes = [
         resolve: {candidate: candidateDetailsResolver}
       },
       {
-        path: 'candidates',
-        component: CandidateManagementComponent
-      },
-      {
         path: 'calendar',
         component: CalendarComponent,
-        resolve: { events: eventsResolver }
+        resolve: {events: eventsResolver}
       },
       {
         path: 'admin',

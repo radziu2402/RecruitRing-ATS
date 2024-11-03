@@ -1,3 +1,44 @@
+.status-check-bar {
+  width: 100%;
+  background-color: #f8f9fa;
+  padding: 10px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .status-check-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .status-check-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    padding: 8px 16px;
+    color: #007bff;
+    background-color: transparent;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+
+    fa-icon {
+      font-size: 16px;
+    }
+
+    &:hover {
+      background-color: #e0f3ff;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 3px rgba(0, 123, 255, 0.3);
+    }
+  }
+}
+
 .filter-container {
   margin-top: 50px;
 }

@@ -28,14 +28,16 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final NoteRepository noteRepository;
     private final JobRepository jobPostingRepository;
     private final AzureBlobStorageService blobStorageService;
+    private final EmailService emailService;
 
     public ApplicationServiceImpl(CandidateRepository candidateRepository, ApplicationRepository applicationRepository, NoteRepository noteRepository,
-                                  JobRepository jobPostingRepository, AzureBlobStorageService blobStorageService) {
+                                  JobRepository jobPostingRepository, AzureBlobStorageService blobStorageService, EmailService emailService) {
         this.candidateRepository = candidateRepository;
         this.applicationRepository = applicationRepository;
         this.noteRepository = noteRepository;
         this.jobPostingRepository = jobPostingRepository;
         this.blobStorageService = blobStorageService;
+        this.emailService = emailService;
     }
 
     @Transactional
@@ -82,6 +84,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                 .jobPosting(optionalJobPosting.get())
                 .appliedAt(LocalDateTime.now())
                 .status(ApplicationStatus.NEW)
+                .rating(0)
                 .build();
 
         Document cvDocument = Document.builder()
@@ -98,10 +101,58 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         application.getDocuments().add(cvDocument);
 
-        applicationRepository.save(application);
+        Application savedApplication = applicationRepository.save(application);
+
+        Optional<Application> updatedApplication = applicationRepository.findById(savedApplication.getId());
+        String applicationCode = String.valueOf(updatedApplication.map(Application::getApplicationCode).orElse(null));
+
+        if (applicationCode == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Błąd podczas generowania kodu aplikacji.");
+        }
+
+        sendApplicationConfirmationEmail(candidate, applicationCode, optionalJobPosting.get().getTitle().getName());
 
         return ResponseEntity.ok().build();
     }
+
+    public void sendApplicationConfirmationEmail(Candidate candidate, String offerCode, String jobTitle) {
+        String emailContent =
+                "<!DOCTYPE html>" +
+                        "<html lang=\"pl\">" +
+                        "<head>" +
+                        "  <meta charset=\"UTF-8\">" +
+                        "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
+                        "  <style>" +
+                        "    body { font-family: Arial, sans-serif; background-color: #f4f4f4; }" +
+                        "    .container { max-width: 600px; margin: 40px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }" +
+                        "    .header { text-align: center; padding: 10px 0; background-color: #007bff; color: #fff; border-radius: 8px 8px 0 0; }" +
+                        "    .header h1 { font-size: 24px; }" +
+                        "    .content { padding: 20px; font-size: 16px; color: #333; }" +
+                        "    .footer { text-align: center; padding: 10px; font-size: 12px; color: #999; border-top: 1px solid #ddd; }" +
+                        "  </style>" +
+                        "</head>" +
+                        "<body>" +
+                        "  <div class=\"container\">" +
+                        "    <div class=\"header\">" +
+                        "      <h1>Potwierdzenie aplikacji</h1>" +
+                        "    </div>" +
+                        "    <div class=\"content\">" +
+                        "      <p>Witaj " + candidate.getFirstName() + ",</p>" +
+                        "      <p>Dziękujemy za złożenie aplikacji na stanowisko: <strong>" + jobTitle + "</strong>.</p>" +
+                        "      <p>Twój kod aplikacji: <strong>" + offerCode + "</strong></p>" +
+                        "      <p>Możesz śledzić status aplikacji, wpisując ten kod na naszej stronie.</p>" +
+                        "      <p>Z poważaniem,<br>Zespół Rekrutacji</p>" +
+                        "    </div>" +
+                        "    <div class=\"footer\">" +
+                        "      <p>&copy; 2024 RecruitRing. Wszelkie prawa zastrzeżone.</p>" +
+                        "    </div>" +
+                        "  </div>" +
+                        "</body>" +
+                        "</html>";
+
+        emailService.sendEmail(candidate.getEmail(), "Potwierdzenie aplikacji", emailContent);
+    }
+
 
     @Override
     public List<CandidateDTO> getCandidatesByOfferCode(String offerCode) {
@@ -197,6 +248,36 @@ public class ApplicationServiceImpl implements ApplicationService {
         return false;
     }
 
+    @Override
+    public ApplicationStatusDTO getApplicationStatus(String applicationCode) {
+        if (!isValidUUID(applicationCode)) {
+            throw new IllegalArgumentException("Nieprawidłowy format kodu aplikacji: " + applicationCode);
+        }
 
+        Optional<Application> applicationOpt = applicationRepository.findByApplicationCode(UUID.fromString(applicationCode));
+
+        if (applicationOpt.isPresent()) {
+            Application application = applicationOpt.get();
+            return ApplicationStatusDTO.builder()
+                    .applicationCode(application.getApplicationCode().toString())
+                    .status(application.getStatus().toString())
+                    .positionName(application.getJobPosting().getTitle().getName())
+                    .candidateFirstName(application.getCandidate().getFirstName())
+                    .candidateLastName(application.getCandidate().getLastName())
+                    .applicationDate(application.getAppliedAt())
+                    .build();
+        } else {
+            throw new NoSuchElementException("Nie znaleziono aplikacji o podanym kodzie: " + applicationCode);
+        }
+    }
+
+    private boolean isValidUUID(String code) {
+        try {
+            UUID.fromString(code);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
 
 }

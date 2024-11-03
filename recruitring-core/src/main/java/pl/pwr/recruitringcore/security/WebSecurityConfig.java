@@ -39,6 +39,7 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/locations/search").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/job-categories/search").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/titles/search").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/applications/status/{applicationCode}").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/register").hasAuthority(Role.ADMINISTRATOR.toString())
                         .anyRequest().authenticated());
         return http.build();

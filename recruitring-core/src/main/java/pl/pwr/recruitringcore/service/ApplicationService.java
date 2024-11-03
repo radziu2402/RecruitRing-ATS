@@ -3,6 +3,7 @@ package pl.pwr.recruitringcore.service;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import pl.pwr.recruitringcore.dto.ApplicationDTO;
+import pl.pwr.recruitringcore.dto.ApplicationStatusDTO;
 import pl.pwr.recruitringcore.dto.CandidateDTO;
 import pl.pwr.recruitringcore.dto.DetailedCandidateDTO;
 
@@ -18,4 +19,7 @@ public interface ApplicationService {
     DetailedCandidateDTO getCandidateDetails(UUID applicationCode);
 
     boolean updateCandidate(UUID applicationCode, DetailedCandidateDTO candidateDto);
+
+    ApplicationStatusDTO getApplicationStatus(String applicationCode);
+
 }

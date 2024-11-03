@@ -246,8 +246,6 @@ export class CreateUpdateJobComponent implements OnInit {
 
   goBack() {
     this.router.navigate(['/dashboard/jobs']).then(() => {
-    }).catch((error) => {
-      console.error(error);
     });
   }
 

@@ -99,7 +99,7 @@ export class AddEventDialogComponent implements OnInit {
           this.dialogRef.close(eventData);
         }
       } catch (error) {
-        console.error("Błąd przetwarzania daty:", error);
+        console.error(error);
       }
     }
   }

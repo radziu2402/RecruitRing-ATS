@@ -56,10 +56,7 @@ export class JobDetailComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/dashboard/jobs']).then(() => {
-    }).catch((error) => {
-      console.error(error);
-    });
+    this.router.navigate(['/dashboard/jobs']).then(() => {});
   }
 
   editJob(): void {
@@ -95,6 +92,7 @@ export class JobDetailComponent implements OnInit {
       this.goBack();
     }
   }
+
   protected readonly mapWorkType = mapWorkType;
   protected readonly faArrowLeft = faArrowLeft;
 }

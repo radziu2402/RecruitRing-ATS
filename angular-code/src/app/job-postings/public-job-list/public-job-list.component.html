@@ -1,3 +1,11 @@
+<div class="status-check-bar">
+  <div class="status-check-container">
+    <button class="status-check-btn" (click)="openApplicationStatusChecker()">
+      <fa-icon [icon]=faChartSimple></fa-icon> Sprawdź status aplikacji
+    </button>
+  </div>
+</div>
+
 <div class="filter-container">
   <app-public-job-filter [jobs]="jobs"
                          (filteredJobs)="onJobsFiltered($event)"

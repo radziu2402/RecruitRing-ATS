@@ -1,0 +1,38 @@
+<div class="application-status-container">
+  <h1 class="back-arrow" (click)="goBack()" (keydown)="onKeyDownHandler($event)">
+    <fa-icon [icon]="faArrowLeft"></fa-icon>
+    Sprawdź status aplikacji
+  </h1>
+
+  <div *ngIf="!applicationStatus">
+    <p>Wpisz kod aplikacji, aby sprawdzić jej status.</p>
+    <form [formGroup]="applicationForm" (ngSubmit)="checkStatus()">
+      <div class="mb-4">
+        <label for="applicationCode">Kod aplikacji</label>
+        <input
+          id="applicationCode"
+          formControlName="applicationCode"
+          type="text"
+          class="form-control"
+          placeholder="Wprowadź kod aplikacji"
+          [ngClass]="{'is-invalid': applicationCodeControl?.touched && applicationCodeControl?.invalid}"
+        />
+        <div *ngIf="applicationCodeControl?.touched && applicationCodeControl?.invalid" class="text-danger">
+          Kod aplikacji jest wymagany.
+        </div>
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Sprawdź status</button>
+    </form>
+  </div>
+
+  <div *ngIf="applicationStatus" class="status-result">
+    <p><strong>Stanowisko: </strong> {{ applicationStatus.positionName }}</p>
+    <p><strong>Imię i nazwisko: </strong> {{ applicationStatus.candidateFirstName }} {{ applicationStatus.candidateLastName }}</p>
+    <p><strong>Data aplikacji: </strong> {{ applicationStatus.applicationDate | date: 'longDate' }}</p>
+    <p><strong>Aktualny status: </strong> {{ mapApplicationStatusToPolish(applicationStatus.status) }}</p>
+  </div>
+</div>
