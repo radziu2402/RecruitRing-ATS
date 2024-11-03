@@ -1,6 +1,6 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
-import {faArrowLeft, faTrash, faUserCircle} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft, faCalendarPlus, faTrash, faUserCircle} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {mapApplicationStatusToPolish} from "../service/status-mapper";
 import {FormsModule} from "@angular/forms";
@@ -8,6 +8,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {PdfViewerModule} from 'ng2-pdf-viewer';
 import {DetailedCandidateDTO} from "../model/detailed-candidate.model";
 import {CandidateService} from '../service/candidate.service';
+import {AddEventDialogComponent} from "../../calendar/add-event-dialog/add-event-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {EventService} from "../../calendar/service/events.service";
 
 @Component({
   selector: 'app-candidate-details',
@@ -49,9 +52,12 @@ export class CandidateDetailsComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly candidateService: CandidateService
+    private readonly candidateService: CandidateService,
+    private readonly dialog: MatDialog,
+    private readonly eventService: EventService
   ) {
-    this.offerCode = this.route.snapshot.paramMap.get('offerCode');
+    this
+      .offerCode = this.route.snapshot.paramMap.get('offerCode');
   }
 
   ngOnInit(): void {
@@ -68,6 +74,31 @@ export class CandidateDetailsComponent implements OnInit {
         if (this.candidate.documents?.length) {
           this.loadCvFileUrl(this.candidate.documents[0].fileName);
         }
+      }
+    });
+  }
+
+  scheduleMeeting(): void {
+    if (!this.candidate) {
+      return;
+    }
+
+    const dialogRef = this.dialog.open(AddEventDialogComponent, {
+      width: '400px',
+      data: {
+        title: `Rozmowa rekrutacyjna z: ${this.candidate.firstName} ${this.candidate.lastName}`,
+        showSendEmailCheckbox: true
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.eventService.createEvent(result).subscribe((newEvent) => {
+          if (result.sendEmail) {
+            this.eventService.sendMail(newEvent.id, this.candidate!.email).subscribe(() => {
+            });
+          }
+        });
       }
     });
   }
@@ -210,4 +241,5 @@ export class CandidateDetailsComponent implements OnInit {
   }
 
   protected readonly mapApplicationStatusToPolish = mapApplicationStatusToPolish;
+  protected readonly faCalendarPlus = faCalendarPlus;
 }

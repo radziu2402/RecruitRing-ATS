@@ -156,6 +156,9 @@ export class CalendarComponent implements OnInit {
   openAddEventDialog(): void {
     const dialogRef = this.dialog.open(AddEventDialogComponent, {
       width: '400px',
+      data: {
+        showSendEmailCheckbox: false
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -40,11 +40,16 @@
       <!-- Status aplikacji z listą wyboru -->
       <div class="status-section">
         <label for="applicationStatus">Status aplikacji:</label>
-        <select id="applicationStatus" [(ngModel)]="tempStatus" (ngModelChange)="onStatusChange($event)">
-          <option *ngFor="let status of applicationStatuses" [value]="status">
-            {{ mapApplicationStatusToPolish(status) }}
-          </option>
-        </select>
+        <div class="status-select-container">
+          <select id="applicationStatus" [(ngModel)]="tempStatus" (ngModelChange)="onStatusChange($event)">
+            <option *ngFor="let status of applicationStatuses" [value]="status">
+              {{ mapApplicationStatusToPolish(status) }}
+            </option>
+          </select>
+          <button class="schedule-meeting-button" (click)="scheduleMeeting()" title="Umów spotkanie z kandydatem">
+            <fa-icon [icon]="faCalendarPlus"></fa-icon>
+          </button>
+        </div>
       </div>
 
     </div>

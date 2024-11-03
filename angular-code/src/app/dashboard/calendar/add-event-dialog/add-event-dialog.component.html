@@ -55,6 +55,8 @@
     <textarea matInput formControlName="description"></textarea>
   </mat-form-field>
 
+  <mat-checkbox *ngIf="showSendEmailCheckbox" formControlName="sendEmail">Wyślij e-mail do kandydata</mat-checkbox>
+
   <!-- Przyciski akcji -->
   <div class="dialog-actions">
     <button mat-button (click)="close()">Anuluj</button>

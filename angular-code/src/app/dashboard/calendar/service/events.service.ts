@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
 import {EventDTO} from "../model/event.model";
 import {environment} from "../../../../environments/environment";
 
@@ -10,7 +10,8 @@ import {environment} from "../../../../environments/environment";
 export class EventService {
   private readonly apiUrl = `${environment.api}events`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   getMyEvents(): Observable<EventDTO[]> {
     return this.http.get<EventDTO[]>(`${this.apiUrl}/my-events`);
@@ -22,5 +23,9 @@ export class EventService {
 
   deleteEvent(eventId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${eventId}`);
+  }
+
+  sendMail(eventId: number, candidateEmail: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/meetings/sendMail`, {eventId, candidateEmail});
   }
 }

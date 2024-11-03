@@ -11,4 +11,6 @@ public interface EventService {
     EventDTO createEvent(EventDTO event);
 
     void deleteEvent(Long eventId);
+
+    void sendMeetingEmail(Long eventId, String candidateEmail);
 }

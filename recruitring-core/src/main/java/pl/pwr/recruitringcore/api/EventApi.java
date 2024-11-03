@@ -3,6 +3,7 @@ package pl.pwr.recruitringcore.api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.pwr.recruitringcore.dto.EventDTO;
+import pl.pwr.recruitringcore.dto.MeetingEmailRequestDTO;
 
 import java.util.List;
 
@@ -17,4 +18,7 @@ public interface EventApi {
 
     @DeleteMapping("/{eventId}")
     ResponseEntity<Void> deleteEvent(@PathVariable Long eventId);
+
+    @PostMapping("/meetings/sendMail")
+    ResponseEntity<Void> sendMeetingEmail(@RequestBody MeetingEmailRequestDTO request);
 }

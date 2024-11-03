@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatDialogRef} from "@angular/material/dialog";
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatInputModule} from "@angular/material/input";
@@ -21,6 +21,7 @@ import {
   NgxMatTimepickerModule,
   NgxMatTimepickerToggleComponent
 } from "ngx-mat-timepicker";
+import {MatCheckbox} from "@angular/material/checkbox";
 
 registerLocaleData(localePl);
 
@@ -38,7 +39,9 @@ registerLocaleData(localePl);
     NgxMatTimepickerToggleComponent,
     NgxMatTimepickerComponent,
     NgxMatTimepickerDirective,
-    NgxMatTimepickerModule
+    NgxMatTimepickerModule,
+    MatCheckbox,
+    FormsModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
@@ -48,26 +51,34 @@ registerLocaleData(localePl);
   templateUrl: './add-event-dialog.component.html',
   styleUrls: ['./add-event-dialog.component.scss']
 })
-export class AddEventDialogComponent {
+export class AddEventDialogComponent implements OnInit {
   eventForm: FormGroup;
+  showSendEmailCheckbox = false;
+  sendEmail = false;
 
   constructor(
     private dialogRef: MatDialogRef<AddEventDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder
   ) {
     this.eventForm = this.fb.group({
-      title: ['', Validators.required],
+      title: [data?.title || '', Validators.required],
       startDate: ['', Validators.required],
       startTime: ['', [Validators.required, Validators.pattern('^([01]?[0-9]|2[0-3]):[0-5][0-9]$')]],
       endDate: ['', Validators.required],
       endTime: ['', [Validators.required, Validators.pattern('^([01]?[0-9]|2[0-3]):[0-5][0-9]$')]],
-      description: ['']
+      description: [data?.description || ''],
+      sendEmail: [false]
     });
+  }
+
+  ngOnInit(): void {
+    this.showSendEmailCheckbox = !!this.data.showSendEmailCheckbox;
   }
 
   submit() {
     if (this.eventForm.valid) {
-      const { title, description, startDate, startTime, endDate, endTime } = this.eventForm.value;
+      const {title, description, startDate, startTime, endDate, endTime, sendEmail} = this.eventForm.value;
 
       const startDateString = startDate.toISOString().split('T')[0];
       const endDateString = endDate.toISOString().split('T')[0];
@@ -81,7 +92,8 @@ export class AddEventDialogComponent {
             title,
             description,
             start,
-            end
+            end,
+            sendEmail
           };
 
           this.dialogRef.close(eventData);
@@ -91,8 +103,6 @@ export class AddEventDialogComponent {
       }
     }
   }
-
-
 
   close() {
     this.dialogRef.close();
