@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.pwr.recruitringcore.api.AuthApi;
 import pl.pwr.recruitringcore.dto.JwtResultDTO;
 import pl.pwr.recruitringcore.dto.LoginDTO;
-import pl.pwr.recruitringcore.dto.RegisterDTO;
-import pl.pwr.recruitringcore.dto.UserDTO;
 import pl.pwr.recruitringcore.exceptions.UserAlreadyExistsException;
 import pl.pwr.recruitringcore.service.AuthService;
 import pl.pwr.recruitringcore.service.UserService;
@@ -33,12 +31,6 @@ public class AuthController implements AuthApi {
             return new ResponseEntity<>(jwtResult, HttpStatus.OK);
         }
         return ResponseEntity.badRequest().build();
-    }
-
-    @Override
-    public ResponseEntity<UserDTO> register(RegisterDTO registerDto) {
-        UserDTO registeredUser = userService.register(registerDto);
-        return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
     }
 
     @Override

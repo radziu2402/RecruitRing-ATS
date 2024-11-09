@@ -26,11 +26,11 @@ CREATE TRIGGER set_application_code
     FOR EACH ROW
 EXECUTE FUNCTION generate_application_code();
 
-INSERT INTO users (login, email, password, role)
-VALUES ('admin', 'admin@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw/iacp3HCbLpkuJN86iO', 'ADMINISTRATOR');
+INSERT INTO users (login, email, password, role, is_locked)
+VALUES ('admin', 'admin@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw/iacp3HCbLpkuJN86iO', 'ADMINISTRATOR', false);
 
-INSERT INTO users (login, email, password, role)
-VALUES ('user', 'user@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw/iacp3HCbLpkuJN86iO', 'RECRUITER');
+INSERT INTO users (login, email, password, role, is_locked)
+VALUES ('user', 'user@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw/iacp3HCbLpkuJN86iO', 'RECRUITER', true);
 
 INSERT INTO recruiters (first_name, last_name, position, date_of_birth, user_id)
 VALUES ('Admin', 'Example', 'HR Manager', '1980-01-01',
@@ -51,27 +51,27 @@ VALUES
      (SELECT id FROM recruiters WHERE user_id = (SELECT id FROM users WHERE login = 'user'))),
 
     ('Spotkanie z zespołem', 'Omówienie bieżących rekrutacji oraz postępów projektowych.',
-     '2024-11-06 14:00:00', '2024-11-06 15:30:00',
+     '2024-12-06 14:00:00', '2024-12-06 15:30:00',
      (SELECT id FROM recruiters WHERE user_id = (SELECT id FROM users WHERE login = 'user'))),
 
     ('Przegląd aplikacji', 'Weryfikacja i ocena aplikacji kandydatów.',
-     '2024-11-07 05:00:00', '2024-11-07 06:00:00',
+     '2024-12-07 05:00:00', '2024-12-07 06:00:00',
      (SELECT id FROM recruiters WHERE user_id = (SELECT id FROM users WHERE login = 'user'))),
 
     ('Spotkanie HR', 'Dyskusja na temat strategii rekrutacyjnych na przyszły rok.',
-     '2024-11-10 15:00:00', '2024-11-10 16:30:00',
+     '2024-12-10 15:00:00', '2024-12-10 16:30:00',
      (SELECT id FROM recruiters WHERE user_id = (SELECT id FROM users WHERE login = 'admin')));
 
 
 -- Nowi użytkownicy z rolą RECRUITER
-INSERT INTO users (login, email, password, role)
-VALUES ('recruiter1', 'recruiter1@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw/iacp3HCbLpkuJN86iO', 'RECRUITER');
+INSERT INTO users (login, email, password, role, is_locked)
+VALUES ('recruiter1', 'recruiter1@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw/iacp3HCbLpkuJN86iO', 'RECRUITER', false);
 
-INSERT INTO users (login, email, password, role)
-VALUES ('recruiter2', 'recruiter2@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw/iacp3HCbLpkuJN86iO', 'RECRUITER');
+INSERT INTO users (login, email, password, role, is_locked)
+VALUES ('recruiter2', 'recruiter2@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw/iacp3HCbLpkuJN86iO', 'RECRUITER', false);
 
-INSERT INTO users (login, email, password, role)
-VALUES ('recruiter3', 'recruiter3@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw/iacp3HCbLpkuJN86iO', 'RECRUITER');
+INSERT INTO users (login, email, password, role, is_locked)
+VALUES ('recruiter3', 'recruiter3@example.com', '$2a$10$paWcoAGkFwu.rAeNNcfPv.FfRelOjwSuYw/iacp3HCbLpkuJN86iO', 'RECRUITER', false);
 
 -- Przypisanie danych osobowych nowym rekruterom
 INSERT INTO recruiters (first_name, last_name, position, date_of_birth, user_id)
@@ -358,27 +358,27 @@ VALUES
     ('Piotr', 'Sikorski', 'piotr.sikorski@gmail.com', '444-555-666', (SELECT id FROM address WHERE city = 'Gdańsk'));
 
 -- Dodaj aplikacje do tabeli applications dla istniejącej oferty pracy
-INSERT INTO applications (candidate_id, job_posting_id, applied_at, status, rating)
+INSERT INTO applications (candidate_id, job_posting_id, applied_at, status, rating, hired_at)
 VALUES
     ((SELECT id FROM candidates WHERE email = 'jan.kowalski@example.com'),
      (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
-     '2024-10-12', 'NEW', 0),
+     '2024-10-12', 'NEW', 0, null),
 
     ((SELECT id FROM candidates WHERE email = 'radzi2002@wp.pl'),
      (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
-     '2024-10-12', 'CV_REVIEW', 4),
+     '2024-10-12', 'CV_REJECTED', 2, null),
 
     ((SELECT id FROM candidates WHERE email = 'radziu2402@gmail.com'),
      (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
-     '2024-10-12', 'CV_REJECTED', 1),
+     '2024-10-12', 'CV_REJECTED', 1, null),
 
     ((SELECT id FROM candidates WHERE email = 'anna.nowicka@gmail.com'),
      (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
-     '2024-10-12', 'OFFER_MADE', 5),
+     '2024-10-12', 'HIRED', 5, '2024-10-17'),
 
     ((SELECT id FROM candidates WHERE email = 'piotr.sikorski@gmail.com'),
      (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
-     '2024-10-12', 'APPLICATION_WITHDRAWN', 0);
+     '2024-10-12', 'APPLICATION_WITHDRAWN', 0, null);
 
 -- Dodaj dokumenty (CV) do tabeli documents dla każdej aplikacji
 INSERT INTO documents (application_id, candidate_id, file_name, file_type, uploaded_at)

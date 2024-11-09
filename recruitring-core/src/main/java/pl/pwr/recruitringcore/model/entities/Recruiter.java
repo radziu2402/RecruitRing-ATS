@@ -3,6 +3,7 @@ package pl.pwr.recruitringcore.model.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "recruiters")
-public class Recruiter {
+public class Recruiter implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

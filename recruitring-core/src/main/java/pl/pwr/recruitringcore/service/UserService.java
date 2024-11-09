@@ -1,16 +1,15 @@
 package pl.pwr.recruitringcore.service;
 
-import pl.pwr.recruitringcore.dto.*;
+import pl.pwr.recruitringcore.dto.JwtResultDTO;
+import pl.pwr.recruitringcore.dto.LoginDTO;
+import pl.pwr.recruitringcore.dto.ProfileDataDTO;
+import pl.pwr.recruitringcore.dto.UserDTO;
 
 public interface UserService {
 
     JwtResultDTO login(LoginDTO credentialsDto);
 
-    UserDTO register(RegisterDTO registerDto);
-
     UserDTO findUserByLogin(String login);
-
-    UserDTO findUserById(Long id);
 
     ProfileDataDTO getProfileData(UserDTO userDto);
 

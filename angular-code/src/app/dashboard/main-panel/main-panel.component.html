@@ -2,32 +2,47 @@
   <!-- Hero Section with Key Stats -->
   <div class="hero">
     <div class="hero-stat">
-      <h2>5</h2>
-      <p>Otwarte Rekrutacje</p>
+      <h2>{{ stats.openRecruitments }}</h2>
+      <p>Moje Otwarte Rekrutacje</p>
     </div>
     <div class="hero-stat">
-      <h2>10</h2>
+      <h2>{{ stats.newCandidates }}</h2>
       <p>Nowi Kandydaci</p>
     </div>
     <div class="hero-stat">
-      <h2>3</h2>
-      <p>Rozmowy Zaplanowane</p>
+      <h2>{{ stats.scheduledMeetings }}</h2>
+      <p>Zaplanowane spotkania</p>
     </div>
     <div class="hero-stat">
-      <h2>2 dni</h2>
-      <p>Średni Czas Odpowiedzi</p>
+      <h2>{{ stats.avgTimeToHire }} dni</h2>
+      <p>Średni Czas Do Zatrudnienia</p>
     </div>
   </div>
 
-  <!-- Recent Activity Section -->
-  <div class="recent-activity">
-    <h3>Ostatnia Aktywność</h3>
-    <ul>
-      <li><span class="dot"></span>Nowy kandydat: Jan Kowalski zaaplikował na stanowisko Marketing Specialist</li>
-      <li><span class="dot"></span>Rozmowa zaplanowana z Anną Nowak na stanowisko Junior Developer</li>
-      <li><span class="dot"></span>Kandydat Marek Wiśniewski zmienił status na "W trakcie rozmowy"</li>
-      <li><span class="dot"></span>Rekrutacja "Product Manager" zamknięta</li>
-    </ul>
+  <!-- Progress Overview Section -->
+  <div class="progress-overview">
+    <h3>Postęp Rekrutacji</h3>
+    <div class="progress-item">
+      <p>Kandydaci ocenieni na 5:</p>
+      <div class="progress-bar">
+        <div class="progress" [style.width.%]="stats.candidateRatings"></div>
+        <span class="progress-percent">{{ stats.candidateRatings }}%</span>
+      </div>
+    </div>
+    <div class="progress-item">
+      <p>Odrzuceni kandydaci:</p>
+      <div class="progress-bar">
+        <div class="progress" [style.width.%]="stats.rejectedCandidates"></div>
+        <span class="progress-percent">{{ stats.rejectedCandidates }}%</span>
+      </div>
+    </div>
+    <div class="progress-item">
+      <p>Przyjęci Kandydaci:</p>
+      <div class="progress-bar">
+        <div class="progress" [style.width.%]="stats.hiredCandidates"></div>
+        <span class="progress-percent">{{ stats.hiredCandidates }}%</span>
+      </div>
+    </div>
   </div>
 
   <!-- Shortcut Section -->
@@ -36,13 +51,13 @@
       <button (click)="navigateTo('recruitment')">Moje Rekrutacje</button>
     </div>
     <div class="shortcut">
-      <button (click)="navigateTo('candidates')">Kandydaci</button>
-    </div>
-    <div class="shortcut">
       <button (click)="navigateTo('jobs')">Oferty Pracy</button>
     </div>
     <div class="shortcut">
       <button (click)="navigateTo('calendar')">Kalendarz</button>
+    </div>
+    <div class="shortcut">
+      <button (click)="navigateTo('profile')">Mój profil</button>
     </div>
   </div>
 </div>

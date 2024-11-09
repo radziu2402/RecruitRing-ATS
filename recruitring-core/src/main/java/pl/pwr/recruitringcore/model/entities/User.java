@@ -36,6 +36,12 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false, length = 80)
     private String password;
 
+    @Column(name = "is_locked", nullable = false)
+    private boolean isLocked;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Recruiter recruiter;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
@@ -58,7 +64,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !isLocked;
     }
 
     @Override

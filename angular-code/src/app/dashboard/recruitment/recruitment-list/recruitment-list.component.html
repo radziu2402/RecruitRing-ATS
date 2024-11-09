@@ -59,7 +59,11 @@
       <input type="text" placeholder="Szukaj rekrutacji..." (input)="onSearch($event)">
     </div>
 
-    <ul>
+    <div *ngIf="filteredRecruitments.length === 0" class="no-recruitment-message">
+      Brak rekrutacji
+    </div>
+
+    <ul *ngIf="filteredRecruitments.length > 0">
       <li *ngFor="let recruitment of filteredRecruitments"
           class="recruitment-item"
           (click)="goToRecruitment(recruitment.offerCode, recruitment.title)"
@@ -76,4 +80,5 @@
       </li>
     </ul>
   </section>
+
 </div>

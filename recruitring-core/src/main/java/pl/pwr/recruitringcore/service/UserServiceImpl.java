@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.pwr.recruitringcore.dto.*;
+import pl.pwr.recruitringcore.dto.JwtResultDTO;
+import pl.pwr.recruitringcore.dto.LoginDTO;
+import pl.pwr.recruitringcore.dto.ProfileDataDTO;
+import pl.pwr.recruitringcore.dto.UserDTO;
 import pl.pwr.recruitringcore.exceptions.UnknownUserException;
-import pl.pwr.recruitringcore.exceptions.UserAlreadyExistsException;
 import pl.pwr.recruitringcore.factory.UserDataProducerFactory;
 import pl.pwr.recruitringcore.model.entities.PasswordResetToken;
 import pl.pwr.recruitringcore.model.entities.User;
@@ -43,28 +45,6 @@ public class UserServiceImpl implements UserService {
         this.emailServiceImpl = emailServiceImpl;
     }
 
-    @Override
-    public UserDTO register(RegisterDTO registerDto) {
-        if (userRepository.existsByLogin(registerDto.getLogin())) {
-            throw new UserAlreadyExistsException("User with this login already exists", HttpStatus.CONFLICT);
-        }
-
-        if (userRepository.existsByEmail(registerDto.getEmail())) {
-            throw new UserAlreadyExistsException("User with this email already exists", HttpStatus.CONFLICT);
-        }
-
-        User newUser = User.builder()
-                .login(registerDto.getLogin())
-                .email(registerDto.getEmail())
-                .role(registerDto.getRole())
-                .password(passwordEncoder.encode(registerDto.getPassword()))
-                .build();
-
-        userRepository.save(newUser);
-
-        return toUserDto(newUser);
-    }
-
     private UserDTO toUserDto(User newUser) {
         return UserDTO.builder()
                 .id(newUser.getId())
@@ -79,6 +59,10 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByLogin(credentialsDto.getLogin())
                 .orElseThrow(() -> new UnknownUserException("No user found", HttpStatus.BAD_REQUEST));
 
+        if (user.isLocked()) {
+            return JwtResultDTO.builder().success(false).build();
+        }
+
         if (!passwordEncoder.matches(credentialsDto.getPassword(), user.getPassword())) {
             return JwtResultDTO.builder().success(false).build();
         }
@@ -90,13 +74,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO findUserByLogin(String login) {
         User user = userRepository.findByLogin(login)
-                .orElseThrow(() -> new UnknownUserException("Unknown user", HttpStatus.BAD_REQUEST));
-        return toUserDto(user);
-    }
-
-    @Override
-    public UserDTO findUserById(Long id) {
-        User user = userRepository.findById(id)
                 .orElseThrow(() -> new UnknownUserException("Unknown user", HttpStatus.BAD_REQUEST));
         return toUserDto(user);
     }

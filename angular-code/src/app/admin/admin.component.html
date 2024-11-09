@@ -1,2 +1,133 @@
-<h2>Panel Administratora</h2>
-<p>Tutaj możesz zarządzać systemem i użytkownikami.</p>
+<div class="admin-panel">
+  <header class="header">
+    <h1>Panel Administratora</h1>
+    <button class="add-user-btn" (click)="openAddUserModal()">+ Dodaj Użytkownika</button>
+  </header>
+
+  <section class="filter-section">
+    <input type="text" placeholder="Szukaj użytkownika..." (input)="onSearch($event)">
+    <select (change)="onStatusFilterChange($event)">
+      <option value="">Wybierz status</option>
+      <option value="active">Aktywny</option>
+      <option value="blocked">Zablokowany</option>
+    </select>
+  </section>
+
+  <section class="user-list">
+    <h2>Lista Użytkowników</h2>
+    <div *ngIf="filteredUsers.length === 0" class="no-users">Brak wyników</div>
+    <ul *ngIf="filteredUsers.length > 0">
+      <li *ngFor="let user of filteredUsers" class="user-item">
+        <div class="user-info">
+          <h3>{{ user.login }}</h3>
+          <p>Email: {{ user.email }}</p>
+          <p>Imię i nazwisko: {{ user.firstName }} {{ user.lastName }}</p>
+          <p>Status: <span [ngClass]="!user.locked ? 'active' : 'blocked'">
+            {{ !user.locked ? 'Aktywny' : 'Zablokowany' }}
+          </span></p>
+        </div>
+        <div class="user-actions">
+          <button class="block-btn" (click)="toggleUserStatus(user)">
+            {{ !user.locked ? 'Zablokuj' : 'Odblokuj' }}
+          </button>
+          <button class="delete-btn" (click)="removeUser(user.id!)">Usuń konto</button>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <div *ngIf="showAddUserModal" class="modal">
+    <div class="modal-content">
+      <h2>Dodaj Nowego Użytkownika</h2>
+      <form (ngSubmit)="addUser()" #userForm="ngForm">
+        <label for="login">Login:</label>
+        <input
+          type="text"
+          [(ngModel)]="newUser.login"
+          name="login"
+          required
+          #login="ngModel"
+          id="login"
+        />
+        <div *ngIf="login.invalid && login.touched" class="error-message">
+          Login jest wymagany.
+        </div>
+
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          [(ngModel)]="newUser.email"
+          name="email"
+          required
+          email
+          #email="ngModel"
+          id="email"
+        />
+        <div *ngIf="email.invalid && email.touched" class="error-message">
+          Podaj poprawny adres e-mail.
+        </div>
+
+        <label for="firstName">Imię:</label>
+        <input
+          type="text"
+          [(ngModel)]="newUser.firstName"
+          name="firstName"
+          required
+          #firstName="ngModel"
+          id="firstName"
+        />
+        <div *ngIf="firstName.invalid && firstName.touched" class="error-message">
+          Imię jest wymagane.
+        </div>
+
+        <label for="lastName">Nazwisko:</label>
+        <input
+          type="text"
+          [(ngModel)]="newUser.lastName"
+          name="lastName"
+          required
+          #lastName="ngModel"
+          id="lastName"
+        />
+        <div *ngIf="lastName.invalid && lastName.touched" class="error-message">
+          Nazwisko jest wymagane.
+        </div>
+
+        <label for="dateOfBirth">Data urodzenia:</label>
+        <input
+          type="date"
+          [(ngModel)]="newUser.dateOfBirth"
+          name="dateOfBirth"
+          required
+          #dateOfBirth="ngModel"
+          id="dateOfBirth"
+        />
+        <div *ngIf="dateOfBirth.invalid && dateOfBirth.touched" class="error-message">
+          Data urodzenia jest wymagana.
+        </div>
+
+        <label for="position">Stanowisko:</label>
+        <input
+          type="text"
+          [(ngModel)]="newUser.position"
+          name="position"
+          required
+          #position="ngModel"
+          id="position"
+        />
+        <div *ngIf="position.invalid && position.touched" class="error-message">
+          Stanowisko jest wymagane.
+        </div>
+
+        <button type="submit" class="submit-btn">
+          Dodaj
+        </button>
+        <button type="button" (click)="closeAddUserModal()" class="cancel-btn">
+          Anuluj
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+</div>

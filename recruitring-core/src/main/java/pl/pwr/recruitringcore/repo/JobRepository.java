@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.pwr.recruitringcore.model.entities.JobPosting;
+import pl.pwr.recruitringcore.model.entities.Recruiter;
 import pl.pwr.recruitringcore.model.enums.WorkType;
 
 import java.util.List;
@@ -28,5 +29,10 @@ public interface JobRepository extends JpaRepository<JobPosting, Long> {
 
     @Query("SELECT j FROM JobPosting j JOIN j.recruiters r WHERE r.id = :recruiterId")
     List<JobPosting> findByRecruiterId(@Param("recruiterId") Long recruiterId);
+
+    @Query("SELECT COUNT(j) FROM JobPosting j JOIN j.recruiters r WHERE r.id = :recruiterId")
+    int countOpenRecruitmentsByRecruiterId(Long recruiterId);
+
+    List<JobPosting> findAllByRecruitersContains(Recruiter recruiter);
 
 }

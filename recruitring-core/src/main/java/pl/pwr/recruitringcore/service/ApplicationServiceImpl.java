@@ -211,8 +211,16 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         if (optionalApplication.isPresent()) {
             Application application = optionalApplication.get();
+            ApplicationStatus newStatus = ApplicationStatus.valueOf(candidateDto.getStatus());
+
+            if (newStatus == ApplicationStatus.HIRED && application.getHiredAt() == null) {
+                application.setHiredAt(LocalDateTime.now());
+            } else if (newStatus != ApplicationStatus.HIRED) {
+                application.setHiredAt(null);
+            }
+
             application.setRating(candidateDto.getRating());
-            application.setStatus(ApplicationStatus.valueOf(candidateDto.getStatus()));
+            application.setStatus(newStatus);
 
             Map<Long, Note> existingNotesMap = application.getNotes().stream()
                     .collect(Collectors.toMap(Note::getId, Function.identity()));

@@ -36,15 +36,15 @@ public class Application {
     @Column(name = "applied_at", nullable = false)
     private LocalDateTime appliedAt;
 
+    @Column(name = "hired_at")
+    private LocalDateTime hiredAt;
+
     @Column(name = "status", nullable = false, length = 50)
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status;
 
     @Column(name = "rating")
     private Integer rating = 0;
-
-    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL)
-    private Interview interview;
 
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL)
     private Set<Note> notes;
