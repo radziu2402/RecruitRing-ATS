@@ -44,6 +44,7 @@ public class Application {
     private ApplicationStatus status;
 
     @Column(name = "rating")
+    @Builder.Default
     private Integer rating = 0;
 
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL)

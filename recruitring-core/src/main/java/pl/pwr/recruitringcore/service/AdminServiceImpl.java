@@ -70,7 +70,7 @@ public class AdminServiceImpl implements AdminService {
         return mapToAdminUserDTO(savedUser);
     }
 
-    private String generateRandomPassword() {
+    protected String generateRandomPassword() {
         StringBuilder password = new StringBuilder(10);
         for (int i = 0; i < 10; i++) {
             password.append(CHARACTERS.charAt(RANDOM.nextInt(CHARACTERS.length())));
