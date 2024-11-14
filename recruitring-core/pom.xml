@@ -10,7 +10,7 @@
 
     <groupId>pl.pwr.recruitring</groupId>
     <artifactId>recruitring-core</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>recruitring-core</name>
     <description>recruitring-core</description>
     <properties>
