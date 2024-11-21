@@ -90,7 +90,7 @@ VALUES ('Peter', 'Johnson', 'Recruiter', '1988-03-10',
 
 -- Wprowadź dane do tabeli Title
 INSERT INTO titles (name) VALUES
-                              ('Vice President - Remarketing'),
+                              ('Vice President'),
                               ('Senior Innovation Manager'),
                               ('Senior Software Node Owner, Electromobility'),
                               ('Java Software Engineer (Senior)'),
@@ -145,7 +145,7 @@ INSERT INTO job_categories (name) VALUES
 -- Zaktualizuj job_postings
 INSERT INTO job_postings (title_id, description, location_id, work_type, created_at, job_category_id)
 VALUES
-    ((SELECT id FROM titles WHERE name = 'Vice President - Remarketing'),
+    ((SELECT id FROM titles WHERE name = 'Vice President'),
      'Jako Vice President ds. Remarketingu, będziesz odpowiedzialny za rozwijanie i realizację globalnych strategii remarketingowych w ramach naszej organizacji. Twoje zadania będą obejmować nie tylko bieżącą analizę rynków, ale także ścisłą współpracę z zespołami marketingu, sprzedaży oraz rozwoju produktu, aby zapewnić spójność w komunikacji i strategii remarketingowej na każdym poziomie. W tej roli będziesz liderem zespołu, który pracuje nad optymalizacją kampanii remarketingowych na skalę globalną, z uwzględnieniem najnowszych trendów i technologii, takich jak automatyzacja procesów marketingowych, personalizacja komunikatów oraz analityka predykcyjna. Będziesz również monitorować i analizować wyniki kampanii, raportując bezpośrednio do zarządu, oraz wprowadzać rekomendacje mające na celu maksymalizację zysków z działań remarketingowych. Oczekujemy, że będziesz współpracować z partnerami zewnętrznymi i agencjami w celu realizacji kampanii o zasięgu międzynarodowym. Idealny kandydat na to stanowisko posiada szeroką wiedzę z zakresu digital marketingu, silne umiejętności analityczne oraz doświadczenie w pracy na stanowiskach kierowniczych w międzynarodowych firmach. Korzyści płynące z pracy na tym stanowisku obejmują konkurencyjne wynagrodzenie, pakiet benefitów, w tym prywatną opiekę zdrowotną oraz możliwość udziału w programach szkoleniowych o zasięgu globalnym.',
      (SELECT id FROM locations WHERE name = 'Wacol, QLD, AU, 4076'),
      'STATIONARY', '2024-09-23',
@@ -352,8 +352,8 @@ VALUES
 INSERT INTO candidates (first_name, last_name, email, phone, address_id)
 VALUES
     ('Jan', 'Kowalski', 'jan.kowalski@example.com', '123-456-789', (SELECT id FROM address WHERE city = 'Warszawa')),
-    ('Radzi', 'Nowak', 'radzi2002@wp.pl', '987-654-321', (SELECT id FROM address WHERE city = 'Kraków')),
-    ('Radziu', 'Zielinski', 'radziu2402@gmail.com', '555-444-333', (SELECT id FROM address WHERE city = 'Poznań')),
+    ('Michał', 'Nowak', 'michal@wp.pl', '987-654-321', (SELECT id FROM address WHERE city = 'Kraków')),
+    ('Dominik', 'Zielinski', 'dominik@gmail.com', '555-444-333', (SELECT id FROM address WHERE city = 'Poznań')),
     ('Anna', 'Nowicka', 'anna.nowicka@gmail.com', '111-222-333', (SELECT id FROM address WHERE city = 'Wrocław')),
     ('Piotr', 'Sikorski', 'piotr.sikorski@gmail.com', '444-555-666', (SELECT id FROM address WHERE city = 'Gdańsk'));
 
@@ -361,23 +361,23 @@ VALUES
 INSERT INTO applications (candidate_id, job_posting_id, applied_at, status, rating, hired_at)
 VALUES
     ((SELECT id FROM candidates WHERE email = 'jan.kowalski@example.com'),
-     (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
+     (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President'))),
      '2024-10-12', 'NEW', 0, null),
 
-    ((SELECT id FROM candidates WHERE email = 'radzi2002@wp.pl'),
-     (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
+    ((SELECT id FROM candidates WHERE email = 'michal@wp.pl'),
+     (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President'))),
      '2024-10-12', 'CV_REJECTED', 2, null),
 
-    ((SELECT id FROM candidates WHERE email = 'radziu2402@gmail.com'),
-     (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
+    ((SELECT id FROM candidates WHERE email = 'dominik@gmail.com'),
+     (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President'))),
      '2024-10-12', 'CV_REJECTED', 1, null),
 
     ((SELECT id FROM candidates WHERE email = 'anna.nowicka@gmail.com'),
-     (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
+     (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President'))),
      '2024-10-12', 'HIRED', 5, '2024-10-17'),
 
     ((SELECT id FROM candidates WHERE email = 'piotr.sikorski@gmail.com'),
-     (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President - Remarketing'))),
+     (SELECT id FROM job_postings WHERE offer_code = (SELECT offer_code FROM job_postings WHERE title_id = (SELECT id FROM titles WHERE name = 'Vice President'))),
      '2024-10-12', 'APPLICATION_WITHDRAWN', 0, null);
 
 -- Dodaj dokumenty (CV) do tabeli documents dla każdej aplikacji
@@ -387,12 +387,12 @@ VALUES
      (SELECT id FROM candidates WHERE email = 'jan.kowalski@example.com'),
      'jan.kowalski@example.com_CV.pdf', 'PDF', '2024-10-12 19:56:05'),
 
-    ((SELECT id FROM applications WHERE candidate_id = (SELECT id FROM candidates WHERE email = 'radzi2002@wp.pl')),
-     (SELECT id FROM candidates WHERE email = 'radzi2002@wp.pl'),
+    ((SELECT id FROM applications WHERE candidate_id = (SELECT id FROM candidates WHERE email = 'michal@wp.pl')),
+     (SELECT id FROM candidates WHERE email = 'michal@wp.pl'),
      'radzi2002@wp.pl_CV.pdf', 'PDF', '2024-10-17 19:29:23'),
 
-    ((SELECT id FROM applications WHERE candidate_id = (SELECT id FROM candidates WHERE email = 'radziu2402@gmail.com')),
-     (SELECT id FROM candidates WHERE email = 'radziu2402@gmail.com'),
+    ((SELECT id FROM applications WHERE candidate_id = (SELECT id FROM candidates WHERE email = 'dominik@gmail.com')),
+     (SELECT id FROM candidates WHERE email = 'dominik@gmail.com'),
      'radziu2402@gmail.com_CV.pdf', 'PDF', '2024-10-17 19:29:23');
 
 

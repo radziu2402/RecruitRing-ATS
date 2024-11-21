@@ -163,19 +163,20 @@ export class CalendarComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.eventService.createEvent(result).subscribe((newEvent) => {
-          this.events = [
-            ...this.events,
-            {
-              start: new Date(newEvent.start),
-              end: new Date(newEvent.end),
-              title: newEvent.title,
+        this.eventService.createEvent(result).subscribe(() => {
+          this.eventService.getMyEvents().subscribe((events) => {
+            this.events = events.map((event: EventDTO) => ({
+              id: event.id,
+              start: new Date(event.start),
+              end: new Date(event.end),
+              title: event.title,
               color: {primary: '#1e90ff', secondary: '#D1E8FF'},
-              meta: {description: newEvent.description}
-            }
-          ];
+              meta: {description: event.description}
+            }));
+          });
         });
       }
     });
+
   }
 }
