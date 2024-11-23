@@ -1,7 +1,6 @@
-import { HttpInterceptorFn } from '@angular/common/http';
-import { finalize } from 'rxjs';
-import { inject } from '@angular/core';
-import { shouldShowSpinnerOnRequest } from './rest-api-exceptions';
+import {HttpInterceptorFn} from '@angular/common/http';
+import {finalize} from 'rxjs';
+import {inject} from '@angular/core';
 import {ProgressSpinnerService} from "./progress-spinner.service";
 
 export const restApiInterceptor: HttpInterceptorFn = (req, next) => {
@@ -10,10 +9,7 @@ export const restApiInterceptor: HttpInterceptorFn = (req, next) => {
   const skipSpinner = req.headers.has('X-Skip-Spinner');
 
   if (!skipSpinner) {
-    const showSpinner = shouldShowSpinnerOnRequest(req);
-    if (showSpinner) {
-      spinnerService.showSpinner(true);
-    }
+    spinnerService.showSpinner(true);
   }
 
   return next(req).pipe(

@@ -1,10 +1,10 @@
-import { HttpRequest, HttpHandlerFn, HttpEvent } from '@angular/common/http';
-import { inject } from '@angular/core';
-import { AuthService } from './auth.service';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import {HttpEvent, HttpHandlerFn, HttpRequest} from '@angular/common/http';
+import {inject} from '@angular/core';
+import {AuthService} from './auth.service';
+import {Observable, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
 
-export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+export const authInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
   const authService = inject(AuthService);
   const authToken = authService.getAuthToken();
 
