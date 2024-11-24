@@ -12,14 +12,14 @@ RecruitRing ma na celu ułatwienie procesu rekrutacji poprzez automatyzację zar
 - Publiczna strona z listą ofert pracy dla kandydatów.
 - Obsługa aplikacji kandydatów, zmiana statusów (np. "Rozmowa kwalifikacyjna").
 - Automatyczne wysyłanie powiadomień e-mail do kandydatów.
-- Panel administracyjny do zarządzania rekrutacjami.
+- Panel administracyjny do zarządzania użytkownikami.
 
 ## Technologie
 Projekt jest realizowany z wykorzystaniem następujących technologii:
 - **Backend**: Java (Spring Boot)
 - **Frontend**: Angular
 - **Baza danych**: PostgreSQL
-- **Inne**: JWT (zabezpieczenie), OpenShift (deployment), Lombok, SonarQube
+- **Inne**: JWT (zabezpieczenie), Lombok, SonarQube
 
 ## Instalacja i konfiguracja
 Aby uruchomić projekt lokalnie, wykonaj poniższe kroki:
@@ -44,4 +44,4 @@ Aby uruchomić projekt lokalnie, wykonaj poniższe kroki:
     ng serve
     ```
 
-5. Aplikacja powinna być dostępna pod adresem: `http://localhost:4200`.
+5. Aplikacja powinna być dostępna pod adresem: `https://localhost:4200`.
