@@ -22,6 +22,7 @@ import {
   NgxMatTimepickerToggleComponent
 } from "ngx-mat-timepicker";
 import {MatCheckbox} from "@angular/material/checkbox";
+import {APP_DATE_FORMATS, AppDateAdapter} from "../custom-date.adapter";
 
 registerLocaleData(localePl);
 
@@ -45,8 +46,8 @@ registerLocaleData(localePl);
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
-    {provide: DateAdapter, useClass: NativeDateAdapter},
-    {provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS}
+    { provide: DateAdapter, useClass: AppDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
   ],
   templateUrl: './add-event-dialog.component.html',
   styleUrls: ['./add-event-dialog.component.scss']
