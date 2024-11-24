@@ -45,3 +45,7 @@ Aby uruchomić projekt lokalnie, wykonaj poniższe kroki:
     ```
 
 5. Aplikacja powinna być dostępna pod adresem: `https://localhost:4200`.
+
+
+## Licencja
+Ten projekt jest licencjonowany na podstawie [MIT License](./LICENSE).
