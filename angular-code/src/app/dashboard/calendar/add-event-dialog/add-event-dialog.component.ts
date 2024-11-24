@@ -80,11 +80,11 @@ export class AddEventDialogComponent implements OnInit {
     if (this.eventForm.valid) {
       const {title, description, startDate, startTime, endDate, endTime, sendEmail} = this.eventForm.value;
 
-      const startDateString = startDate.toISOString().split('T')[0];
-      const endDateString = endDate.toISOString().split('T')[0];
-
       try {
-        if (startDateString && startTime && endDateString && endTime) {
+        if (startDate && startTime && endDate && endTime) {
+          const startDateString = startDate.toLocaleDateString('en-CA');
+          const endDateString = endDate.toLocaleDateString('en-CA');
+
           const start = new Date(`${startDateString}T${startTime}:00`).toISOString();
           const end = new Date(`${endDateString}T${endTime}:00`).toISOString();
 
