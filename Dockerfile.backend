@@ -1,0 +1,15 @@
+# Etap budowy aplikacji
+FROM maven:3.9.4-eclipse-temurin-21 AS build
+WORKDIR /app
+
+# Klonowanie repozytorium i budowanie aplikacji Spring Boot
+RUN git clone https://github.com/radziu2402/RecruitRing-ATS.git .
+WORKDIR /app/recruitring-core
+RUN mvn clean install -DskipTests
+
+# Etap uruchamiania aplikacji
+FROM openjdk:21-jdk-slim
+WORKDIR /app
+COPY --from=build /app/recruitring-core/target/recruitring-core-1.0.0.jar app.jar
+EXPOSE 8443
+CMD ["java", "-jar", "app.jar", "--spring.profiles.active=dev"]

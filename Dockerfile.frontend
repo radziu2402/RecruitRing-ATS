@@ -1,0 +1,19 @@
+# Użycie obrazu Node.js w wersji 20
+FROM node:20.17.0-alpine
+
+# Instalacja narzędzia git
+RUN apk add --no-cache git
+
+# Ustawienie katalogu roboczego
+WORKDIR /app
+
+# Klonowanie repozytorium
+RUN git clone https://github.com/radziu2402/RecruitRing-ATS.git .
+WORKDIR /app/angular-code
+RUN git pull
+# Instalacja zależności projektu
+RUN npm install
+
+# Uruchamianie aplikacji
+CMD ["npm", "run", "start-alt", "--", "--host", "0.0.0.0"]
+
