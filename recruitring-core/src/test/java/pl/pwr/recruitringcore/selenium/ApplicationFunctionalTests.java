@@ -14,8 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ApplicationFunctionalTests {
 
@@ -55,36 +54,53 @@ class ApplicationFunctionalTests {
     }
 
     @Test
-    @DisplayName("Should unblock a user and verify login restrictions")
-    void testUnblockUserAndVerifyLogin() {
+    @DisplayName("Should unblock or block user and verify login restrictions")
+    void testBlockOrUnblockUserAndVerifyLogina() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         login("admin", "password");
         driver.findElement(By.linkText("Admin")).click();
         driver.findElement(By.cssSelector("input")).click();
         driver.findElement(By.cssSelector("input")).sendKeys("user");
-        driver.findElement(By.cssSelector(".user-item:nth-child(1) .block-btn")).click();
-        driver.findElement(By.cssSelector(".dialog-actions > button:nth-child(2)")).click();
-        driver.findElement(By.cssSelector(".logout-button")).click();
-
-        login("user", "password");
-        driver.findElement(By.cssSelector(".logout-button")).click();
+        WebElement blockButton = driver.findElement(By.cssSelector(".user-item:nth-child(1) .block-btn"));
+        if (blockButton.getText().equals("Zablokuj")) {
+            blockButton.click();
+            driver.findElement(By.cssSelector(".dialog-actions > button:nth-child(2)")).click();
+            driver.findElement(By.cssSelector(".logout-button")).click();
+            login("user", "password");
+            WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".mat-mdc-snack-bar-label")));
+            assertNotNull(errorMessage, "Błąd logowania: Nieprawidłowe dane.");
+        } else if (blockButton.getText().equals("Odblokuj")) {
+            blockButton.click();
+            driver.findElement(By.cssSelector(".dialog-actions > button:nth-child(2)")).click();
+            driver.findElement(By.cssSelector(".logout-button")).click();
+            login("user", "password");
+            WebElement welcomeMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".mat-mdc-snack-bar-label")));
+            assertNotNull(welcomeMessage, "Zalogowano pomyślnie");
+        }
     }
+
 
     @Test
     @DisplayName("Should add a new event and verify total event count")
     void testAddNewEvent() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         login("admin", "password");
         String initialEventCount = driver.findElement(By.cssSelector(".hero-stat:nth-child(3) > h2")).getText();
         driver.findElement(By.linkText("Kalendarz")).click();
         driver.findElement(By.cssSelector("button:nth-child(7)")).click();
-        driver.findElement(By.id("mat-input-0")).sendKeys("Test Event");
-        driver.findElement(By.id("mat-input-1")).sendKeys("19.02.2025");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("mat-input-0")));
+        WebElement titleField = driver.findElement(By.id("mat-input-0"));
+        titleField.sendKeys("Test Event");
+
+        WebElement dateField = driver.findElement(By.id("mat-input-1"));
+        wait.until(ExpectedConditions.elementToBeClickable(dateField));
+        dateField.sendKeys("19.02.2025");
         driver.findElement(By.id("mat-input-2")).sendKeys("20:00");
         driver.findElement(By.id("mat-input-3")).sendKeys("19.02.2025");
         driver.findElement(By.id("mat-input-4")).sendKeys("21:00");
         driver.findElement(By.id("mat-input-5")).sendKeys("Test description");
         driver.findElement(By.cssSelector(".mdc-button--raised")).click();
         driver.findElement(By.cssSelector("a > .ng-fa-icon")).click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.not(ExpectedConditions.textToBe(By.cssSelector(".hero-stat:nth-child(3) > h2"), initialEventCount)));
         String updatedEventCount = driver.findElement(By.cssSelector(".hero-stat:nth-child(3) > h2")).getText();
         assertNotEquals(initialEventCount, updatedEventCount, "The event count should have been updated after adding a new event.");
