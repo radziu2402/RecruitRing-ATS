@@ -100,7 +100,8 @@ class ApplicationFunctionalTests {
         driver.findElement(By.id("mat-input-4")).sendKeys("21:00");
         driver.findElement(By.id("mat-input-5")).sendKeys("Test description");
         driver.findElement(By.cssSelector(".mdc-button--raised")).click();
-        driver.findElement(By.cssSelector("a > .ng-fa-icon")).click();
+        WebElement homeIcon = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a > .ng-fa-icon")));
+        homeIcon.click();
         wait.until(ExpectedConditions.not(ExpectedConditions.textToBe(By.cssSelector(".hero-stat:nth-child(3) > h2"), initialEventCount)));
         String updatedEventCount = driver.findElement(By.cssSelector(".hero-stat:nth-child(3) > h2")).getText();
         assertNotEquals(initialEventCount, updatedEventCount, "The event count should have been updated after adding a new event.");
