@@ -389,18 +389,17 @@ VALUES
 
     ((SELECT id FROM applications WHERE candidate_id = (SELECT id FROM candidates WHERE email = 'michal@wp.pl')),
      (SELECT id FROM candidates WHERE email = 'michal@wp.pl'),
-     'radzi2002@wp.pl_CV.pdf', 'PDF', '2024-10-17 19:29:23'),
+     'michal@wp.pl_CV.pdf', 'PDF', '2024-10-17 19:29:23'),
 
     ((SELECT id FROM applications WHERE candidate_id = (SELECT id FROM candidates WHERE email = 'dominik@gmail.com')),
      (SELECT id FROM candidates WHERE email = 'dominik@gmail.com'),
-     'radziu2402@gmail.com_CV.pdf', 'PDF', '2024-10-17 19:29:23');
+     'dominik@gmail.com_CV.pdf', 'PDF', '2024-10-17 19:29:23');
 
 
 SELECT id FROM applications
 WHERE candidate_id = (SELECT id FROM candidates WHERE email = 'jan.kowalski@example.com');
 
 
--- Dodanie notatek dla aplikacji o ID 1 (Jan Kowalski)
 INSERT INTO notes (application_id, content, created_at)
 VALUES
     (1, 'Kandydat ma duże doświadczenie w zarządzaniu projektami.', '2024-10-13'),
