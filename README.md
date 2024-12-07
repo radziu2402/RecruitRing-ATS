@@ -1,51 +1,64 @@
-# RecruitRing - System Śledzenia Kandydatów
-
-**RecruitRing** to system śledzenia kandydatów (ATS), stworzony w celu usprawnienia i zarządzania procesem rekrutacyjnym w działach HR. Projekt ten jest realizowany w ramach pracy inżynierskiej.
+# RecruitRing ATS
 
 ## Opis projektu
-RecruitRing ma na celu ułatwienie procesu rekrutacji poprzez automatyzację zarządzania ofertami pracy, kandydatami oraz rekruterami. Aplikacja pozwala rekruterom na śledzenie statusu kandydatów, planowanie rozmów kwalifikacyjnych oraz wysyłanie powiadomień e-mailowych.
 
-## Funkcjonalności
-- Zabezpieczony system logowania (JWT).
-- Zarządzanie użytkownikami (role: administrator, rekruter).
-- Tworzenie i zarządzanie ofertami pracy.
-- Publiczna strona z listą ofert pracy dla kandydatów.
-- Obsługa aplikacji kandydatów, zmiana statusów (np. "Rozmowa kwalifikacyjna").
-- Automatyczne wysyłanie powiadomień e-mail do kandydatów.
-- Panel administracyjny do zarządzania użytkownikami.
+**RecruitRing ATS** to aplikacja typu ATS (Applicant Tracking System) stworzona w ramach pracy inżynierskiej przez Radosława Zimocha w semestrze zimowym 2024/2025. Projekt jest podzielony na dwa główne moduły:
 
-## Technologie
-Projekt jest realizowany z wykorzystaniem następujących technologii:
-- **Backend**: Java (Spring Boot)
-- **Frontend**: Angular
-- **Baza danych**: PostgreSQL
-- **Inne**: JWT (zabezpieczenie), Lombok, SonarQube
+- **Frontend (Angular)** – kod znajduje się w folderze `angular-code`.
+- **Backend (Spring Boot)** – kod znajduje się w folderze `recruitring-core`.
 
-## Instalacja i konfiguracja
-Aby uruchomić projekt lokalnie, wykonaj poniższe kroki:
+Aplikacja umożliwia zarządzanie ofertami pracy, aplikacjami kandydatów, kontami użytkowników oraz kalendarzem wydarzeń. Wszystkie komponenty są konteneryzowane, co pozwala na łatwe uruchomienie za pomocą Dockera.
 
-1. Sklonuj repozytorium:
-    ```bash
-    git clone https://github.com/radziu2402/RecruitRing-ATS.git
-    ```
+## Uruchomienie aplikacji
 
-2. Skonfiguruj bazę danych (PostgreSQL) i ustaw dane dostępowe w pliku `application.properties`.
+### Wymagania wstępne
 
-3. Uruchom backend:
-    ```bash
-    cd recruitring-core
-    mvnw spring-boot:run
-    ```
+- **Docker** oraz **Docker Compose** muszą być zainstalowane na Twoim komputerze.
 
-4. Przejdź do folderu Angulara i uruchom frontend:
-    ```bash
-    cd angular-code
-    npm install
-    ng serve
-    ```
+### Instrukcja uruchomienia
 
-5. Aplikacja powinna być dostępna pod adresem: `https://localhost:4200`.
+1. **Pobierz projekt**  
+   Sklonuj repozytorium z kodem aplikacji:
+   ```bash
+   git clone https://github.com/radziu2402/RecruitRing-ATS
+   cd RecruitRing-ATS
+   ```
 
+2. **Uruchom aplikację**  
+   W katalogu z plikiem `docker-compose.yml` wykonaj następujące polecenie:
+   ```bash
+   docker-compose up --build
+   ```
+   To polecenie zbuduje obrazy Dockera oraz uruchomi następujące usługi:
+   - **Baza danych PostgreSQL**
+   - **Backend (Spring Boot)** – dostępny na porcie `8443`
+   - **Frontend (Angular)** – dostępny na porcie `4200`
+
+3. **Uzyskaj dostęp do aplikacji**  
+   Po zakończeniu budowy obrazów, aplikacja będzie dostępna pod adresami:
+   - **Frontend**: [https://localhost:4200](https://localhost:4200)
+   - **Backend**: [https://localhost:8443](https://localhost:8443)
+
+4. **Zatrzymanie aplikacji**  
+   Aby zatrzymać wszystkie usługi, użyj:
+   ```bash
+   docker-compose down
+   ```
+
+## Testowanie aplikacji
+
+Projekt zawiera plik `data.sql`, który inicjalizuje bazę danych przykładowymi danymi. Aby zalogować się do aplikacji, użyj następujących danych:
+
+- **Nazwa użytkownika**: `admin`
+- **Hasło**: `password`
+
+Po zalogowaniu możesz testować funkcje aplikacji, takie jak przeglądanie ofert pracy, zarządzanie użytkownikami i aplikacjami kandydatów.
 
 ## Licencja
-Ten projekt jest licencjonowany na podstawie [MIT License](./LICENSE).
+
+Projekt jest udostępniany na licencji MIT. Oznacza to, że:
+
+- Możesz kopiować, modyfikować i dystrybuować kod projektu w celach prywatnych i komercyjnych.
+- Musisz zachować informacje o licencji w sklonowanych kopiach projektu.
+
+Pełna treść licencji znajduje się w pliku `LICENSE` dołączonym do projektu.
